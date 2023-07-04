@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::all();
-    return view('admin.products.create', compact('categories'));
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -43,6 +44,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'slug' => 'nullable',
             'detail' => 'required',
             'price' => 'required',
             'image_product' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -54,6 +56,7 @@ class ProductController extends Controller
 
         $product = new Product([
             'name' => $request->input('name'),
+            'slug' => $request->input('slug'),
             'detail' => $request->input('detail'),
             'price' => $request->input('price'),
             'image_product' => $imagePath,
@@ -71,6 +74,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'slug' => 'nullable',
             'detail' => 'required',
             'price' => 'required',
             'image_product' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -90,6 +94,7 @@ class ProductController extends Controller
         }
 
         $product->name = $request->input('name');
+        $product->slug = $request->input('slug');
         $product->detail = $request->input('detail');
         $product->price = $request->input('price');
         $product->category_id = $request->input('category_id');

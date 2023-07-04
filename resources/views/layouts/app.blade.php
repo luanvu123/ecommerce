@@ -368,8 +368,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         $(document).ready(function() {
             $('#tableevent').DataTable();
         });
-
-        function ChangeToSlug() {
+    </script>
+    <script>
+         function ChangeToSlug() {
 
             var slug;
 

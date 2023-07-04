@@ -46,10 +46,12 @@ class CategoryController extends Controller
             'name' => 'required',
             'icon' => 'nullable',
             'parent_id' => 'nullable|exists:categories,id',
+            'slug' => 'nullable',
         ]);
 
         $category = new Category([
             'name' => $request->input('name'),
+             'slug' => $request->input('slug'),
             'icon' => $request->input('icon'),
             'parent_id' => $request->input('parent_id'),
         ]);
@@ -85,9 +87,11 @@ class CategoryController extends Controller
             'name' => 'required',
             'icon' => 'nullable',
             'parent_id' => 'nullable|exists:categories,id',
+             'slug' => 'nullable',
         ]);
 
         $category->name = $request->input('name');
+         $category->slug = $request->input('slug');
         $category->icon = $request->input('icon');
         $category->parent_id = $request->input('parent_id');
         $category->save();

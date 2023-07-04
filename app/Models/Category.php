@@ -38,5 +38,9 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function children()
+{
+    return $this->hasMany(Category::class, 'parent_id');
+}
 }
 
