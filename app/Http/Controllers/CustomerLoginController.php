@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerLoginController extends Controller
 {
@@ -18,21 +19,30 @@ class CustomerLoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember'); // Kiểm tra xem người dùng đã chọn "Remember Me" hay không
 
-        if (Auth::guard('customer')->attempt($credentials)) {
+        if (Auth::guard('customer')->attempt($credentials, $remember)) {
             // Đăng nhập thành công
-           return redirect('/')->with('success', 'Xin chào ' . Auth::guard('customer')->user()->name);
-
+            return redirect('/')->with('success', 'Xin chào ' . Auth::guard('customer')->user()->name);
         } else {
             // Đăng nhập thất bại
-            return redirect()->back()->withInput()->withErrors(['email' => 'Invalid credentials']);
+            return redirect()->back()->withInput()->withErrors(['email' => 'Thông tin đăng nhập không chính xác']);
         }
     }
-
 
     public function logout()
     {
         Auth::guard('customer')->logout();
         return redirect('/');
+    }
+    public function showAccount()
+    {
+        $user = Auth::guard('customer')->user();
+
+        if ($user) {
+            return view('pages.my-account', ['user' => $user]);
+        } else {
+            return redirect()->route('customer.login')->with('error', 'You must be logged in to view My Account.');
+        }
     }
 }

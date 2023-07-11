@@ -36,8 +36,8 @@
         <div class="signin-header">
             <div class="row align-items-center">
                 <div class="col-sm-4">
-                    <a href="{{ route('/') }}" class="site-logo"><img src="{{ asset('fontend') }}/images/logo/logo.png"
-                            alt="logo"></a>
+                    <a href="{{ route('/') }}" class="site-logo"><img
+                            src="{{ asset('fontend') }}/images/logo/logo.png" alt="logo"></a>
                 </div>
                 <div class="col-sm-8">
                     <div class="singin-header-btn">
@@ -59,28 +59,15 @@
             <div class="col-lg-6 offset-xl-2">
                 <div class="axil-signin-form-wrap">
                     <div class="axil-signin-form">
-                        <h3 class="title">Sign in to eTrade.</h3>
-                        <p class="b2 mb--55">Enter your detail below</p>
-                        <form action="{{ route('customer.login.submit') }}" method="POST" class="singin-form">
-                            @csrf
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" value="annie@example.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" name="password" value="0987654321">
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" id="remember" name="remember">
-                                <label for="remember">Remember Me</label>
-                            </div>
-                            <div class="form-group d-flex align-items-center justify-content-between">
-                                <button type="submit" class="axil-btn btn-bg-primary submit-btn">Sign In</button>
-                                <a href="{{ route('customer.request') }}" class="forgot-btn">Forget
-                                    password?</a>
-                            </div>
-                        </form>
+                        @if ($user)
+                            <h2>My Account</h2>
+                            <p>Name: {{ $user->name }}</p>
+                            <p>Email: {{ $user->email }}</p>
+                            <p>Created at: {{ $user->created_at }}</p>
+                            <!-- Thêm các trường thông tin tài khoản khác nếu cần -->
+                        @else
+                            <p>You must be logged in to view My Account.</p>
+                        @endif
                     </div>
                 </div>
             </div>

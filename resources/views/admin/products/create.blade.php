@@ -29,7 +29,8 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" class="form-control" placeholder="Name" id="slug"  onkeyup="ChangeToSlug()">
+                    <input type="text" name="name" class="form-control" placeholder="Name" id="slug"
+                        onkeyup="ChangeToSlug()">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -52,49 +53,81 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
+                    <strong>Giá giảm:</strong>
+                    <input type="text" name="reduced_price" class="form-control" placeholder="reduced_price">
+                    @error('reduced_price')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
                     <strong>Image:</strong>
                     <input type="file" name="image_product" class="form-control-file">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="form-group">
-        <strong>Category:</strong>
-        <select name="category_id" class="form-control">
-            <option value="">Select a category</option>
-            @foreach ($categories as $category)
-                @if ($category->parent)
-                    @continue
-                @endif
-                <option value="{{ $category->id }}"
-                    @if ($category->id == old('category_id'))
-                        selected
-                    @endif
-                >
-                    {{ $category->name }}
-                </option>
-                @if ($category->children)
-                    @foreach ($category->children as $child)
-                        <option value="{{ $child->id }}"
-                            @if ($child->id == old('category_id'))
-                                selected
+                <div class="form-group">
+                    <strong>Image 2:</strong>
+                    <input type="file" name="image_product2" class="form-control-file">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Image 3:</strong>
+                    <input type="file" name="image_product3" class="form-control-file">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Image 4:</strong>
+                    <input type="file" name="image_product4" class="form-control-file">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Image 5:</strong>
+                    <input type="file" name="image_product5" class="form-control-file">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Category:</strong>
+                    <select name="category_id" class="form-control">
+                        <option value="">Select a category</option>
+                        @foreach ($categories as $category)
+                            @if ($category->parent_id !== null)
+                                @continue
                             @endif
-                        >
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
-                        </option>
-                    @endforeach
-                @endif
-            @endforeach
-        </select>
-    </div>
-</div>
-
+                            <option value="{{ $category->id }}" @if ($category->id == old('category_id')) selected @endif>
+                                {{ $category->name }}
+                            </option>
+                            @if ($category->children)
+                                @foreach ($category->children as $child)
+                                    <option value="{{ $child->id }}" @if ($child->id == old('category_id')) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Hot Deals:</strong>
+                    <input type="checkbox" name="hot_deals" value="1">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Status:</strong>
+                    <input type="checkbox" name="status" value="1">
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
-
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
 @endsection
-
-

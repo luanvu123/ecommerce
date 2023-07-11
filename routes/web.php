@@ -29,7 +29,13 @@ use App\Http\Controllers\CustomerForgotPasswordController;
 
 
 Route::get('/', [SiteController::class, 'index'])->name('/');
-Route::get('/category', [SiteController::class, 'category'])->name('category');
+Route::get('/the-loai/{slug}', [SiteController::class, 'category'])->name('category');
+Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
+Route::get('/cart', [SiteController::class, 'cart'])->name('cart');
+Route::get('/shop', [SiteController::class, 'shop'])->name('shop');
+Route::get('/wishlist', [SiteController::class, 'wishlist'])->name('wishlist');
+Route::get('/privacy-policy', [SiteController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/terms-of-service', [SiteController::class, 'termsOfService'])->name('terms.of.service');
 
 Auth::routes(['verify' => true]);
 
@@ -73,18 +79,29 @@ Route::post('/customer/register', [CustomerRegisterController::class, 'register'
     ->name('customer.register');
 Route::get('/signup', [CustomerRegisterController::class, 'showRegistrationForm'])
     ->name('customer.signup');
+
+
+// Route for logging out the customer
+Route::post('/customer-logout', [CustomerLoginController::class, 'logout'])->name('customer.logout');
+Route::get('/customer/password/reset', [CustomerForgotPasswordController::class, 'showCustomerLinkRequestForm'])
+    ->name('customer.request');
+
+
 // Route for showing the customer login form
 Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');
 
 // Route for handling the customer login request
 Route::post('/customer-login', [CustomerLoginController::class, 'login'])->name('customer.login.submit');
-
-// Route for logging out the customer
-Route::post('/customer-logout', [CustomerLoginController::class, 'logout'])->name('customer.logout');
-Route::get('/customer/password/reset', [CustomerForgotPasswordController::class, 'showLinkRequestForm'])
-    ->name('customer.password.request');
-
-
+// Routes that require customer authentication
+Route::get('/my-account', [CustomerLoginController::class, 'showAccount'])->name('customer.account');
+Route::middleware('customer')->group(function () {
+    // Define your protected routes here
+    // For example:
 
 
-    
+
+    Route::get('/customer/profile', function () {
+        // Logic xử lý khi đã qua middleware "customer"
+    });
+});
+

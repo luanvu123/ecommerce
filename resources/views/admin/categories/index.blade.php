@@ -22,6 +22,7 @@
         <tr>
             <th>No</th>
             <th>Name</th>
+            <th>Icon</th>
             <th>Parent Category</th>
             <th width="280px">Action</th>
         </tr>
@@ -29,6 +30,13 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $category->name }}</td>
+                <td>
+                    @if ($category->icon)
+                        <img src="{{ asset('storage/' . $category->icon) }}" alt="Icon" class="img-thumbnail">
+                    @else
+                        No icon available.
+                    @endif
+                </td>
                 <td>{{ $category->parentCategory->name ?? '-' }}</td>
                 <td>
                     <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
@@ -39,6 +47,7 @@
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
+
             </tr>
         @endforeach
     </table>

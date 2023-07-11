@@ -30,6 +30,12 @@
                 {{ number_format($product->price, 0, ',', '.') }} VNĐ
             </div>
         </div>
+         <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Gia giam:</strong>
+                {{ number_format($product->reduced_price, 0, ',', '.') }} VNĐ
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Category:</strong>

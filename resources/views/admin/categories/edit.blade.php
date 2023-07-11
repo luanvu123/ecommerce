@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form action="{{ route('categories.update', $category->id) }}" method="POST">
+    <form action="{{ route('categories.update', $category->id) }}" method="POST"enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -31,15 +31,35 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" value="{{ $category->name }}" class="form-control" placeholder="Name">
+                    <input type="text" name="name" value="{{ $category->name }}" class="form-control"
+                        placeholder="Name" id="slug" onkeyup="ChangeToSlug()">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Đường dẫn:</strong>
+                    <input type="text" name="slug" value="{{ $category->slug }}" class="form-control"
+                        placeholder="Đường dẫn" id="convert_slug">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Icon:</strong>
+                    @if ($category->icon)
+                        <img src="{{ asset('storage/' . $category->icon) }}" alt="Icon" class="img-thumbnail">
+                    @else
+                        <p>No icon available.</p>
+                    @endif
+                    <input type="file" name="icon" class="form-control">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Parent Category:</strong>
                     <select name="parent_id" class="form-control">
-                        @foreach($parentCategories as $id => $name)
-                            <option value="{{ $id }}" {{ $category->parent_id == $id ? 'selected' : '' }}>{{ $name }}</option>
+                        @foreach ($parentCategories as $id => $name)
+                            <option value="{{ $id }}" {{ $category->parent_id == $id ? 'selected' : '' }}>
+                                {{ $name }}</option>
                         @endforeach
                     </select>
                 </div>

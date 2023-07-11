@@ -23,9 +23,13 @@ class AppServiceProvider extends ServiceProvider
     {
          $product_total = Product::all()->count();
         $category_total = Category::all()->count();
+
+        //route layout
+         $categories = Category::all();
          View::share([
             'product_total' => $product_total,
             'category_total' => $category_total,
+            'categories'=>$categories,
         ]);
     }
 }

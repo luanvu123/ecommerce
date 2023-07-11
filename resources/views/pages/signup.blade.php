@@ -37,7 +37,7 @@
         <div class="signin-header">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <a href="index.html" class="site-logo"><img src="{{ asset('fontend') }}/images/logo/logo.png" alt="logo"></a>
+                    <a href="{{ route('/') }}" class="site-logo"><img src="{{ asset('fontend') }}/images/logo/logo.png" alt="logo"></a>
                 </div>
                 <div class="col-md-6">
                     <div class="singin-header-btn">

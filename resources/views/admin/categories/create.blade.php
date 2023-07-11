@@ -23,32 +23,53 @@
         </div>
     @endif
 
-    <form action="{{ route('categories.store') }}" method="POST">
+    <form action="{{ route('categories.store') }}" method="POST"enctype="multipart/form-data">
         @csrf
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" class="form-control" placeholder="Name"id="slug"  onkeyup="ChangeToSlug()">
-                </div>
-            </div>
-              <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Đường dẫn:</strong>
-                    <input type="text" name="slug" class="form-control" placeholder="Đường dẫn" id="convert_slug">
+                    <input type="text" name="name" class="form-control" placeholder="Name" id="slug"
+                        onkeyup="ChangeToSlug()">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Parent Category:</strong>
+                    <strong>Slug:</strong>
+                    <input type="text" name="slug" class="form-control" placeholder="Slug" id="convert_slug">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Icon:</strong>
+                    <input type="file" name="icon" class="form-control" placeholder="Icon">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Category:</strong>
                     <select name="parent_id" class="form-control">
-                        @foreach($parentCategories as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
+                        <option value="">Select a category</option>
+                        @foreach ($categories as $category)
+                            @if ($category->parent_id !== null)
+                                @continue
+                            @endif
+                            <option value="{{ $category->id }}" @if ($category->id == old('category_id')) selected @endif>
+                                {{ $category->name }}
+                            </option>
+                            @if ($category->children)
+                                @foreach ($category->children as $child)
+                                    <option value="{{ $child->id }}" @if ($child->id == old('category_id')) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
+                                    </option>
+                                @endforeach
+                            @endif
                         @endforeach
                     </select>
                 </div>
             </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

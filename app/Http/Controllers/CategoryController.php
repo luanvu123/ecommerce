@@ -40,22 +40,30 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
-            'icon' => 'nullable',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
             'slug' => 'nullable',
         ]);
 
         $category = new Category([
             'name' => $request->input('name'),
-             'slug' => $request->input('slug'),
-            'icon' => $request->input('icon'),
+            'slug' => $request->input('slug'),
             'parent_id' => $request->input('parent_id'),
+
         ]);
 
+        if ($request->hasFile('icon')) {
+            $icon = $request->file('icon');
+            $iconPath = $icon->store('category_icons', 'public');
+            $category->icon = $iconPath;
+        }
+        $category->user_id = auth()->id();
         $category->save();
 
         return redirect()->route('categories.index')
@@ -85,20 +93,27 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'icon' => 'nullable',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Giới hạn định dạng và kích thước của tệp tin
             'parent_id' => 'nullable|exists:categories,id',
-             'slug' => 'nullable',
+            'slug' => 'nullable',
         ]);
 
         $category->name = $request->input('name');
-         $category->slug = $request->input('slug');
-        $category->icon = $request->input('icon');
+        $category->slug = $request->input('slug');
         $category->parent_id = $request->input('parent_id');
+        $category->user_id = auth()->id();
+        if ($request->hasFile('icon')) {
+            $icon = $request->file('icon');
+            $iconPath = $icon->store('category_icons', 'public'); // Lưu trữ icon trong thư mục "public/category_icons"
+            $category->icon = $iconPath;
+        }
+
         $category->save();
 
         return redirect()->route('categories.index')
             ->with('success', 'Category updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -118,4 +133,3 @@ class CategoryController extends Controller
             ->with('success', 'Category deleted successfully');
     }
 }
-

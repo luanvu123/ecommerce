@@ -9,10 +9,10 @@ class CustomerMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('customer')->check()) {
+        if (Auth::guard('customers')->check()) {
             return $next($request);
         }
 
-        return redirect()->route('customer.login')->with('error', 'You must be logged in as a customer.');
+          return redirect()->route('customer.login')->with('error', 'You must be logged in as a customer.');
     }
 }
