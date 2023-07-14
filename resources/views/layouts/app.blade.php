@@ -34,8 +34,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <link href="{{ asset('backend/css/font-awesome.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/css/SidebarNav.min.css') }}" media="all" rel="stylesheet" type="text/css" />
 
-    <script src="{{ asset('backend/js/jquery-1.11.1.min.js') }}"></script>
+
     <script src="{{ asset('backend/js/modernizr.custom.js') }}"></script>
+
 
     <!--webfonts-->
     <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext"
@@ -47,6 +48,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <link href="{{ asset('backend/css/custom.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/css/owl.carousel.css') }}" rel="stylesheet" />
     <script src="{{ asset('backend/js/owl.carousel.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('backend/css/dropzone.min.css') }}">
+    <script src="{{ asset('backend/js/jquery-1.11.1.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#owl-demo').owlCarousel({
@@ -58,6 +61,17 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         });
     </script>
+    <style>
+        .image-card {
+            position: relative;
+        }
+
+        .image-card .btn-danger {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+    </style>
     <!-- //requried-jsfiles-for owl -->
 </head>
 
@@ -92,13 +106,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </lord-icon> <span>Dashboard</span>
                                     </a>
                                 </li>
-                                {{-- <li class="treeview">
+                                <li class="treeview">
                                     <a href="{{ route('info.create') }}">
                                         <lord-icon src="https://cdn.lordicon.com/lxotnbfa.json" trigger="loop"
                                             delay="2000" style="width:20px;height:20px">
                                         </lord-icon> <span>Thông tin website</span>
                                     </a>
-                                </li> --}}
+                                </li>
                                 @php
                                     $segment = Request::segment(1);
                                 @endphp
@@ -143,7 +157,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         <span>Roles</span>
                                     </a>
                                 </li>
-                                 <li class="treeview {{ $segment == 'categories' ? 'active' : '' }}">
+                                <li class="treeview {{ $segment == 'categories' ? 'active' : '' }}">
                                     <a href="#">
                                         <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
                                             delay="2000" style="width:20px;height:20px">
@@ -207,12 +221,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                         aria-expanded="false">
                                         <div class="profile_img">
-                                            <span class="prfil-img"><img style="width:40px;"src="{{ asset('storage/' .  Auth::user()->avatar) }}"
+                                            <span class="prfil-img"><img
+                                                    style="width:40px;"src="{{ asset('storage/' . Auth::user()->avatar) }}"
                                                     alt="">
                                             </span>
                                             <div class="user-name">
                                                 <p> {{ Auth::user()->name }}</p>
-                                                <span>{{Auth::user()->getRoleNames()}}</span>
+                                                <span>{{ Auth::user()->getRoleNames() }}</span>
                                             </div>
                                             <i class="fa fa-angle-down lnr"></i>
                                             <i class="fa fa-angle-up lnr"></i>
@@ -295,6 +310,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <br>
 
+
+                    {{-- <script src="{{ asset('backend/js/dropzone.min.js') }}"></script> --}}
                     <!-- for amcharts js -->
 
                     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -370,7 +387,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         });
     </script>
     <script>
-         function ChangeToSlug() {
+        function ChangeToSlug() {
 
             var slug;
 
@@ -402,7 +419,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             document.getElementById('convert_slug').value = slug;
         }
     </script>
-
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -418,60 +434,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     </script>
 
     {{-- chon trang thai --}}
-    {{-- <script type="text/javascript">
-        $('.trangthai_choose').change(function() {
 
-            var trangthai_val = $(this).val();
-            var id = $(this).attr('id');
-            $.ajax({
-                url: "{{ route('trangthai-choose') }}",
-                method: "GET",
-                data: {
-                    trangthai_val: trangthai_val,
-                    id: id
-                },
-                success: function(data) {
-                    alert('Thay đổi trạng thái thành công!');
-                }
-            });
-        })
-    </script>
-    <script type="text/javascript">
-        $('.goi_choose').change(function() {
-
-            var trangthai_val = $(this).val();
-            var id = $(this).attr('id');
-            $.ajax({
-                url: "{{ route('goi-choose') }}",
-                method: "GET",
-                data: {
-                    trangthai_val: trangthai_val,
-                    id: id
-                },
-                success: function(data) {
-                    alert('Thay đổi trạng thái thành công!');
-                }
-            });
-        })
-    </script>
-    <script type="text/javascript">
-        $('.about_choose').change(function() {
-
-            var trangthai_val = $(this).val();
-            var id = $(this).attr('id');
-            $.ajax({
-                url: "{{ route('about-choose') }}",
-                method: "GET",
-                data: {
-                    trangthai_val: trangthai_val,
-                    id: id
-                },
-                success: function(data) {
-                    alert('Update thành công!');
-                }
-            });
-        })
-    </script> --}}
 
     {{-- <script type="text/javascript">
         $(document).on('change', '.file_image', function() {
@@ -539,6 +502,66 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         });
     </script> --}}
+    <script type="text/javascript">
+        $('.trangthai_choose').change(function() {
+
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            //   alert(trangthai_val)
+            // alert(id)
+            $.ajax({
+                url: "{{ route('trangthai-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái sản phẩm thành công!');
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $('.cate_choose').change(function() {
+
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            //   alert(trangthai_val)
+            // alert(id)
+            $.ajax({
+                url: "{{ route('cate-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái thể loại thành công!');
+                }
+            });
+        })
+
+        $('.hotDeal_choose').change(function() {
+
+            var hotDeal_val = $(this).val();
+            var product_id = $(this).attr('id');
+
+            $.ajax({
+                url: "{{ route('hotDeal-choose') }}",
+                method: "GET",
+                data: {
+                    hotDeal_val: hotDeal_val,
+                    product_id: product_id
+                },
+                success: function(data) {
+                    alert('Thay đổi Hot deal thành công!');
+                }
+            });
+        })
+    </script>
     <script src="{{ asset('backend/js/utils.js') }}"></script>
+
+</body>
 
 </html>

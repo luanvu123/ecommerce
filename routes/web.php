@@ -16,6 +16,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CustomerLoginController;
 use App\Http\Controllers\CustomerRegisterController;
 use App\Http\Controllers\CustomerForgotPasswordController;
+use App\Http\Controllers\InfoController;
+use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\TempImageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +49,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('info', InfoController::class);
+
+    Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
+    Route::get('/hotDeal-choose', [ProductController::class, 'hotDeal_choose'])->name('hotDeal-choose');
+    Route::get('/cate-choose', [CategoryController::class, 'cate_choose'])->name('cate-choose');
+
+
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::post('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::post('/temp-images', [TempImageController::class, 'store'])->name('temp-images.create');
+    Route::post('/product-images', [ProductImageController::class, 'store'])->name('product-images.store');
+    Route::delete('/product-images/{image}', [ProductImageController::class, 'destroy'])->name('product-images.delete');
 });
 // Show the form to request a password reset link
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
@@ -104,4 +120,3 @@ Route::middleware('customer')->group(function () {
         // Logic xử lý khi đã qua middleware "customer"
     });
 });
-

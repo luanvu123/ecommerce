@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\TempImage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -51,10 +55,6 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'reduced_price' => 'nullable|numeric',
             'image_product' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_product2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_product3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_product4' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_product5' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'required|exists:categories,id',
             'hot_deals' => 'nullable|boolean',
             'status' => 'nullable|boolean',
@@ -80,10 +80,6 @@ class ProductController extends Controller
 
         // Lưu trữ ảnh sản phẩm và lấy đường dẫn
         $imagePath = $request->file('image_product')->store('images', 'public');
-        $imagePath2 = $request->file('image_product2') ? $request->file('image_product2')->store('images', 'public') : null;
-        $imagePath3 = $request->file('image_product3') ? $request->file('image_product3')->store('images', 'public') : null;
-        $imagePath4 = $request->file('image_product4') ? $request->file('image_product4')->store('images', 'public') : null;
-        $imagePath5 = $request->file('image_product5') ? $request->file('image_product5')->store('images', 'public') : null;
 
         $product = new Product([
             'name' => $request->input('name'),
@@ -92,25 +88,57 @@ class ProductController extends Controller
             'price' => $request->input('price'),
             'reduced_price' => $request->input('reduced_price'),
             'image_product' => $imagePath,
-            'image_product2' => $imagePath2,
-            'image_product3' => $imagePath3,
-            'image_product4' => $imagePath4,
-            'image_product5' => $imagePath5,
             'category_id' => $request->input('category_id'),
             'hot_deals' => $request->has('hot_deals'),
             'status' => $request->has('status'),
         ]);
-
         $product->user_id = auth()->id();
         $product->save();
+        if (!empty($request->image_id)) {
+            $caption = $request->caption;
 
+            foreach ($request->image_id as $key => $imageId) {
+
+                $tempImage = TempImage::find($imageId);
+                $extArray = explode('.', $tempImage->name);
+                $ext = last($extArray);
+
+                $productImage = new ProductImage;
+                $productImage->name = 'NULL';
+                $productImage->product_id = $product->id;
+                $productImage->caption = $caption[$key];
+                $productImage->save();
+
+                $newImageName = $productImage->id . '.' . $ext;
+                $productImage->name = $newImageName;
+                $productImage->save();
+
+                // First Thumbnail
+                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+                $destPath = public_path('uploads/products/small/' . $newImageName);
+                $img = Image::make($sourcePath);
+                $img->fit(350, 300);
+                $img->save($destPath);
+
+                // Second Thumbnail
+                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+                $destPath = public_path('uploads/products/large/' . $newImageName);
+                $img = Image::make($sourcePath);
+                $img->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->save($destPath);
+            }
+        }
         return redirect()->route('products.index')
             ->with('success', 'Product created successfully.');
     }
 
 
-    public function update(Request $request, Product $product): RedirectResponse
+    public function update($product_id, Request $request)
     {
+
+        $product = Product::find($product_id);
         $request->validate([
             'name' => 'required',
             'slug' => 'nullable',
@@ -150,6 +178,7 @@ class ProductController extends Controller
             $product->image_product = $imagePath;
         }
 
+
         $product->name = $request->input('name');
         $product->slug = $request->input('slug');
         $product->detail = $request->input('detail');
@@ -157,17 +186,27 @@ class ProductController extends Controller
         $product->reduced_price = $request->input('reduced_price');
         $product->category_id = $request->input('category_id');
         $product->hot_deals = $request->input('hot_deals');
-        $product->image_product2 = $request->file('image_product2') ? $request->file('image_product2')->store('images', 'public') : null;
-        $product->image_product3 = $request->file('image_product3') ? $request->file('image_product3')->store('images', 'public') : null;
-        $product->image_product4 = $request->file('image_product4') ? $request->file('image_product4')->store('images', 'public') : null;
-        $product->image_product5 = $request->file('image_product5') ? $request->file('image_product5')->store('images', 'public') : null;
         $product->status = $request->input('status');
         $product->user_id = auth()->id();
         $product->save();
 
+        if (!empty($request->image_id)) {
+            $caption = $request->caption;
+            foreach ($request->image_id as $key => $imageId) {
+
+                $productImage = ProductImage::find($imageId);
+                $productImage->caption = $caption[$key];
+                $productImage->save();
+            }
+        }
+
+        $request->session()->flash('success', 'Product updated successfully.');
+
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully');
     }
+
+
 
 
 
@@ -189,10 +228,16 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product): View
+    public function edit($product_id, Request $request)
     {
-        $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        $product = Product::find($product_id);
+        if ($product == null) {
+            return redirect()->route('products.index');
+        }
+        $productImages = ProductImage::where('product_id', $product->id)->get();
+        $data['product'] = $product;
+        $data['productImages'] = $productImages;
+        return view('admin.products.edit', $data);
     }
 
 
@@ -221,5 +266,21 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully');
+    }
+    public function trangthai_choose(Request $request)
+    {
+        $data = $request->all();
+        $product = Product::find($data['id']);
+        $product->status = $data['trangthai_val'];
+        $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $product->save();
+    }
+     public function hotDeal_choose(Request $request)
+    {
+        $data = $request->all();
+        $product = Product::find($data['product_id']);
+        $product->hot_deals = $data['hotDeal_val'];
+        $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $product->save();
     }
 }

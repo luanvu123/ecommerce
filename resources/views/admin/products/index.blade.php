@@ -20,11 +20,7 @@
                                 <th>Price</th>
                                 <th>Giảm giá</th>
                                 <th>Hot Deals</th>
-                                <th>Image</th>
-                                <th>Image 2</th>
-                                <th>Image 3</th>
-                                <th>Image 4</th>
-                                <th>Image 5</th>
+                                <th>Ảnh Thumnail</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -38,7 +34,17 @@
                                     <td>{{ $product->detail }}</td>
                                     <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                                     <td>{{ number_format($product->reduced_price, 0, ',', '.') }} VNĐ</td>
-                                    <td>{{ $product->hot_deals ? 'Yes' : 'No' }}</td>
+                                    <td>
+                                        <select id="{{ $product->id }}"class="hotDeal_choose">
+                                            @if ($product->hot_deals == 0)
+                                                <option value="1"> Có</option>
+                                                <option selected value="0">Không</option>
+                                            @else
+                                                <option selected value="1">Có</option>
+                                                <option value="0">Không</option>
+                                            @endif
+                                        </select>
+                                    </td>
                                     <td>
                                         @if ($product->image_product)
                                             <img src="{{ asset('storage/' . $product->image_product) }}" alt="Product Image"
@@ -48,38 +54,16 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($product->image_product2)
-                                            <img src="{{ asset('storage/' . $product->image_product2) }}"
-                                                alt="Product Image 2" style="width: 100px;">
-                                        @else
-                                            N/A
-                                        @endif
+                                        <select id="{{ $product->id }}"class="trangthai_choose">
+                                            @if ($product->status == 0)
+                                                <option value="1">Hiển thị</option>
+                                                <option selected value="0">Không</option>
+                                            @else
+                                                <option selected value="1">Hiển thị</option>
+                                                <option value="0">Không</option>
+                                            @endif
+                                        </select>
                                     </td>
-                                    <td>
-                                        @if ($product->image_product3)
-                                            <img src="{{ asset('storage/' . $product->image_product3) }}"
-                                                alt="Product Image 3" style="width: 100px;">
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($product->image_product4)
-                                            <img src="{{ asset('storage/' . $product->image_product4) }}"
-                                                alt="Product Image 4" style="width: 100px;">
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($product->image_product5)
-                                            <img src="{{ asset('storage/' . $product->image_product5) }}"
-                                                alt="Product Image 5" style="width: 100px;">
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>
-                                    <td>{{ $product->status ? 'Active' : 'Inactive' }}</td>
                                     <td>
                                         <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                             <a class="btn btn-primary"

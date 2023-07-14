@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -131,5 +132,13 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully');
+    }
+      public function cate_choose(Request $request)
+    {
+        $data = $request->all();
+        $category = Category::find($data['id']);
+        $category->status = $data['trangthai_val'];
+        $category->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $category->save();
     }
 }

@@ -24,6 +24,7 @@
             <th>Name</th>
             <th>Icon</th>
             <th>Parent Category</th>
+            <th>Trạng thái</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($categories as $category)
@@ -38,6 +39,17 @@
                     @endif
                 </td>
                 <td>{{ $category->parentCategory->name ?? '-' }}</td>
+                <td>
+                    <select id="{{ $category->id }}"class="cate_choose">
+                        @if ($category->status == 0)
+                            <option value="1">Hiển thị</option>
+                            <option selected value="0">Không</option>
+                        @else
+                            <option selected value="1">Hiển thị</option>
+                            <option value="0">Không</option>
+                        @endif
+                    </select>
+                </td>
                 <td>
                     <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                         <a class="btn btn-info" href="{{ route('categories.show', $category->id) }}">Show</a>

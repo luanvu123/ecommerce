@@ -291,15 +291,13 @@
                             <h5 class="widget-title">Support</h5>
 
                             <div class="inner">
-                                <p>16 Riki Street, <br>
-                                    Riki, Riki 95820, <br>
-                                    United States.
+                                <p>{{$info->address_support}}
                                 </p>
                                 <ul class="support-list-item">
                                     <li><a href="mailto:example@domain.com"><i class="fal fa-envelope-open"></i>
-                                            youtube.com/@rikidevelop</a></li>
+                                            {{$info->youtube}}</a></li>
                                     <li><a href="tel:(+855)96-601-1977"><i class="fal fa-phone-alt"></i>
-                                            (+855)96-601-1977</a></li>
+                                            {{$info->phone_support}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -339,7 +337,7 @@
                         <div class="axil-footer-widget">
                             <h5 class="widget-title">Download App</h5>
                             <div class="inner">
-                                <span>Save $3 With App & New User only</span>
+                                <span>{{$info->title_download}}</span>
                                 <div class="download-btn-group">
                                     <div class="qr-code">
                                         <img src="{{ asset('fontend') }}/images/others/qr.png" alt="riki"
@@ -380,7 +378,7 @@
                     <div class="col-xl-4 col-lg-12">
                         <div class="copyright-left d-flex flex-wrap justify-content-center">
                             <ul class="quick-link">
-                                <li>© 2022. All rights reserved by <a target="_blank" href="">Riki-Develop</a>.
+                                <li>{{$info->copyright}}
                                 </li>
                             </ul>
                         </div>
@@ -666,7 +664,7 @@
                     <span class="subtotal-amount">$610.00</span>
                 </h3>
                 <div class="group-btn">
-                    <a href="cart.html" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
+                    <a href="{{ route('cart') }}" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
                     <a href="checkout.html" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                 </div>
             </div>

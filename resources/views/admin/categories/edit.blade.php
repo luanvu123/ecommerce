@@ -64,6 +64,20 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Status:</strong>
+                    <select id="{{ $category->id }}"class="cate_choose">
+                        @if ($category->status == 0)
+                            <option value="1">Hiển thị</option>
+                            <option selected value="0">Không</option>
+                        @else
+                            <option selected value="1">Hiển thị</option>
+                            <option value="0">Không</option>
+                        @endif
+                    </select>
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>

@@ -10,7 +10,7 @@
                                 @if ($hot_product->reduced_price < $hot_product->price)
                                     <div class="single-slide slick-slide" data-sal="slide-up" data-sal-delay="400"
                                         data-sal-duration="800">
-                                        <span class="subtitle"><i class="fas fa-fire"></i> Hot Deal In This Week</span>
+                                        <span class="subtitle"><i class="fas fa-fire"></i> {{ $info->title_hotdeals }}</span>
                                         <h1 class="title">{{ $hot_product->name }}</h1>
                                         <div class="slide-action">
                                             <div class="shop-btn">
@@ -71,8 +71,8 @@
         <div class="container">
             <div class="section-title-wrapper">
                 <span class="title-highlighter highlighter-secondary"> <i class="far fa-tags"></i>
-                    Categories</span>
-                <h2 class="title">Browse by Category</h2>
+                    {{$info->title_categories}}</span>
+                <h2 class="title">{{$info->title2_categories}}</h2>
             </div>
             <div class="categrie-product-activation slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
                 @foreach ($categories as $category)
@@ -105,8 +105,8 @@
                         <div class="poster-countdown-content">
                             <div class="section-title-wrapper">
                                 <span class="title-highlighter highlighter-secondary"> <i class="fal fa-headphones-alt"></i>
-                                    Don’t Miss!!</span>
-                                <h2 class="title">Enhance Your Music Experience</h2>
+                                    {{ $info->title_dontmiss}}</span>
+                                <h2 class="title">{{ $info->title2_dontmiss}}</h2>
                             </div>
                             <div class="poster-countdown countdown mb--40"></div>
                             <a href="#" class="axil-btn btn-bg-primary">Check it Out!</a>
@@ -203,9 +203,8 @@
         <div class="container">
             <div class="product-area pb--50">
                 <div class="section-title-wrapper">
-                    <span class="title-highlighter highlighter-primary"><i class="far fa-shopping-basket"></i>This
-                        Week’s</span>
-                    <h2 class="title">New Arrivals</h2>
+                    <span class="title-highlighter highlighter-primary"><i class="far fa-shopping-basket"></i>{{ $info->title_thisweek}}</span>
+                    <h2 class="title">{{ $info->title2_thisweek}}</h2>
                 </div>
                 <div class="new-arrivals-product-activation slick-layout-wrapper--30 axil-slick-arrow  arrow-top-slide">
                     <div class="slick-single-layout">
@@ -389,9 +388,8 @@
         <div class="container">
             <div class="product-area pb--50">
                 <div class="section-title-wrapper section-title-center">
-                    <span class="title-highlighter highlighter-primary"><i class="fas fa-star"></i> Most
-                        Sold</span>
-                    <h2 class="title">Most Sold in eTrade Store</h2>
+                    <span class="title-highlighter highlighter-primary"><i class="fas fa-star"></i> {{ $info->title_mostsold}}</span>
+                    <h2 class="title">{{ $info->title2_mostsold}}</h2>
                 </div>
                 <div class="row row-cols-xl-2 row-cols-1 row--15">
                     <div class="col">
@@ -585,9 +583,8 @@
     <div class="axil-why-choose-area pb--50 pb_sm--30">
         <div class="container">
             <div class="section-title-wrapper section-title-center">
-                <span class="title-highlighter highlighter-secondary"><i class="fal fa-thumbs-up"></i>Why
-                    Us</span>
-                <h2 class="title">Why People Choose Us</h2>
+                <span class="title-highlighter highlighter-secondary"><i class="fal fa-thumbs-up"></i>{{ $info->title_whyus}}</span>
+                <h2 class="title">{{ $info->title2_whyus}}</h2>
             </div>
             <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 row--20">
                 <div class="col">
@@ -682,7 +679,7 @@
                 <div class="newsletter-content">
                     <span class="title-highlighter highlighter-primary2"><i
                             class="fas fa-envelope-open"></i>Newsletter</span>
-                    <h2 class="title mb--40 mb_sm--30">Get weekly update</h2>
+                    <h2 class="title mb--40 mb_sm--30">{{$info->newsletter}}</h2>
                     <div class="input-group newsletter-form">
                         <div class="position-relative newsletter-inner mb--15">
                             <input placeholder="example@gmail.com" type="text">

@@ -33,8 +33,8 @@
                 <div class="row row--30">
                     <div class="col-lg-8">
                         <div class="contact-form">
-                            <h3 class="title mb--10">We would love to hear from you.</h3>
-                            <p>If you’ve got great products your making or looking to work with us then drop us a line.</p>
+                            <h3 class="title mb--10">{{$info->title_contact}}</h3>
+                            <p>{{$info->title2_contact}}</p>
                             <form id="contact-form" method="POST" action="mail.php" class="axil-contact-form">
                                 <div class="row row--10">
                                     <div class="col-lg-4">
@@ -74,19 +74,17 @@
                     <div class="col-lg-4">
                         <div class="contact-location mb--40">
                             <h4 class="title mb--20">Our Store</h4>
-                            <span class="address mb--20">8212 E. Glen Creek Street Orchard Park, NY 14127, United States of
-                                America</span>
-                            <span class="phone">Phone: +123 456 7890</span>
-                            <span class="email">Email: Hello@etrade.com</span>
+                            <span class="address mb--20">{{$info->address_store}}</span>
+                            <span class="phone">Phone: {{$info->phone_store}}</span>
+                            <span class="email">Email: {{$info->email_store}}</span>
                         </div>
                         <div class="contact-career mb--40">
                             <h4 class="title mb--20">Careers</h4>
-                            <p>Instead of buying six things, one that you really like.</p>
+                            <p>{{$info->careers}}</p>
                         </div>
                         <div class="opening-hour">
                             <h4 class="title mb--20">Opening Hours:</h4>
-                            <p>Monday to Saturday: 9am - 10pm
-                                <br> Sundays: 10am - 6pm
+                            <p>{{$info->opening_hours}}
                             </p>
                         </div>
                     </div>

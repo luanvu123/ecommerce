@@ -48,6 +48,15 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
+                    <strong>Status:</strong>
+                    <select name="status" class="form-control">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
                     <strong>Category:</strong>
                     <select name="parent_id" class="form-control">
                         <option value="">Select a category</option>

@@ -10,8 +10,8 @@ class SiteController extends Controller
 {
     public function index()
     {
-        $hot_products = Product::orderBy('updated_at', 'desc')->take(5)->get();;
-        $category_home = Category::with('products')->get();
+        $hot_products = Product::orderBy('updated_at', 'desc')->where('hot_deals',1)->where('status',1)->take(5)->get();;
+        $category_home = Category::with('products')->where('status',1)->get();
         $category_home->each(function ($category) {
             $category->products->each(function ($product) {
                 $price = $product->price; // Giá gốc
@@ -29,7 +29,7 @@ class SiteController extends Controller
 
     public function category($slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = Category::where('slug', $slug)->where('status',1)->first();
 
         if ($category) {
             $products = $category->products;
@@ -64,7 +64,7 @@ class SiteController extends Controller
     }
     public function shop()
     {
-        $category_home = Category::with('products')->get();
+        $category_home = Category::with('products')->where('status',1)->get();
         $category_home->each(function ($category) {
             $category->products->each(function ($product) {
                 $price = $product->price; // Giá gốc
