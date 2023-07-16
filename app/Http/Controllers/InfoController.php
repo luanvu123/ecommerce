@@ -104,6 +104,7 @@ class InfoController extends Controller
         $info->youtube = $request->input('youtube');
         $info->title_download = $request->input('title_download');
         $info->copyright = $request->input('copyright');
+         $info->title_newsletter = $request->input('title_newsletter');
         $info->newsletter = $request->input('newsletter');
         $info->title_contact = $request->input('title_contact');
         $info->title2_contact = $request->input('title2_contact');

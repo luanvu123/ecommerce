@@ -67,7 +67,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Status:</strong>
-                    <select id="{{ $category->id }}"class="cate_choose">
+                    <select id="{{ $category->id }}"name="status"class="cate_choose">
                         @if ($category->status == 0)
                             <option value="1">Hiển thị</option>
                             <option selected value="0">Không</option>

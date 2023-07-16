@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TempImage;
+use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -25,8 +26,7 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::orderBy('id', 'DESC')->get();
-        return view('admin.products.index', compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -58,6 +58,8 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'hot_deals' => 'nullable|boolean',
             'status' => 'nullable|boolean',
+            'new_viral' => 'nullable|boolean',
+            'most_sold' => 'nullable|boolean',
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -91,6 +93,8 @@ class ProductController extends Controller
             'category_id' => $request->input('category_id'),
             'hot_deals' => $request->has('hot_deals'),
             'status' => $request->has('status'),
+            'new_viral' => $request->has('new_viral'),
+            'most_sold' => $request->has('most_sold'),
         ]);
         $product->user_id = auth()->id();
         $product->save();
@@ -148,6 +152,8 @@ class ProductController extends Controller
             'image_product' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'required|exists:categories,id',
             'status' => 'nullable|boolean',
+            'new_viral' => 'nullable|boolean',
+            'most_sold' => 'nullable|boolean',
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -187,6 +193,8 @@ class ProductController extends Controller
         $product->category_id = $request->input('category_id');
         $product->hot_deals = $request->input('hot_deals');
         $product->status = $request->input('status');
+        $product->new_viral = $request->input('new_viral');
+        $product->most_sold = $request->input('most_sold');
         $product->user_id = auth()->id();
         $product->save();
 
@@ -201,7 +209,7 @@ class ProductController extends Controller
         }
 
         $request->session()->flash('success', 'Product updated successfully.');
-
+        Toastr::success('Product updated successfully', 'Success', ["positionClass" => "toast-top-right"]);
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully');
     }
@@ -275,11 +283,28 @@ class ProductController extends Controller
         $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
         $product->save();
     }
-     public function hotDeal_choose(Request $request)
+    public function hotDeal_choose(Request $request)
     {
         $data = $request->all();
         $product = Product::find($data['product_id']);
         $product->hot_deals = $data['hotDeal_val'];
+        $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $product->save();
+    }
+    public function updateNewViralChoose(Request $request)
+    {
+        $data = $request->all();
+        $product = Product::find($data['id']);
+        $product->new_viral = $data['newviral_val'];
+        $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $product->save();
+    }
+
+    public function updateMostSoldChoose(Request $request)
+    {
+        $data = $request->all();
+        $product = Product::find($data['id']);
+        $product->most_sold = $data['mostsold_val'];
         $product->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
         $product->save();
     }

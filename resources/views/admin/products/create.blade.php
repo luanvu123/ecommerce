@@ -106,6 +106,27 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>New Viral:</strong>
+                                    <select name="new_viral" class="form-control">
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Most Sold:</strong>
+                                    <select name="most_sold" class="form-control">
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
 
                             <div class="col-md-6">
                                 <h2 class="pb-3 mt-3">Upload Image</h2>

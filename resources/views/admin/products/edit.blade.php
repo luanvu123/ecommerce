@@ -99,7 +99,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Hot Deals:</strong>
-                            <select id="{{ $product->id }}"class="hotDeal_choose">
+                            <select id="{{ $product->id }}"name="hot_deals"class="hotDeal_choose">
                                 @if ($product->hot_deals == 0)
                                     <option value="1"> Có</option>
                                     <option selected value="0">Không</option>
@@ -113,7 +113,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Status:</strong>
-                            <select id="{{ $product->id }}"class="trangthai_choose">
+                            <select id="{{ $product->id }}"name="status"class="trangthai_choose">
                                 @if ($product->status == 0)
                                     <option value="1">Hiển thị</option>
                                     <option selected value="0">Không</option>
@@ -124,6 +124,35 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>New Viral:</strong>
+                            <select id="{{ $product->id }}"name="new_viral"class="newviral_choose">
+                                @if ($product->new_viral == 0)
+                                    <option value="1">Hiển thị</option>
+                                    <option selected value="0">Có</option>
+                                @else
+                                    <option selected value="1">Có</option>
+                                    <option value="0">Không</option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Bán chạy:</strong>
+                            <select id="{{ $product->id }}"name="most_sold"class="mostsold_choose">
+                                @if ($product->most_sold == 0)
+                                    <option value="1">Có</option>
+                                    <option selected value="0">Không</option>
+                                @else
+                                    <option selected value="1">Có</option>
+                                    <option value="0">Không</option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-md-6">
                         <h2 class="pb-3 mt-3">Upload Image</h2>
                         <div class="mb-3">

@@ -41,7 +41,8 @@
                         <div class="axil-product product-style-one has-color-pick mt--40">
                             <div class="thumbnail">
                                 <a href="single-product.html">
-                                    <img src="{{ asset('storage/' . $product->image_product) }}" alt="Product Images">
+                                    <img src="{{ asset('storage/' . $product->image_product) }}"
+                                        alt="Product Images"style="min-height: 276px;max-width: 276px;">
                                 </a>
                                 <div class="label-block label-right">
                                     @if ($product->discountPercentage > 0)
@@ -61,7 +62,8 @@
                                 <div class="inner">
                                     <h5 class="title"><a href="single-product.html">{{ $product->name }}</a></h5>
                                     <div class="product-price-variant">
-                                        <span class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
+                                        <span
+                                            class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
                                             VNĐ</span>
                                         <span class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
                                             VNĐ</span>

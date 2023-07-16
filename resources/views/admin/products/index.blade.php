@@ -20,15 +20,17 @@
                                 <th>Price</th>
                                 <th>Giảm giá</th>
                                 <th>Hot Deals</th>
+                                <th>New viral</th>
+                                <th>Most_sold</th>
                                 <th>Ảnh Thumnail</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($products as $product)
-                                <tr>
-                                    <td>{{ ++$i }}</td>
+                        <tbody class="order_position">
+                            @foreach ($products as $key => $product)
+                                <tr id="{{ $product->id }}">
+                                    <td>{{ $key }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->detail }}</td>
@@ -46,9 +48,28 @@
                                         </select>
                                     </td>
                                     <td>
+                                        <select class="newviral_choose" id="{{ $product->id }}">
+                                            <option value="1" @if ($product->new_viral == 1) selected @endif>Yes
+                                            </option>
+                                            <option value="0" @if ($product->new_viral == 0) selected @endif>No
+                                            </option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <select class="mostsold_choose" id="{{ $product->id }}">
+                                            <option value="1" @if ($product->most_sold == 1) selected @endif>Yes
+                                            </option>
+                                            <option value="0" @if ($product->most_sold == 0) selected @endif>No
+                                            </option>
+                                        </select>
+                                    </td>
+
+
+                                    <td>
                                         @if ($product->image_product)
-                                            <img src="{{ asset('storage/' . $product->image_product) }}" alt="Product Image"
-                                                style="width: 100px;">
+                                            <img src="{{ asset('storage/' . $product->image_product) }}"
+                                                alt="Product Image" style="width: 100px;">
                                         @else
                                             N/A
                                         @endif
@@ -83,3 +104,4 @@
         </div>
     </div>
 @endsection
+

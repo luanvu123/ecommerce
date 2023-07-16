@@ -166,6 +166,11 @@
                                 value="{{ $info->title2_whyus }}">
                         </div>
                          <div class="form-group">
+                            <label for="title_newsletter">title_newsletter</label>
+                            <input type="text" name="title_newsletter" id="title_newsletter" class="form-control"
+                                value="{{ $info->title_newsletter }}">
+                        </div>
+                         <div class="form-group">
                             <label for="newsletter">newsletter</label>
                             <input type="text" name="newsletter" id="newsletter" class="form-control"
                                 value="{{ $info->newsletter }}">

@@ -232,50 +232,25 @@
     <div class="service-area">
         <div class="container">
             <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{{ asset('fontend') }}/images/icons/service1.png" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Fast &amp; Secure Delivery</h6>
-                            <p>Tell about your service.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{{ asset('fontend') }}/images/icons/service2.png" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Money Back Guarantee</h6>
-                            <p>Within 10 days.</p>
+                @foreach ($policy_home as $policy_homes)
+                    <div class="col">
+                        <div class="service-box service-style-2">
+                            <div class="icon">
+                                @php
+                                    $imagePath = str_replace(['the-loai', 'dang-nhap'], '', $policy_homes->image_policies);
+                                @endphp
+
+                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Service"style="min-height: 45px;max-width: 45px;">
+
+
+                            </div>
+                            <div class="content">
+                                <h6 class="title">{{ $policy_homes->title }}</h6>
+                                <p>{{ $policy_homes->description }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{{ asset('fontend') }}/images/icons/service3.png" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">24 Hour Return Policy</h6>
-                            <p>No question ask.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{{ asset('fontend') }}/images/icons/service4.png" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Pro Quality Support</h6>
-                            <p>24/7 Live support.</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -291,13 +266,13 @@
                             <h5 class="widget-title">Support</h5>
 
                             <div class="inner">
-                                <p>{{$info->address_support}}
+                                <p>{{ $info->address_support }}
                                 </p>
                                 <ul class="support-list-item">
                                     <li><a href="mailto:example@domain.com"><i class="fal fa-envelope-open"></i>
-                                            {{$info->youtube}}</a></li>
+                                            {{ $info->youtube }}</a></li>
                                     <li><a href="tel:(+855)96-601-1977"><i class="fal fa-phone-alt"></i>
-                                            {{$info->phone_support}}</a></li>
+                                            {{ $info->phone_support }}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -337,7 +312,7 @@
                         <div class="axil-footer-widget">
                             <h5 class="widget-title">Download App</h5>
                             <div class="inner">
-                                <span>{{$info->title_download}}</span>
+                                <span>{{ $info->title_download }}</span>
                                 <div class="download-btn-group">
                                     <div class="qr-code">
                                         <img src="{{ asset('fontend') }}/images/others/qr.png" alt="riki"
@@ -378,7 +353,7 @@
                     <div class="col-xl-4 col-lg-12">
                         <div class="copyright-left d-flex flex-wrap justify-content-center">
                             <ul class="quick-link">
-                                <li>{{$info->copyright}}
+                                <li>{{ $info->copyright }}
                                 </li>
                             </ul>
                         </div>

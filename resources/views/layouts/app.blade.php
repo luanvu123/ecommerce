@@ -21,7 +21,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             window.scrollTo(0, 1);
         }
     </script>
-
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
     <!-- Fonts -->
@@ -182,6 +182,58 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
+
+                                 <li class="treeview {{ $segment == 'policies' ? 'active' : '' }}">
+                                    <a href="#">
+                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
+                                            delay="2000" style="width:20px;height:20px">
+                                        </lord-icon>
+                                        <span>Polycies</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('policies.create') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Thêm Policies
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('policies.index') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Liệt kê Policies
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                 <li class="treeview {{ $segment == 'posters' ? 'active' : '' }}">
+                                    <a href="#">
+                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
+                                            delay="2000" style="width:20px;height:20px">
+                                        </lord-icon>
+                                        <span>Poster</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('posters.create') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Thêm posters
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('posters.index') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Liệt kê posters
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
 
 
 
@@ -507,8 +559,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
             var trangthai_val = $(this).val();
             var id = $(this).attr('id');
-            //   alert(trangthai_val)
-            // alert(id)
             $.ajax({
                 url: "{{ route('trangthai-choose') }}",
                 method: "GET",
@@ -522,6 +572,79 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
+    <script>
+         $('.policy_choose').change(function() {
+
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('policy-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái policy thành công!');
+                }
+            });
+        })
+    </script>
+     <script>
+         $('.poster_choose').change(function() {
+
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('poster-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái poster thành công!');
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $('.newviral_choose').change(function() {
+
+            var newviral_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('newviral-choose') }}",
+                method: "GET",
+                data: {
+                    newviral_val: newviral_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái newviral thành công!');
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $('.mostsold_choose').change(function() {
+
+            var mostsold_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('mostsold-choose') }}",
+                method: "GET",
+                data: {
+                    mostsold_val: mostsold_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi bán chạy thành công!');
+                }
+            });
+        })
+    </script>
+
     <script type="text/javascript">
         $('.cate_choose').change(function() {
 
@@ -562,6 +685,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     </script>
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
 </body>
 
 </html>

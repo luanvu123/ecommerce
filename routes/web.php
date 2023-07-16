@@ -17,6 +17,8 @@ use App\Http\Controllers\CustomerLoginController;
 use App\Http\Controllers\CustomerRegisterController;
 use App\Http\Controllers\CustomerForgotPasswordController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\TempImageController;
 
@@ -41,6 +43,8 @@ Route::get('/wishlist', [SiteController::class, 'wishlist'])->name('wishlist');
 Route::get('/privacy-policy', [SiteController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms-of-service', [SiteController::class, 'termsOfService'])->name('terms.of.service');
 
+
+
 Auth::routes(['verify' => true]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -50,10 +54,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('info', InfoController::class);
+    Route::resource('policies', PolicyController::class);
+    Route::resource('posters', PosterController::class);
 
+     Route::get('/poster-choose', [PolicyController::class, 'poster_choose'])->name('poster-choose');
     Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
+    Route::get('/policy-choose', [PolicyController::class, 'policy_choose'])->name('policy-choose');
     Route::get('/hotDeal-choose', [ProductController::class, 'hotDeal_choose'])->name('hotDeal-choose');
     Route::get('/cate-choose', [CategoryController::class, 'cate_choose'])->name('cate-choose');
+    Route::get('/newviral-choose', [ProductController::class, 'updateNewViralChoose'])->name('newviral-choose');
+    Route::get('/mostsold-choose', [ProductController::class, 'updateMostSoldChoose'])->name('mostsold-choose');
 
 
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
