@@ -165,7 +165,7 @@
                     </div>
                     <div class="row" id="image-wrapper">
                         @if ($productImages->isNotEmpty())
-                            @foreach ($productImages as $productImage)
+                            @foreach ($productImages as $productImage) 
                                 <div class="col-md-3 mb-3" id="product-image-row-{{ $productImage->id }}">
                                     <div class="card image-card">
                                         <a href="#" onclick="deleteImage({{ $productImage->id }});"

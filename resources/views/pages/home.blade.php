@@ -149,7 +149,7 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6">
                                 <div class="axil-product product-style-one has-color-pick mt--40">
                                     <div class="thumbnail">
-                                        <a href="single-product.html">
+                                        <a href="{{ route('product', $product->slug) }}">
                                             <img src="{{ asset('storage/' . $product->image_product) }}"
                                                 alt="Product Images" style="min-height: 276px;max-width: 276px;">
                                         </a>
@@ -172,7 +172,8 @@
                                     </div>
                                     <div class="product-content">
                                         <div class="inner">
-                                            <h5 class="title"><a href="single-product.html">{{ $product->name }}</a>
+                                            <h5 class="title"><a
+                                                    href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
                                             </h5>
                                             <div class="product-price-variant">
                                                 <span
@@ -303,32 +304,7 @@
         </div>
     </div>
     <!-- End Most Sold Product Area  -->
-
-    <!-- Start Why Choose Area  -->
-    {{-- <div class="axil-why-choose-area pb--50 pb_sm--30">
-        <div class="container">
-            <div class="section-title-wrapper section-title-center">
-                <span class="title-highlighter highlighter-secondary"><i
-                        class="fal fa-thumbs-up"></i>{{ $info->title_whyus }}</span>
-                <h2 class="title">{{ $info->title2_whyus }}</h2>
-            </div>
-            <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 row--20">
-                @foreach ($policy_home as $policy_homes)
-                    <div class="col">
-                        <div class="service-box">
-                            <div class="icon">
-                                <img src="{{ 'storage/' . $policy_homes->image_policies }}" alt="Service">
-                            </div>
-                            <h6 class="title">{{ $policy_homes->title }}</h6>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </div> --}}
     <!-- End Why Choose Area  -->
-
 
     <!-- Start Axil Product Poster Area  -->
     <div class="axil-poster">
@@ -360,23 +336,6 @@
     <!-- End Axil Product Poster Area  -->
 
     <!-- Start Axil Newsletter Area  -->
-    <div class="axil-newsletter-area axil-section-gap pt--0">
-        <div class="container">
-            <div class="etrade-newsletter-wrapper bg_image bg_image--5">
-                <div class="newsletter-content">
-                    <span class="title-highlighter highlighter-primary2"><i
-                            class="fas fa-envelope-open"></i>{{ $info->title_newsletter }}</span>
-                    <h2 class="title mb--40 mb_sm--30">{{ $info->newsletter }}</h2>
-                    <div class="input-group newsletter-form">
-                        <div class="position-relative newsletter-inner mb--15">
-                            <input placeholder="example@gmail.com" type="text">
-                        </div>
-                        <button type="submit" class="axil-btn mb--15">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End .container -->
-    </div>
+    @include('pages.include.newsletter')
     <!-- End Axil Newsletter Area  -->
 @endsection

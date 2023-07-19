@@ -236,13 +236,11 @@
                     <div class="col">
                         <div class="service-box service-style-2">
                             <div class="icon">
-                                @php
+                                {{-- @php
                                     $imagePath = str_replace(['the-loai', 'dang-nhap'], '', $policy_homes->image_policies);
-                                @endphp
-
-                                <img src="{{ asset('storage/' . $imagePath) }}" alt="Service"style="min-height: 45px;max-width: 45px;">
-
-
+                                @endphp --}}
+                              <img src="{{ asset('/storage/' .  $policy_homes->image_policies) }}"
+                                    alt="Service"style="min-height: 45px;max-width: 45px;">
                             </div>
                             <div class="content">
                                 <h6 class="title">{{ $policy_homes->title }}</h6>
@@ -517,7 +515,7 @@
         <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
         <div class="header-search-wrap">
             <div class="card-header">
-                <form action="#">
+                <form action="{{ route('tim-kiem') }}" method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" name="prod-search" id="prod-search"
                             placeholder="Write Something....">
@@ -527,54 +525,16 @@
             </div>
             <div class="card-body">
                 <div class="search-result-header">
-                    <h6 class="title">24 Result Found</h6>
-                    <a href="shop.html" class="view-all">View All</a>
+                    <h6 class="title" id="result-count">0 Result Found</h6>
+                    <a href="{{ route('tim-kiem') }}" class="view-all">View All</a>
                 </div>
-                <div class="psearch-results">
-                    <div class="axil-product-list">
-                        <div class="thumbnail">
-                            <a href="">
-                                <img src="{{ asset('fontend') }}/images/products/product-09.png"
-                                    alt="Yantiti Leather Bags">
-                            </a>
-                        </div>
-                        <div class="product-content">
+                <div class="psearch-results" id="result">
 
-                            <h6 class="product-title"><a href="">Media Remote</a></h6>
-                            <div class="product-price-variant">
-                                <span class="price current-price">$29.99</span>
-                                <span class="price old-price">$49.99</span>
-                            </div>
-                            <div class="product-cart">
-                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="axil-product-list">
-                        <div class="thumbnail">
-                            <a href="">
-                                <img src="{{ asset('fontend') }}/images/products/product-09.png"
-                                    alt="Yantiti Leather Bags">
-                            </a>
-                        </div>
-                        <div class="product-content">
-
-                            <h6 class="product-title"><a href="">Media Remote</a></h6>
-                            <div class="product-price-variant">
-                                <span class="price current-price">$29.99</span>
-                                <span class="price old-price">$49.99</span>
-                            </div>
-                            <div class="product-cart">
-                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Header Search Modal End -->
 
 
@@ -689,6 +649,76 @@
 
     <!-- Main JS -->
     <script src="{{ asset('fontend') }}/js/main.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#prod-search').keyup(function() {
+                $('#result').html('');
+                var search = $('#prod-search').val();
+                if (search != '') {
+                    var expression = new RegExp(search, "i");
+                    $.getJSON('/json/products.json', function(data) {
+                        var addedProducts = [];
+                        $.each(data, function(key, value) {
+                            if (value.name.search(expression) != -1) {
+                                if (addedProducts.indexOf(value.name) === -1) {
+                                    $('#result').css('display', 'inherit');
+                                    var html = `
+                                <div class="axil-product-list">
+                                    <div class="thumbnail">
+                                        <a href="/product/${value.slug}">
+                                            <img src="/storage/${value.image_product}" alt="Yantiti Leather Bags" style="min-height: 120px; max-width: 120px;">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating">
+                                            <span class="rating-icon">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fal fa-star"></i>
+                                            </span>
+                                            <span class="rating-number"><span>100+</span> Reviews</span>
+                                        </div>
+                                        <h6 class="product-title"><a href="/product/${value.slug} ">${value.name}</a></h6>
+                                        <div class="product-price-variant">
+                                            <span class="price current-price">${value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                            <span class="price old-price">${value.reduced_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                        </div>
+                                        <div class="product-cart">
+                                            <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                            <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                                    $('#result').append(html);
+                                    addedProducts.push(value.name);
+                                }
+                            }
+                        });
+                         // Update the result count based on the number of elements with class "axil-product-list"
+                    $('#result-count').text($('#result .axil-product-list').length + ' Results Found');
+                    })
+                } else {
+                    $('#result').css('display', 'none');
+                }
+            });
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('.view-all').click(function(event) {
+                event.preventDefault();
+                $('form').attr('action', '{{ route('tim-kiem') }}').submit();
+            });
+        });
+    </script>
 
 </body>
 

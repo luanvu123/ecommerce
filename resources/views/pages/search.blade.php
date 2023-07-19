@@ -1,17 +1,16 @@
 @extends('layout')
 @section('content')
-    <!-- Start Breadcrumb Area  -->
     <div class="axil-breadcrumb-area">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-8">
                     <div class="inner">
                         <ul class="axil-breadcrumb">
-                            <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="axil-breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
                             <li class="separator"></li>
-                            <li class="axil-breadcrumb-item active" aria-current="page">Category</li>
+                            <li class="axil-breadcrumb-item active" aria-current="page">Kết quả tìm kiếm:</li>
                         </ul>
-                        <h1 class="title">{{ $cate_slug->name }}</h1>
+                        <h1 class="title">{{ $search }}</h1>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-4">
@@ -24,14 +23,12 @@
             </div>
         </div>
     </div>
-    <!-- End Breadcrumb Area  -->
-    <!-- Start Categorie Area  -->
     <div class="axil-shop-area axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="axil-shop-top">
-                        <h4>{{ $cate_slug->name }}</h4>
+                        <h4>{{ $search }}</h4>
                     </div>
                 </div>
             </div>
@@ -79,9 +76,5 @@
             </div>
         </div>
     </div>
-
-    <!-- End Shop Area  -->
-    <!-- Start Axil Newsletter Area  -->
     @include('pages.include.newsletter')
-    <!-- End Axil Newsletter Area  -->
 @endsection

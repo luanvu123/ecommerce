@@ -31,6 +31,7 @@ class SiteController extends Controller
             $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
             $product->discountPercentage = $discountPercentage;
         });
+       
         return view('pages.home', [
             'hot_products' => $hot_products,
             'newviral_products' => $newviral_products,
@@ -40,6 +41,29 @@ class SiteController extends Controller
         ]);
     }
 
+
+    public function search()
+    {
+        if (isset($_GET['prod-search'])) {
+            $search = $_GET['prod-search'];
+            $products = Product::where('status', 1)
+                ->where('name', 'LIKE', '%' . $search . '%')
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+            $products->each(function ($product) {
+                $price = $product->price;
+                $reducedPrice = $product->reduced_price;
+                $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
+                $product->discountPercentage = $discountPercentage;
+            });
+            return view('pages.search', [
+                'search' => $search,
+                'products' => $products,
+            ]);
+        } else {
+            abort(404);
+        }
+    }
 
 
     public function category($slug)
@@ -65,6 +89,23 @@ class SiteController extends Controller
         }
     }
 
+    public function product($slug)
+    {
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images')->first();
+        if (! $single_of_product) {
+            abort(404);
+        }
+        $price =  $single_of_product->price;
+        $reducedPrice =  $single_of_product->reduced_price;
+        $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
+         $single_of_product->discountPercentage = $discountPercentage;
+        $viewedItems = Product::inRandomOrder()->limit(5)->get();
+
+    return view('pages.single-product', [
+        'single_of_product' =>  $single_of_product,
+        'viewedItems' => $viewedItems,
+    ]);
+    }
 
 
 

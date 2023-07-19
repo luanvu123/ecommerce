@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use File;
 
 class ProductController extends Controller
 {
@@ -26,6 +27,11 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::orderBy('id', 'DESC')->get();
+          $path=public_path()."/json/";
+        if(!is_dir($path)) {
+            mkdir($path,0777,true);
+         }
+        File::put($path.'products.json',json_encode($products));
         return view('admin.products.index', compact('products'));
     }
 
