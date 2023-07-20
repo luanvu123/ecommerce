@@ -53,7 +53,7 @@
                                     <ul class="cart-action">
                                         <li class="wishlist"><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
                                         <li class="select-option"><a href="cart.html">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal"
+                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-product-id="{{ $product->id }}
                                                 data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
                                     </ul>
                                 </div>

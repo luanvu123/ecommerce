@@ -239,7 +239,7 @@
                                 {{-- @php
                                     $imagePath = str_replace(['the-loai', 'dang-nhap'], '', $policy_homes->image_policies);
                                 @endphp --}}
-                              <img src="{{ asset('/storage/' .  $policy_homes->image_policies) }}"
+                                <img src="{{ asset('/storage/' . $policy_homes->image_policies) }}"
                                     alt="Service"style="min-height: 45px;max-width: 45px;">
                             </div>
                             <div class="content">
@@ -378,6 +378,7 @@
     <!-- End Footer Area  -->
 
     <!-- Product Quick View Modal Start -->
+
     <div class="modal fade quick-view-product" id="quick-view-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -393,9 +394,9 @@
                                     <div class="col-lg-10 order-lg-2">
                                         <div
                                             class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
+
                                             <div class="thumbnail">
-                                                <img src="{{ asset('fontend') }}/images/products/product-big-01.png"
-                                                    alt="Product Images">
+                                                <img src="">
                                                 <div class="label-block label-right">
                                                     <div class="product-badget">20% OFF</div>
                                                 </div>
@@ -406,47 +407,12 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="thumbnail">
-                                                <img src="{{ asset('fontend') }}/images/products/product-big-02.png"
-                                                    alt="Product Images">
-                                                <div class="label-block label-right">
-                                                    <div class="product-badget">20% OFF</div>
-                                                </div>
-                                                <div class="product-quick-view position-view">
-                                                    <a href="{{ asset('fontend') }}/images/products/product-big-02.png"
-                                                        class="popup-zoom">
-                                                        <i class="far fa-search-plus"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="thumbnail">
-                                                <img src="{{ asset('fontend') }}/images/products/product-big-03.png"
-                                                    alt="Product Images">
-                                                <div class="label-block label-right">
-                                                    <div class="product-badget">20% OFF</div>
-                                                </div>
-                                                <div class="product-quick-view position-view">
-                                                    <a href="{{ asset('fontend') }}/images/products/product-big-03.png"
-                                                        class="popup-zoom">
-                                                        <i class="far fa-search-plus"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 order-lg-1">
                                         <div class="product-small-thumb small-thumb-wrapper">
                                             <div class="small-thumb-img">
-                                                <img src="{{ asset('fontend') }}/images/products/thumb-08.png"
-                                                    alt="thumb image">
-                                            </div>
-                                            <div class="small-thumb-img">
-                                                <img src="{{ asset('fontend') }}/images/products/thumb-07.png"
-                                                    alt="thumb image">
-                                            </div>
-                                            <div class="small-thumb-img">
-                                                <img src="{{ asset('fontend') }}/images/products/thumb-09.png"
-                                                    alt="thumb image">
+                                                <img src="" alt="thumb image">
                                             </div>
                                         </div>
                                     </div>
@@ -464,21 +430,15 @@
                                                 <a href="#">(<span>1</span> customer reviews)</a>
                                             </div>
                                         </div>
-                                        <h3 class="product-title">Serif Coffee Table</h3>
-                                        <span class="price-amount">$155.00 - $255.00</span>
+                                        <h3 class="product-title"></h3>
+                                        <span class="price-amount"></span>
                                         <ul class="product-meta">
                                             <li><i class="fal fa-check"></i>In stock</li>
                                             <li><i class="fal fa-check"></i>Free delivery available</li>
                                             <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
                                         </ul>
-                                        <p class="description">In ornare lorem ut est dapibus, ut tincidunt nisi
-                                            pretium. Integer ante est, elementum eget magna. Pellentesque sagittis
-                                            dictum libero, eu dignissim tellus.</p>
-
+                                        <p class="description"></p>
                                         <div class="product-variations-wrapper">
-
-
-
                                         </div>
 
                                         <!-- Start Product Action Wrapper  -->
@@ -486,7 +446,6 @@
                                             <!-- Start Quentity Action  -->
                                             <div class="pro-qty"><input type="text" value="1"></div>
                                             <!-- End Quentity Action  -->
-
                                             <!-- Start Product Action  -->
                                             <ul class="product-action d-flex-center mb--0">
                                                 <li class="add-to-cart"><a href="cart.html"
@@ -699,8 +658,9 @@
                                 }
                             }
                         });
-                         // Update the result count based on the number of elements with class "axil-product-list"
-                    $('#result-count').text($('#result .axil-product-list').length + ' Results Found');
+                        // Update the result count based on the number of elements with class "axil-product-list"
+                        $('#result-count').text($('#result .axil-product-list').length +
+                            ' Results Found');
                     })
                 } else {
                     $('#result').css('display', 'none');
@@ -719,6 +679,65 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.quickview').on('click', function(event) {
+                event.preventDefault();
+                var productId = $(this).find('a').data('product-id');
+                $.ajax({
+                    url: '{{ route('get.product', ['id' => ':id']) }}'.replace(':id', productId),
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        // Populate the modal with the fetched data
+                        $('#quick-view-modal .product-title').text(response.name);
+                        $('#quick-view-modal .price-amount').text('$' + response.price);
+                        $('#quick-view-modal .description').text(response.detail);
+                        // Populate the product images in the modal
+                        var imagesHtml = '';
+                        $.each(response.images, function(index, image) {
+                            imagesHtml += '<div class="thumbnail">';
+                            imagesHtml +=
+                                '<img src="{{ asset('/uploads/products/large/') }}/' +
+                                image.name + '" alt="Product Images">';
+                            if (response.discountPercentage) {
+                                imagesHtml += '<div class="label-block label-right">';
+                                imagesHtml += '<div class="product-badget">' + response
+                                    .discountPercentage + '% OFF</div>';
+                                imagesHtml += '</div>';
+                            }
+                            imagesHtml +=
+                                '<div class="product-quick-view position-view">';
+                            imagesHtml +=
+                                '<a href="{{ asset('/uploads/products/large/') }}/' +
+                                image.name + '" class="popup-zoom">';
+                            imagesHtml += '<i class="far fa-search-plus"></i>';
+                            imagesHtml += '</a>';
+                            imagesHtml += '</div>';
+                            imagesHtml += '</div>';
+                        });
+                        $('#quick-view-modal .product-large-thumbnail').html(imagesHtml);
+
+                        // Populate the small thumbnail images in the modal
+                        var smallImagesHtml = '';
+                        $.each(response.images, function(index, image) {
+                            smallImagesHtml += '<div class="small-thumb-img">';
+                            smallImagesHtml +=
+                                '<img src="{{ asset('/uploads/products/small/') }}/' +
+                                image.name + '" alt="thumb image">';
+                            smallImagesHtml += '</div>';
+                        });
+                        $('#quick-view-modal .product-small-thumb').html(smallImagesHtml);
+                        $('#quick-view-modal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error here
+                    }
+                });
+            });
+        });
+    </script>
+
 
 </body>
 

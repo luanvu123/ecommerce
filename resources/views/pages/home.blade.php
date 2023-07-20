@@ -165,7 +165,7 @@
                                                 </li>
                                                 <li class="select-option"><a href="cart.html">Add to Cart</a></li>
                                                 <li class="quickview"><a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a>
+                                                        data-bs-target="#quick-view-modal"  data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -237,8 +237,11 @@
                                         </div>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">
-                                                <li class="quickview"><a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a>
+                                                <li class="quickview"> <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#quick-view-modal"
+                                                        data-product-id="{{ $product->id }}">
+                                                        <i class="far fa-eye"></i>
+                                                    </a>
                                                 </li>
                                                 <li class="select-option"><a href="single-product.html">Add to Cart</a>
                                                 </li>
@@ -333,9 +336,14 @@
             </div>
         </div>
     </div>
-    <!-- End Axil Product Poster Area  -->
 
+
+
+
+    <!-- End Axil Product Poster Area  -->
     <!-- Start Axil Newsletter Area  -->
+
+
     @include('pages.include.newsletter')
     <!-- End Axil Newsletter Area  -->
 @endsection

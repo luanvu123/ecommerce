@@ -44,8 +44,8 @@
             axilInit.axilMasonary();
             axilInit.counterUpActivation();
             axilInit.scrollSmoth();
-           
-           
+
+
         },
 
         w: function(e) {
@@ -142,7 +142,7 @@
         },
 
         mobileMenuActivation: function(e) {
-            
+
             $('.menu-item-has-children > a').on('click', function(e) {
 
                 var targetParent = $(this).parents('.header-main-nav');
@@ -392,7 +392,7 @@
                 dots: false,
                 prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-long-arrow-left"></i></button>',
                 nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-long-arrow-right"></i></button>',
-                
+
             });
 
             $('.new-arrivals-product-activation').slick({
@@ -949,7 +949,7 @@
 
         offerPopupActivation: function() {
             if ($('body').hasClass('newsletter-popup-modal')) {
-                setTimeout(function(){ 
+                setTimeout(function(){
                     $('body').addClass('open');
                     $('#offer-popup-modal').addClass('open');
                 }, 1000);
@@ -965,7 +965,7 @@
                         filter: filterValue
                     });
                 });
-                
+
                 // init Isotope
                 var $grid = $('.isotope-list').isotope({
                     itemSelector: '.product',
@@ -978,7 +978,7 @@
                     }
                 });
             });
-        
+
             $('.isotope-button button').on('click', function (event) {
                 $(this).siblings('.is-checked').removeClass('is-checked');
                 $(this).addClass('is-checked');

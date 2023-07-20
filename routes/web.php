@@ -44,6 +44,7 @@ Route::get('/privacy-policy', [SiteController::class, 'privacyPolicy'])->name('p
 Route::get('/terms-of-service', [SiteController::class, 'termsOfService'])->name('terms.of.service');
 Route::get('/tim-kiem', [SiteController::class, 'search'])->name('tim-kiem');
 Route::get('/product/{slug}', [SiteController::class, 'product'])->name('product');
+Route::get('/get-product/{id}',  [SiteController::class, 'getProduct'])->name('get.product');
 
 
 Auth::routes(['verify' => true]);
