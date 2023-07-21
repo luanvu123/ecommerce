@@ -20,6 +20,7 @@ use App\Http\Controllers\InfoController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\TempImageController;
 
 /*
@@ -58,8 +59,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('info', InfoController::class);
     Route::resource('policies', PolicyController::class);
     Route::resource('posters', PosterController::class);
+    Route::resource('metas', ProductMetaController::class);
 
-     Route::get('/poster-choose', [PolicyController::class, 'poster_choose'])->name('poster-choose');
+    Route::get('/poster-choose', [PolicyController::class, 'poster_choose'])->name('poster-choose');
     Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
     Route::get('/policy-choose', [PolicyController::class, 'policy_choose'])->name('policy-choose');
     Route::get('/hotDeal-choose', [ProductController::class, 'hotDeal_choose'])->name('hotDeal-choose');

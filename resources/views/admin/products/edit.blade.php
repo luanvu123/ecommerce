@@ -140,6 +140,21 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
+                            <label for="product_meta">Product Meta</label><br>
+                            @foreach ($product_metas as $product_meta)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="product_meta[]"
+                                        value="{{ $product_meta->id }}" @if ($product->product_meta->contains($product_meta->id)) checked @endif>
+                                    <label class="form-check-label"
+                                        for="product_meta">{{ $product_meta->meta_key }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
                             <strong>Bán chạy:</strong>
                             <select id="{{ $product->id }}"name="most_sold"class="mostsold_choose">
                                 @if ($product->most_sold == 0)
@@ -165,7 +180,7 @@
                     </div>
                     <div class="row" id="image-wrapper">
                         @if ($productImages->isNotEmpty())
-                            @foreach ($productImages as $productImage) 
+                            @foreach ($productImages as $productImage)
                                 <div class="col-md-3 mb-3" id="product-image-row-{{ $productImage->id }}">
                                     <div class="card image-card">
                                         <a href="#" onclick="deleteImage({{ $productImage->id }});"

@@ -29,4 +29,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+    public function metas()
+    {
+        return $this->belongsTo(Meta::class,'meta_id');
+    }
+     public function product_meta()
+    {
+        return $this->belongsToMany(Meta::class, 'product_meta', 'meta_id', 'product_id')
+            ->withPivot('meta_value')
+            ->withTimestamps();
+    }
 }

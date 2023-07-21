@@ -115,6 +115,19 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="product_meta">Product Meta</label><br>
+                                    @foreach ($product_metas as $product_meta)
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="product_meta[]"
+                                                value="{{ $product_meta->id }}">
+                                            <label class="form-check-label"
+                                                for="product_meta">{{ $product_meta->meta_key }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
@@ -125,9 +138,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
-
                             <div class="col-md-6">
                                 <h2 class="pb-3 mt-3">Upload Image</h2>
                                 <div class="mb-3">
@@ -140,9 +150,7 @@
                             </div>
                         </div>
                         <div class="row" id="image-wrapper">
-
                         </div>
-
                     </div>
                 </div>
                 <div class="my-3 ">

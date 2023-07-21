@@ -12,7 +12,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'icon', 'parent_id','user_id'
+        'name', 'icon', 'parent_id', 'user_id'
     ];
 
     /**
@@ -39,8 +39,7 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
     public function children()
-{
-    return $this->hasMany(Category::class, 'parent_id');
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
 }
-}
-

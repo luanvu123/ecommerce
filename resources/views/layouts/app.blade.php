@@ -233,6 +233,31 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
+                                 <li class="treeview {{ $segment == 'metas' ? 'active' : '' }}">
+                                    <a href="#">
+                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
+                                            delay="2000" style="width:20px;height:20px">
+                                        </lord-icon>
+                                        <span>Product_Meta</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('metas.create') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Thêm Product Meta
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('metas.index') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Liệt kê product meta
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
 
 

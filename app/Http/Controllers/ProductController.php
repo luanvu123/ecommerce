@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Meta;
 use App\Models\Product;
+use App\Models\Product_Meta;
 use App\Models\ProductImage;
 use App\Models\TempImage;
 use Brian2694\Toastr\Facades\Toastr;
@@ -27,11 +29,11 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::orderBy('id', 'DESC')->get();
-          $path=public_path()."/json/";
-        if(!is_dir($path)) {
-            mkdir($path,0777,true);
-         }
-        File::put($path.'products.json',json_encode($products));
+        $path = public_path() . "/json/";
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
+        File::put($path . 'products.json', json_encode($products));
         return view('admin.products.index', compact('products'));
     }
 
@@ -43,7 +45,8 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::all();
-        return view('admin.products.create', compact('categories'));
+        $product_metas = Meta::all();
+        return view('admin.products.create', compact('categories', 'product_metas'));
     }
 
     /**
@@ -104,6 +107,18 @@ class ProductController extends Controller
         ]);
         $product->user_id = auth()->id();
         $product->save();
+        if ($request->has('product_meta')) {
+            $product_metas = $request->input('product_meta');
+            foreach ($product_metas as $product_meta_id) {
+                $product_meta_value = $request->input('meta_value_' . $product_meta_id);
+                $product_meta = new Product_Meta([
+                    'product_id' => $product->id,
+                    'meta_id' => $product_meta_id,
+                    'meta_value' => $product_meta_value,
+                ]);
+                $product_meta->save();
+            }
+        }
         if (!empty($request->image_id)) {
             $caption = $request->caption;
 
@@ -147,7 +162,6 @@ class ProductController extends Controller
 
     public function update($product_id, Request $request)
     {
-
         $product = Product::find($product_id);
         $request->validate([
             'name' => 'required',
@@ -204,6 +218,25 @@ class ProductController extends Controller
         $product->user_id = auth()->id();
         $product->save();
 
+
+        if ($request->has('product_meta')) {
+            $product_metas = $request->input('product_meta');
+            $existing_product_metas = $product->product_meta->pluck('id')->toArray();
+
+            // Xóa product_meta không còn tồn tại trong form
+            $removed_product_metas = array_diff($existing_product_metas, $product_metas);
+            Product_Meta::whereIn('id', $removed_product_metas)->delete();
+
+            // Thêm hoặc cập nhật product_meta trong form
+            foreach ($product_metas as $product_meta_id) {
+                $product_meta_value = $request->input('meta_value_' . $product_meta_id);
+                Product_Meta::updateOrCreate(
+                    ['product_id' => $product->id, 'meta_id' => $product_meta_id],
+                    ['meta_value' => $product_meta_value]
+                );
+            }
+        }
+
         if (!empty($request->image_id)) {
             $caption = $request->caption;
             foreach ($request->image_id as $key => $imageId) {
@@ -242,6 +275,8 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
+    // ProductController.php
+
     public function edit($product_id, Request $request)
     {
         $product = Product::find($product_id);
@@ -249,10 +284,13 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         }
         $productImages = ProductImage::where('product_id', $product->id)->get();
+        $product_metas = Meta::all();
         $data['product'] = $product;
+        $data['product_metas'] = $product_metas;
         $data['productImages'] = $productImages;
         return view('admin.products.edit', $data);
     }
+
 
 
     /**
