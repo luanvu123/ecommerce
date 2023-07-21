@@ -22,7 +22,8 @@
                                     </div>
                                     @if ($single_of_product->discountPercentage > 0)
                                         <div class="label-block">
-                                            <div class="product-badget">{{ $single_of_product->discountPercentage }}% OFF</div>
+                                            <div class="product-badget">{{ $single_of_product->discountPercentage }}% OFF
+                                            </div>
                                         </div>
                                     @endif
                                     {{-- <div class="product-quick-view position-view">
@@ -49,15 +50,16 @@
                         <div class="single-product-content">
                             <div class="inner">
                                 <h2 class="product-title"> {{ $single_of_product->name }}</h2>
-                                <span class="price-amount">{{ number_format($single_of_product->reduced_price, 0, ',', '.') }}
+                                <span
+                                    class="price-amount">{{ number_format($single_of_product->reduced_price, 0, ',', '.') }}
                                     VNĐ</span>
                                 <div class="product-rating">
 
                                 </div>
                                 <ul class="product-meta">
-                                    <li><i class="fal fa-check"></i>In stock</li>
-                                    <li><i class="fal fa-check"></i>Free delivery available</li>
-                                    <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
+                                    @foreach ($single_of_product->product_meta as $meta)
+                                        <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>
+                                    @endforeach
                                 </ul>
                                 <p class="description">{{ $single_of_product->detail }}</p>
 

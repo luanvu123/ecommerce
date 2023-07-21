@@ -17,6 +17,7 @@
                                 <th>Name</th>
                                 <th>Category</th>
                                 <th>Detail</th>
+                                <th>Product Meta</th>
                                 <th>Price</th>
                                 <th>Giảm giá</th>
                                 <th>Hot Deals</th>
@@ -34,6 +35,11 @@
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->detail }}</td>
+                                    <td>
+                                        @foreach ($product->product_meta as $met)
+                                            <span class="badge badge-dark">{{ $met->meta_key }}</span>
+                                        @endforeach
+                                    </td>
                                     <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                                     <td>{{ number_format($product->reduced_price, 0, ',', '.') }} VNĐ</td>
                                     <td>
@@ -104,4 +110,3 @@
         </div>
     </div>
 @endsection
-

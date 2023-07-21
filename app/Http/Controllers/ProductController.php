@@ -28,7 +28,7 @@ class ProductController extends Controller
      */
     public function index(): View
     {
-        $products = Product::orderBy('id', 'DESC')->get();
+        $products = Product::with('product_meta')->orderBy('id', 'DESC')->get();
         $path = public_path() . "/json/";
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
@@ -59,7 +59,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'nullable',
+            'slug' => 'required',
             'detail' => 'required',
             'price' => 'required|numeric',
             'reduced_price' => 'nullable|numeric',
@@ -151,7 +151,7 @@ class ProductController extends Controller
         $product = Product::find($product_id);
         $request->validate([
             'name' => 'required',
-            'slug' => 'nullable',
+            'slug' => 'required',
             'detail' => 'required',
             'price' => 'required|numeric',
             'reduced_price' => 'nullable|numeric',

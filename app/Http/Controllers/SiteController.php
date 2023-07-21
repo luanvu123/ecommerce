@@ -92,7 +92,7 @@ class SiteController extends Controller
 
     public function product($slug)
     {
-        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images')->first();
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images','product_meta')->first();
         if (!$single_of_product) {
             abort(404);
         }
@@ -165,20 +165,32 @@ class SiteController extends Controller
     //     echo json_encode($output);
     // }
 
-    public function getProduct($id)
-    {
-        $product = Product::with('images')->findOrFail($id);
-        $price =  $product->price;
-        $reducedPrice =  $product->reduced_price;
-        $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
-        $product->discountPercentage = $discountPercentage;
-        $data = [
-            'name' => $product->name,
-            'price' => $product->reduced_price,
-            'detail' => $product->detail,
-            'images' => $product->images,
-            'discountPercentage'=>$product->discountPercentage
+   public function getProduct($id)
+{
+    $product = Product::with('images', 'product_meta')->findOrFail($id);
+    $price =  $product->price;
+    $reducedPrice =  $product->reduced_price;
+    $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
+    $product->discountPercentage = $discountPercentage;
+
+    // Lấy thông tin của product_meta
+    $product_meta_data = [];
+    foreach ($product->product_meta as $product_meta) {
+        $product_meta_data[] = [
+            'meta_key' => $product_meta->meta_key,
+            'meta_value' => $product_meta->pivot->meta_value,
         ];
-        return response()->json($data);
     }
+
+    $data = [
+        'name' => $product->name,
+        'price' => $product->reduced_price,
+        'detail' => $product->detail,
+        'images' => $product->images,
+        'discountPercentage' => $product->discountPercentage,
+        'product_meta' => $product_meta_data, // Thêm thông tin product_meta vào data
+    ];
+    return response()->json($data);
+}
+
 }

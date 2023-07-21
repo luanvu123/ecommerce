@@ -689,11 +689,9 @@
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        // Populate the modal with the fetched data
                         $('#quick-view-modal .product-title').text(response.name);
                         $('#quick-view-modal .price-amount').text('$' + response.price);
                         $('#quick-view-modal .description').text(response.detail);
-                        // Populate the product images in the modal
                         var imagesHtml = '';
                         $.each(response.images, function(index, image) {
                             imagesHtml += '<div class="thumbnail">';
@@ -728,10 +726,17 @@
                             smallImagesHtml += '</div>';
                         });
                         $('#quick-view-modal .product-small-thumb').html(smallImagesHtml);
+
+                         // Hiển thị thông tin product_meta
+                    var productMetaHtml = '<ul class="product-meta">';
+                    $.each(response.product_meta, function(index, meta) {
+                        productMetaHtml += '<li><i class="fal fa-check"></i>' + meta.meta_key + '</li>';
+                    });
+                    productMetaHtml += '</ul>';
+                    $('#quick-view-modal .product-meta').html(productMetaHtml);
                         $('#quick-view-modal').modal('show');
                     },
                     error: function(xhr, status, error) {
-                        // Handle the error here
                     }
                 });
             });
