@@ -140,19 +140,17 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <label for="product_meta">Product Meta</label><br>
-                            @foreach ($product_metas as $product_meta)
+                            <label for="meta">Product Meta</label><br>
+                            @foreach ($list_metas as $key => $met)
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="product_meta[]"
-                                        value="{{ $product_meta->id }}" @if ($product->product_meta->contains($product_meta->id)) checked @endif>
+                                    <input class="form-check-input" type="checkbox" name="meta[]"
+                                        value="{{ $met->id }}" @if ($product->product_meta->contains($met->id)) checked @endif>
                                     <label class="form-check-label"
-                                        for="product_meta">{{ $product_meta->meta_key }}</label>
+                                        for="meta">{{ $met->meta_key }}</label>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-
-
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Bán chạy:</strong>

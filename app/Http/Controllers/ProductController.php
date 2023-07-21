@@ -45,8 +45,8 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::all();
-        $product_metas = Meta::all();
-        return view('admin.products.create', compact('categories', 'product_metas'));
+        $list_metas = Meta::all();
+        return view('admin.products.create', compact('categories', 'list_metas'));
     }
 
     /**
@@ -88,8 +88,6 @@ class ProductController extends Controller
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
-
-        // Lưu trữ ảnh sản phẩm và lấy đường dẫn
         $imagePath = $request->file('image_product')->store('images', 'public');
 
         $product = new Product([
@@ -106,38 +104,26 @@ class ProductController extends Controller
             'most_sold' => $request->has('most_sold'),
         ]);
         $product->user_id = auth()->id();
-        $product->save();
-        if ($request->has('product_meta')) {
-            $product_metas = $request->input('product_meta');
-            foreach ($product_metas as $product_meta_id) {
-                $product_meta_value = $request->input('meta_value_' . $product_meta_id);
-                $product_meta = new Product_Meta([
-                    'product_id' => $product->id,
-                    'meta_id' => $product_meta_id,
-                    'meta_value' => $product_meta_value,
-                ]);
-                $product_meta->save();
-            }
+        foreach ($request['meta'] as $key => $met) {
+            $product->meta_id = $met[0];
         }
+        $product->save();
+        $product->product_meta()->attach($request['meta']);
+
         if (!empty($request->image_id)) {
             $caption = $request->caption;
-
             foreach ($request->image_id as $key => $imageId) {
-
                 $tempImage = TempImage::find($imageId);
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
-
                 $productImage = new ProductImage;
                 $productImage->name = 'NULL';
                 $productImage->product_id = $product->id;
                 $productImage->caption = $caption[$key];
                 $productImage->save();
-
                 $newImageName = $productImage->id . '.' . $ext;
                 $productImage->name = $newImageName;
                 $productImage->save();
-
                 // First Thumbnail
                 $sourcePath = public_path('uploads/temp/' . $tempImage->name);
                 $destPath = public_path('uploads/products/small/' . $newImageName);
@@ -216,26 +202,11 @@ class ProductController extends Controller
         $product->new_viral = $request->input('new_viral');
         $product->most_sold = $request->input('most_sold');
         $product->user_id = auth()->id();
-        $product->save();
-
-
-        if ($request->has('product_meta')) {
-            $product_metas = $request->input('product_meta');
-            $existing_product_metas = $product->product_meta->pluck('id')->toArray();
-
-            // Xóa product_meta không còn tồn tại trong form
-            $removed_product_metas = array_diff($existing_product_metas, $product_metas);
-            Product_Meta::whereIn('id', $removed_product_metas)->delete();
-
-            // Thêm hoặc cập nhật product_meta trong form
-            foreach ($product_metas as $product_meta_id) {
-                $product_meta_value = $request->input('meta_value_' . $product_meta_id);
-                Product_Meta::updateOrCreate(
-                    ['product_id' => $product->id, 'meta_id' => $product_meta_id],
-                    ['meta_value' => $product_meta_value]
-                );
-            }
+        foreach ($request['meta'] as $key => $met) {
+            $product->meta_id = $met[0];
         }
+        $product->save();
+        $product->product_meta()->sync($request['meta']);
 
         if (!empty($request->image_id)) {
             $caption = $request->caption;
@@ -280,15 +251,15 @@ class ProductController extends Controller
     public function edit($product_id, Request $request)
     {
         $product = Product::find($product_id);
+        $product_meta = $product->product_meta;
+        $list_metas = Meta::all();
         if ($product == null) {
             return redirect()->route('products.index');
         }
         $productImages = ProductImage::where('product_id', $product->id)->get();
-        $product_metas = Meta::all();
         $data['product'] = $product;
-        $data['product_metas'] = $product_metas;
         $data['productImages'] = $productImages;
-        return view('admin.products.edit', $data);
+        return view('admin.products.edit', $data, compact('product_meta','list_metas'));
     }
 
 
@@ -314,8 +285,8 @@ class ProductController extends Controller
             Storage::delete($imagePath);
         }
 
+         Product_Meta::whereIn('product_id',[$product->id])->delete();
         $product->delete();
-
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully');
     }

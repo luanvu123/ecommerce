@@ -35,7 +35,7 @@ class Product extends Model
     }
      public function product_meta()
     {
-        return $this->belongsToMany(Meta::class, 'product_meta', 'meta_id', 'product_id')
+        return $this->belongsToMany(Meta::class, 'product_meta', 'product_id', 'meta_id')
             ->withPivot('meta_value')
             ->withTimestamps();
     }

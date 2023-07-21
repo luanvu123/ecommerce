@@ -10,9 +10,7 @@ class Meta extends Model
     use HasFactory;
 
     protected $fillable = ['meta_key', 'meta_value'];
-
-    // Định nghĩa quan hệ many-to-many với bảng products
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
