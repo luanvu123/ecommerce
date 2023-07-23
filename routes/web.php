@@ -22,6 +22,7 @@ use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\TempImageController;
+use App\Http\Controllers\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Route::get('/the-loai/{slug}', [SiteController::class, 'category'])->name('categ
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::get('/cart', [SiteController::class, 'cart'])->name('cart');
 Route::get('/shop', [SiteController::class, 'shop'])->name('shop');
-Route::get('/wishlist', [SiteController::class, 'wishlist'])->name('wishlist');
+// Route::get('/wishlist', [SiteController::class, 'wishlist'])->name('wishlist');
 Route::get('/privacy-policy', [SiteController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms-of-service', [SiteController::class, 'termsOfService'])->name('terms.of.service');
 Route::get('/tim-kiem', [SiteController::class, 'search'])->name('tim-kiem');
@@ -124,13 +125,10 @@ Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])
 Route::post('/customer-login', [CustomerLoginController::class, 'login'])->name('customer.login.submit');
 // Routes that require customer authentication
 Route::get('/my-account', [CustomerLoginController::class, 'showAccount'])->name('customer.account');
+
+
 Route::middleware('customer')->group(function () {
-    // Define your protected routes here
-    // For example:
-
-
-
-    Route::get('/customer/profile', function () {
-        // Logic xử lý khi đã qua middleware "customer"
-    });
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::get('/wishlist/add/{product_id}', [WishlistController::class, 'addToWishlist'])->name('add.to.wishlist');
+    Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('remove.from.wishlist');
 });

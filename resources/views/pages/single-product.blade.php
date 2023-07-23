@@ -77,7 +77,7 @@
                                     <ul class="product-action d-flex-center mb--0">
                                         <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add to
                                                 Cart</a></li>
-                                        <li class="wishlist"><a href="wishlist.html" class="axil-btn wishlist-btn"><i
+                                        <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $single_of_product->id]) }}" class="axil-btn wishlist-btn"><i
                                                     class="far fa-heart"></i></a></li>
                                     </ul>
                                     <!-- End Product Action  -->

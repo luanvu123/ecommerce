@@ -9,7 +9,7 @@ class CustomerMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('customers')->check()) {
+        if (Auth::guard('customer')->check()) {
             return $next($request);
         }
 

@@ -8,7 +8,6 @@ use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
-
 class SiteController extends Controller
 {
     public function index()
@@ -92,7 +91,7 @@ class SiteController extends Controller
 
     public function product($slug)
     {
-        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images','product_meta')->first();
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta')->first();
         if (!$single_of_product) {
             abort(404);
         }
@@ -147,50 +146,35 @@ class SiteController extends Controller
     {
         return view('pages.terms-of-service');
     }
-    // public function quickview(Request $request)
-    // {
-    //     $product_id = $request->product_id;
-    //     $product = Product::find($product_id);
-    //     $productImage = ProductImage::where('product_id', $product_id)->get();
-    //     $output['product_image'] = '';
-    //     foreach ($productImage as $key => $images) {
-    //         $output['product_image'] .= '<p><img width="100%" src="uploads/products/large/' . $images->name . '"></p>';
-    //     }
-    //     $output['product_name'] = $product->name;
-    //     $output['product_id'] = $product->id;
-    //     $output['product_desc'] = $product->detail;
-    //     $output['product_content'] = $product->product_content;
-    //     $output['product_price'] = number_format($product->price, 0, ',', '.') . 'VND ';
-    //     $output['product_image'] = '<p><img width="100%" src="public/uploads/product/' . $product->product_image . '"></p>';
-    //     echo json_encode($output);
-    // }
 
-   public function getProduct($id)
-{
-    $product = Product::with('images', 'product_meta')->findOrFail($id);
-    $price =  $product->price;
-    $reducedPrice =  $product->reduced_price;
-    $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
-    $product->discountPercentage = $discountPercentage;
+    public function getProduct($id)
+    {
+        $product = Product::with('images', 'product_meta')->findOrFail($id);
+        $price =  $product->price;
+        $reducedPrice =  $product->reduced_price;
+        $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
+        $product->discountPercentage = $discountPercentage;
 
-    // Lấy thông tin của product_meta
-    $product_meta_data = [];
-    foreach ($product->product_meta as $product_meta) {
-        $product_meta_data[] = [
-            'meta_key' => $product_meta->meta_key,
-            'meta_value' => $product_meta->pivot->meta_value,
+        // Lấy thông tin của product_meta
+        $product_meta_data = [];
+        foreach ($product->product_meta as $product_meta) {
+            $product_meta_data[] = [
+                'meta_key' => $product_meta->meta_key,
+                'meta_value' => $product_meta->pivot->meta_value,
+            ];
+        }
+
+        $data = [
+            'name' => $product->name,
+            'price' => $product->reduced_price,
+            'detail' => $product->detail,
+            'images' => $product->images,
+            'discountPercentage' => $product->discountPercentage,
+            'product_meta' => $product_meta_data,
         ];
+        return response()->json($data);
     }
 
-    $data = [
-        'name' => $product->name,
-        'price' => $product->reduced_price,
-        'detail' => $product->detail,
-        'images' => $product->images,
-        'discountPercentage' => $product->discountPercentage,
-        'product_meta' => $product_meta_data, // Thêm thông tin product_meta vào data
-    ];
-    return response()->json($data);
-}
+
 
 }

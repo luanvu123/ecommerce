@@ -1,4 +1,5 @@
 @extends('layout')
+
 @section('content')
     <!-- Start Wishlist Area  -->
     <div class="axil-wishlist-area axil-section-gap">
@@ -19,42 +20,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                        class="fal fa-times"></i></a></td>
-                            <td class="product-thumbnail"><a href=""><img
-                                        src="{{ asset('fontend') }}/images/products/product-01.png"
-                                        alt="Digital Product"></a></td>
-                            <td class="product-title"><a href="">Wireless PS Handler</a></td>
-                            <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00</td>
-                            <td class="product-stock-status" data-title="Status">In Stock</td>
-                            <td class="product-add-cart"><a href="cart.html" class="axil-btn btn-outline">Add to Cart</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                        class="fal fa-times"></i></a></td>
-                            <td class="product-thumbnail"><a href=""><img
-                                        src="{{ asset('fontend') }}/images/products/product-02.png"
-                                        alt="Digital Product"></a></td>
-                            <td class="product-title"><a href="">Gradient Light Keyboard</a></td>
-                            <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00</td>
-                            <td class="product-stock-status" data-title="Status">In Stock</td>
-                            <td class="product-add-cart"><a href="cart.html" class="axil-btn btn-outline">Add to Cart</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                        class="fal fa-times"></i></a></td>
-                            <td class="product-thumbnail"><a href=""><img
-                                        src="{{ asset('fontend') }}/images/products/product-03.png"
-                                        alt="Digital Product"></a></td>
-                            <td class="product-title"><a href="">HD CC Camera</a></td>
-                            <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00</td>
-                            <td class="product-stock-status" data-title="Status">In Stock</td>
-                            <td class="product-add-cart"><a href="cart.html" class="axil-btn btn-outline">Add to Cart</a>
-                            </td>
-                        </tr>
+                        @foreach ($wishlistItems as $item)
+                            <tr>
+                                <td class="product-remove">
+                                    <form method="POST" action="{{ route('remove.from.wishlist') }}">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+                                        <button type="submit" class="remove-wishlist"><i class="fal fa-times"></i></button>
+                                    </form>
+                                </td>
+
+                                <td class="product-thumbnail">
+                                    <a href="{{ route('product', $item->product->slug) }}"><img src="{{ '/storage/' . $item->product->image_product }}"
+                                            alt="Digital Product"></a>
+                                </td>
+                                <td class="product-title"><a href="{{ route('product', $item->product->slug) }}">{{ $item->product->name }}</a></td>
+                                <td class="product-price" data-title="Price"><span
+                                        class="currency-symbol"></span>{{ number_format($item->product->reduced_price, 0, ',', '.') }}
+                                                    VNĐ</td>
+                                <td class="product-stock-status" data-title="Status">{{ $item->product->detail }}</td>
+                                <td class="product-add-cart"><a href="" {{-- {{ route('add.to.cart', ['product_id' => $item->product_id]) }} --}}
+                                        class="axil-btn btn-outline">Add to Cart</a></td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

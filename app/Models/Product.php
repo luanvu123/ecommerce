@@ -15,7 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name','slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status','most_sold','new_viral','status','image_id'
+        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id'
     ];
 
     /**
@@ -31,12 +31,17 @@ class Product extends Model
     }
     public function metas()
     {
-        return $this->belongsTo(Meta::class,'meta_id');
+        return $this->belongsTo(Meta::class, 'meta_id');
     }
-     public function product_meta()
+    public function product_meta()
     {
         return $this->belongsToMany(Meta::class, 'product_meta', 'product_id', 'meta_id')
             ->withPivot('meta_value')
             ->withTimestamps();
     }
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+    
 }

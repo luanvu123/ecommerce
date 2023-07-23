@@ -19,13 +19,11 @@ class CustomerLoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $remember = $request->filled('remember'); // Kiểm tra xem người dùng đã chọn "Remember Me" hay không
+        $remember = $request->filled('remember');
 
         if (Auth::guard('customer')->attempt($credentials, $remember)) {
-            // Đăng nhập thành công
             return redirect('/')->with('success', 'Xin chào ' . Auth::guard('customer')->user()->name);
         } else {
-            // Đăng nhập thất bại
             return redirect()->back()->withInput()->withErrors(['email' => 'Thông tin đăng nhập không chính xác']);
         }
     }

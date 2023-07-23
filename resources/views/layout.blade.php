@@ -398,11 +398,10 @@
                                             <div class="thumbnail">
                                                 <img src="">
                                                 <div class="label-block label-right">
-                                                    <div class="product-badget">20% OFF</div>
+                                                    <div class="product-badget"></div>
                                                 </div>
                                                 <div class="product-quick-view position-view">
-                                                    <a href="{{ asset('fontend') }}/images/products/product-big-01.png"
-                                                        class="popup-zoom">
+                                                    <a href="" class="popup-zoom">
                                                         <i class="far fa-search-plus"></i>
                                                     </a>
                                                 </div>
@@ -433,9 +432,7 @@
                                         <h3 class="product-title"></h3>
                                         <span class="price-amount"></span>
                                         <ul class="product-meta">
-                                            <li><i class="fal fa-check"></i>In stock</li>
-                                            <li><i class="fal fa-check"></i>Free delivery available</li>
-                                            <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
+                                            <li><i class="fal fa-check"></i></li>
                                         </ul>
                                         <p class="description"></p>
                                         <div class="product-variations-wrapper">
@@ -450,9 +447,13 @@
                                             <ul class="product-action d-flex-center mb--0">
                                                 <li class="add-to-cart"><a href="cart.html"
                                                         class="axil-btn btn-bg-primary">Add to Cart</a></li>
-                                                <li class="wishlist"><a href="wishlist.html"
-                                                        class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a>
+                                                <li class="wishlist">
+                                                    <a href=""
+                                                        class="axil-btn wishlist-btn">
+                                                        <i class="far fa-heart"></i>
+                                                    </a>
                                                 </li>
+
                                             </ul>
                                             <!-- End Product Action  -->
 
@@ -641,14 +642,14 @@
                                             </span>
                                             <span class="rating-number"><span>100+</span> Reviews</span>
                                         </div>
-                                        <h6 class="product-title"><a href="/product/${value.slug} ">${value.name}</a></h6>
+                                        <h6 class="product-title"><a href="/product/${value.slug}">${value.name}</a></h6>
                                         <div class="product-price-variant">
-                                            <span class="price current-price">${value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-                                            <span class="price old-price">${value.reduced_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                            <span class="price current-price">${value.reduced_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                                            <span class="price old-price">${value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                                         </div>
                                         <div class="product-cart">
                                             <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                                            <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                                            <a href="/wishlist/add/${value.id}" class="cart-btn"><i class="fal fa-heart"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -727,17 +728,17 @@
                         });
                         $('#quick-view-modal .product-small-thumb').html(smallImagesHtml);
 
-                         // Hiển thị thông tin product_meta
-                    var productMetaHtml = '<ul class="product-meta">';
-                    $.each(response.product_meta, function(index, meta) {
-                        productMetaHtml += '<li><i class="fal fa-check"></i>' + meta.meta_key + '</li>';
-                    });
-                    productMetaHtml += '</ul>';
-                    $('#quick-view-modal .product-meta').html(productMetaHtml);
+                        // Hiển thị thông tin product_meta
+                        var productMetaHtml = '<ul class="product-meta">';
+                        $.each(response.product_meta, function(index, meta) {
+                            productMetaHtml += '<li><i class="fal fa-check"></i>' + meta
+                                .meta_key + '</li>';
+                        });
+                        productMetaHtml += '</ul>';
+                        $('#quick-view-modal .product-meta').html(productMetaHtml);
                         $('#quick-view-modal').modal('show');
                     },
-                    error: function(xhr, status, error) {
-                    }
+                    error: function(xhr, status, error) {}
                 });
             });
         });

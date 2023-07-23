@@ -160,7 +160,7 @@
                                         </div>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">
-                                                <li class="wishlist"><a href="wishlist.html"><i
+                                                <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
                                                             class="far fa-heart"></i></a>
                                                 </li>
                                                 <li class="select-option"><a href="cart.html">Add to Cart</a></li>
