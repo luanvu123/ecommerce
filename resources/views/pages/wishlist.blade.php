@@ -39,7 +39,7 @@
                                         class="currency-symbol"></span>{{ number_format($item->product->reduced_price, 0, ',', '.') }}
                                                     VNĐ</td>
                                 <td class="product-stock-status" data-title="Status">{{ $item->product->detail }}</td>
-                                <td class="product-add-cart"><a href="" {{-- {{ route('add.to.cart', ['product_id' => $item->product_id]) }} --}}
+                                <td class="product-add-cart"><a href="{{ route('add.to.cart', ['product_id' => $item->product_id]) }}"
                                         class="axil-btn btn-outline">Add to Cart</a></td>
                             </tr>
                         @endforeach

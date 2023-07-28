@@ -388,7 +388,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <br>
 
 
-                    {{-- <script src="{{ asset('backend/js/dropzone.min.js') }}"></script> --}}
+                    <script src="{{ asset('backend/js/dropzone.min.js') }}"></script>
                     <!-- for amcharts js -->
 
                     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

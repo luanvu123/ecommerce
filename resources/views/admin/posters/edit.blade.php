@@ -34,8 +34,8 @@
             <div class="form-group">
                 <label for="image">Image:</label>
                 <input type="file" name="image_poster" class="form-control-file">
-                @if ($poster->image_posters)
-                    <img src="{{ asset('storage/' . $poster->image_posters) }}" alt="Product Image" style="width: 50px;">
+                @if ($poster->image_poster)
+                    <img src="{{ asset('storage/' . $poster->image_poster) }}" alt="Product Image" style="width: 300px;">
                 @endif
             </div>
 

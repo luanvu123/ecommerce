@@ -30,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create(): View
     {
-        $parentCategories = Category::pluck('name', 'id')->prepend('None', '');
+        $parentCategories = Category::whereNull('parent_id')->pluck('name', 'id')->prepend('None', '');
         return view('admin.categories.create', compact('parentCategories'));
     }
 
@@ -78,7 +78,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): View
     {
-        $parentCategories = Category::pluck('name', 'id')->prepend('None', '');
+        $parentCategories = Category::whereNull('parent_id')->pluck('name', 'id')->prepend('None', '');
         return view('admin.categories.edit', compact('category', 'parentCategories'));
     }
 
@@ -95,7 +95,7 @@ class CategoryController extends Controller
             'name' => 'required',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Giới hạn định dạng và kích thước của tệp tin
             'parent_id' => 'nullable|exists:categories,id',
-            'slug' => 'nullable',
+            'slug' => 'required',
         ]);
 
         $category->name = $request->input('name');

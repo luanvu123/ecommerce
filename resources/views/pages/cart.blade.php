@@ -37,38 +37,6 @@
                                 <td class="product-subtotal" data-title="Subtotal"><span
                                         class="currency-symbol">$</span>275.00</td>
                             </tr>
-                            <tr>
-                                <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                            class="fal fa-times"></i></a></td>
-                                <td class="product-thumbnail"><a href=""><img
-                                            src="{{ asset('fontend') }}/images/products/product-02.png" alt="Digital Product"></a></td>
-                                <td class="product-title"><a href="">Gradient Light Keyboard</a></td>
-                                <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00
-                                </td>
-                                <td class="product-quantity" data-title="Qty">
-                                    <div class="pro-qty">
-                                        <input type="number" class="quantity-input" value="1">
-                                    </div>
-                                </td>
-                                <td class="product-subtotal" data-title="Subtotal"><span
-                                        class="currency-symbol">$</span>275.00</td>
-                            </tr>
-                            <tr>
-                                <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                            class="fal fa-times"></i></a></td>
-                                <td class="product-thumbnail"><a href=""><img
-                                            src="{{ asset('fontend') }}/images/products/product-03.png" alt="Digital Product"></a></td>
-                                <td class="product-title"><a href="single-product-3.html">HD CC Camera</a></td>
-                                <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00
-                                </td>
-                                <td class="product-quantity" data-title="Qty">
-                                    <div class="pro-qty">
-                                        <input type="number" class="quantity-input" value="1">
-                                    </div>
-                                </td>
-                                <td class="product-subtotal" data-title="Subtotal"><span
-                                        class="currency-symbol">$</span>275.00</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

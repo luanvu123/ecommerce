@@ -33,8 +33,11 @@
                                 <tr id="{{ $product->id }}">
                                     <td>{{ $key }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->category->name }}</td>
-                                    <td>{{ $product->detail }}</td>
+                                    <td>
+                                        <span class="badge badge-pill badge-primary">{{ $product->category->name }}</span>
+                                    </td>
+                                    <td>{{ Str::limit($product->detail, 50) }}</td>
+
                                     <td>
                                         @foreach ($product->product_meta as $met)
                                             <span class="badge badge-dark">{{ $met->meta_key }}</span>

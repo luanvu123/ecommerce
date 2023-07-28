@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $policy_home = Policy::where('status', 1)->get();
 
         //route layout
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         View::share([
             'info' => $info,
             'product_total' => $product_total,

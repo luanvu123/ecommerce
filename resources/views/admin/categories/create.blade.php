@@ -55,25 +55,13 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
+               <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Category:</strong>
+                    <strong>Parent Category:</strong>
                     <select name="parent_id" class="form-control">
-                        <option value="">Select a category</option>
-                        @foreach ($categories as $category)
-                            @if ($category->parent_id !== null)
-                                @continue
-                            @endif
-                            <option value="{{ $category->id }}" @if ($category->id == old('category_id')) selected @endif>
-                                {{ $category->name }}
-                            </option>
-                            @if ($category->children)
-                                @foreach ($category->children as $child)
-                                    <option value="{{ $child->id }}" @if ($child->id == old('category_id')) selected @endif>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
-                                    </option>
-                                @endforeach
-                            @endif
+                        @foreach ($parentCategories as $id => $name)
+                            <option value="{{ $id }}">
+                                {{ $name }}</option>
                         @endforeach
                     </select>
                 </div>

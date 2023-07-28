@@ -34,9 +34,9 @@
                                         <td>{{ $poster->title_poster }}</td>
                                         <td>{{ $poster->description_poster }}</td>
                                         <td>
-                                            @if ($poster->image_posters)
-                                                <img src="{{ asset('storage/' . $poster->image_posters) }}"
-                                                    alt="poster Image" style="width: 50px;">
+                                            @if ($poster->image_poster)
+                                                <img src="{{ asset('/storage/' . $poster->image_poster) }}"
+                                                    alt="poster Image" style="width: 100px;">
                                             @endif
                                         </td>
                                         <td>

@@ -53,8 +53,8 @@
                                             <a class="btn btn-primary"
                                                 href="{{ route('categories.edit', $category->id) }}">Edit</a>
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            {{-- @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button> --}}
                                         </form>
                                     </td>
 
