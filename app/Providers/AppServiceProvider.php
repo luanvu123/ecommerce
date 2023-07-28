@@ -29,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
         $category_total = Category::all()->count();
         $policy_home = Policy::where('status', 1)->get();
 
+
+
         //route layout
         $categories = Category::where('status', 1)->get();
         View::share([

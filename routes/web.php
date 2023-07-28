@@ -132,6 +132,17 @@ Route::middleware('customer')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::get('/wishlist/add/{product_id}', [WishlistController::class, 'addToWishlist'])->name('add.to.wishlist');
     Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('remove.from.wishlist');
-
     Route::get('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
+    Route::post('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
 });
+
+//  <div class="product-rating">
+//                                             <div class="star-rating">
+//                                                 <img src="{{ asset('fontend') }}/images/icons/rate.png"
+//                                                     alt="Rate Images">
+//                                             </div>
+//                                             <div class="review-link">
+//                                                 <a href="#">(<span>1</span> customer reviews)</a>
+//                                             </div>
+//                                         </div>

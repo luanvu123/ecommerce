@@ -648,7 +648,7 @@
                                             <span class="price old-price">${value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                                         </div>
                                         <div class="product-cart">
-                                            <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                            <a href="/cart/add/${value.id}" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
                                             <a href="/wishlist/add/${value.id}" class="cart-btn"><i class="fal fa-heart"></i></a>
                                         </div>
                                     </div>

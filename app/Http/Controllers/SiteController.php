@@ -154,8 +154,6 @@ class SiteController extends Controller
         $reducedPrice =  $product->reduced_price;
         $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
         $product->discountPercentage = $discountPercentage;
-
-        // Lấy thông tin của product_meta
         $product_meta_data = [];
         foreach ($product->product_meta as $product_meta) {
             $product_meta_data[] = [

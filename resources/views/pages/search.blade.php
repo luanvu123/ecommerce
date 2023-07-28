@@ -49,7 +49,7 @@
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
                                         <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="cart.html">Add to Cart</a></li>
+                                        <li class="select-option"><a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to Cart</a></li>
                                         <li class="quickview"><a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#quick-view-modal" data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a></li>
                                     </ul>

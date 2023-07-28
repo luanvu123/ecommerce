@@ -68,21 +68,27 @@
                                 </div>
 
                                 <!-- Start Product Action Wrapper  -->
-                                <div class="product-action-wrapper d-flex-center">
-                                    <!-- Start Quentity Action  -->
-                                    <div class="pro-qty"><input type="text" value="1"></div>
-                                    <!-- End Quentity Action  -->
+                                <!-- Thêm form để truyền giá trị pro-qty vào CartController -->
+                                <form action="{{ route('add.to.cart', ['product_id' => $single_of_product->id]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <div class="product-action-wrapper d-flex-center">
+                                        <div class="pro-qty">
+                                            <input type="text" name="quantity" value="1">
+                                        </div>
+                                        <ul class="product-action d-flex-center mb--0">
+                                            <li class="add-to-cart">
+                                                <button type="submit" class="axil-btn btn-bg-primary">Add to Cart</button>
+                                            </li>
+                                            <li class="wishlist">
+                                                <a href="{{ route('add.to.wishlist', ['product_id' => $single_of_product->id]) }}"
+                                                    class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                        <!-- End Product Action  -->
+                                    </div>
+                                </form>
 
-                                    <!-- Start Product Action  -->
-                                    <ul class="product-action d-flex-center mb--0">
-                                        <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add to
-                                                Cart</a></li>
-                                        <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $single_of_product->id]) }}" class="axil-btn wishlist-btn"><i
-                                                    class="far fa-heart"></i></a></li>
-                                    </ul>
-                                    <!-- End Product Action  -->
-
-                                </div>
                                 <!-- End Product Action Wrapper  -->
                             </div>
                         </div>
