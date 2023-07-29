@@ -99,7 +99,7 @@ class SiteController extends Controller
         $reducedPrice =  $single_of_product->reduced_price;
         $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
         $single_of_product->discountPercentage = $discountPercentage;
-        $viewedItems = Product::inRandomOrder()->limit(5)->get();
+        $viewedItems = Product::inRandomOrder()->where('status', 1)->limit(5)->get();
 
         return view('pages.single-product', [
             'single_of_product' =>  $single_of_product,

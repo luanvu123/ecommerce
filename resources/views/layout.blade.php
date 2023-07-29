@@ -379,7 +379,7 @@
 
     <!-- Product Quick View Modal Start -->
 
-    <div class="modal fade quick-view-product" id="quick-view-modal" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal fade quick-view-product" id="quick-view-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -467,7 +467,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Product Quick View Modal End -->
 
     <!-- Header Search Modal End -->
@@ -621,7 +621,7 @@
                     $.getJSON('/json/products.json', function(data) {
                         var addedProducts = [];
                         $.each(data, function(key, value) {
-                            if (value.name.search(expression) != -1) {
+                            if (value.status === 1 && value.name.search(expression) != -1) {
                                 if (addedProducts.indexOf(value.name) === -1) {
                                     $('#result').css('display', 'inherit');
                                     var html = `

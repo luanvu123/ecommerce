@@ -76,6 +76,12 @@ class ProductController extends Controller
             'reduced_price' => 'nullable|numeric',
         ]);
 
+        $category = Category::find($request->input('category_id'));
+
+        if ($category && $category->parent_id === null) {
+            // If the parent_id is NULL, it means the category is not suitable for product association.
+            return redirect()->back()->withErrors(['category_id' => 'Vui lòng chọn danh mục con.']);
+        }
         $validator->after(function ($validator) use ($request) {
             $price = $request->input('price');
             $reducedPrice = $request->input('reduced_price');
@@ -167,6 +173,12 @@ class ProductController extends Controller
             'reduced_price' => 'required|numeric',
         ]);
 
+         $category = Category::find($request->input('category_id'));
+
+        if ($category && $category->parent_id === null) {
+            // If the parent_id is NULL, it means the category is not suitable for product association.
+            return redirect()->back()->withErrors(['category_id' => 'Vui lòng chọn danh mục con']);
+        }
         $validator->after(function ($validator) use ($request) {
             $price = $request->input('price');
             $reducedPrice = $request->input('reduced_price');
@@ -259,7 +271,7 @@ class ProductController extends Controller
         $productImages = ProductImage::where('product_id', $product->id)->get();
         $data['product'] = $product;
         $data['productImages'] = $productImages;
-        return view('admin.products.edit', $data, compact('product_meta','list_metas'));
+        return view('admin.products.edit', $data, compact('product_meta', 'list_metas'));
     }
 
 
@@ -285,7 +297,7 @@ class ProductController extends Controller
             Storage::delete($imagePath);
         }
 
-         Product_Meta::whereIn('product_id',[$product->id])->delete();
+        Product_Meta::whereIn('product_id', [$product->id])->delete();
         $product->delete();
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully');

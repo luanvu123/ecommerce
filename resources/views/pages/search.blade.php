@@ -34,6 +34,7 @@
             </div>
             <div class="row row--15">
                 @foreach ($products as $product)
+                @if ($product->status == 1)
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="axil-product product-style-one has-color-pick mt--40">
                             <div class="thumbnail">
@@ -69,6 +70,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
             <div class="text-center pt--30">
