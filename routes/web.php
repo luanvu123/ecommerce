@@ -132,7 +132,13 @@ Route::middleware('customer')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::get('/wishlist/add/{product_id}', [WishlistController::class, 'addToWishlist'])->name('add.to.wishlist');
     Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('remove.from.wishlist');
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::get('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
     Route::post('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
-    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
+    Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
+    Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::match(['put', 'patch'], '/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
+
 });

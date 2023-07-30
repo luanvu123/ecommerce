@@ -6,51 +6,80 @@
             <div class="axil-product-cart-wrap">
                 <div class="product-table-heading">
                     <h4 class="title">Your Cart</h4>
-                    <a href="#" class="cart-clear">Clear Shoping Cart</a>
+                    <a href="{{ route('cart.clear') }}" class="cart-clear">Clear Shoping Cart</a>
                 </div>
-                <div class="table-responsive">
-                    <table class="table axil-product-table axil-cart-table mb--40">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="product-remove"></th>
-                                <th scope="col" class="product-thumbnail">Product</th>
-                                <th scope="col" class="product-title"></th>
-                                <th scope="col" class="product-price">Price</th>
-                                <th scope="col" class="product-quantity">Quantity</th>
-                                <th scope="col" class="product-subtotal">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                            <tr>
-                                <td class="product-remove"><a href="#" class="remove-wishlist"><i
-                                            class="fal fa-times"></i></a></td>
-                                <td class="product-thumbnail"><a href=""><img
-                                            src="{{ asset('fontend') }}/images/products/product-01.png" alt="Digital Product"></a></td>
-                                <td class="product-title"><a href="">Wireless PS Handler</a></td>
-                                <td class="product-price" data-title="Price"><span class="currency-symbol">$</span>124.00
-                                </td>
-                                <td class="product-quantity" data-title="Qty">
-                                    <div class="pro-qty">
-                                        <input type="number" class="quantity-input" value="1">
-                                    </div>
-                                </td>
-                                <td class="product-subtotal" data-title="Subtotal"><span
-                                        class="currency-symbol">$</span>275.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="cart-update-btn-area">
-                    <div class="input-group product-cupon">
-                        <input placeholder="Enter coupon code" type="text">
-                        <div class="product-cupon-btn">
-                            <button type="submit" class="axil-btn btn-outline">Apply</button>
+                <form action="{{ route('update.cart.quantity') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="table-responsive">
+                        <table class="table axil-product-table axil-cart-table mb--40">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="product-remove"></th>
+                                    <th scope="col" class="product-thumbnail">Product</th>
+                                    <th scope="col" class="product-title"></th>
+                                    <th scope="col" class="product-price">Price</th>
+                                    <th scope="col" class="product-quantity">Quantity</th>
+                                    <th scope="col" class="product-subtotal">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($carts as $cart)
+                                    <tr>
+                                        <td class="product-remove">
+                                            <form method="POST" action="{{ route('remove.from.cart') }}">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $cart->product_id }}">
+                                                <button type="submit" class="remove-wishlist"><i
+                                                        class="fal fa-times"></i></button>
+                                            </form>
+                                        </td>
+                                        <td class="product-thumbnail">
+                                            <a href="{{ route('product', $cart->product->slug) }}">
+                                                <img src="{{ asset('storage/' . $cart->product->image_product) }}"
+                                                    alt="Digital Product">
+                                            </a>
+                                        </td>
+                                        <td class="product-title">
+                                            <a
+                                                href="{{ route('product', $cart->product->slug) }}">{{ $cart->product->name }}</a>
+                                        </td>
+                                        <td class="product-price" data-title="Price">
+                                            <span class="currency-symbol"></span>
+                                            {{ number_format($cart->product->reduced_price, 0, ',', '.') }}
+                                            VNĐ
+                                        </td>
+                                        <td class="product-quantity" data-title="Qty">
+                                            <div class="pro-qty">
+                                                <input type="number" class="quantity-input"
+                                                    name="cart[{{ $cart->product_id }}]"
+                                                    value="{{ $cart->quantity }}">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal"
+                                                    data-title="Subtotal">
+                                                <span
+                                                    class="currency-symbol"></span>{{ number_format($cart->subtotal, 0, ',', '.') }}
+                                                VNĐ
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="cart-update-btn-area">
+                        <div class="input-group product-cupon">
+                            <input placeholder="Enter coupon code" type="text">
+                            <div class="product-cupon-btn">
+                                <button type="submit" class="axil-btn btn-outline">Apply</button>
+                            </div>
+                        </div>
+                        <div class="update-btn">
+                            <button type="submit" class="axil-btn btn-outline">Update Cart</button>
                         </div>
                     </div>
-                    <div class="update-btn">
-                        <a href="#" class="axil-btn btn-outline">Update Cart</a>
-                    </div>
-                </div>
+                </form>
                 <div class="row">
                     <div class="col-xl-5 col-lg-7 offset-xl-7 offset-lg-5">
                         <div class="axil-order-summery mt--80">
@@ -98,5 +127,7 @@
             </div>
         </div>
     </div>
+
+
     <!-- End Cart Area  -->
 @endsection

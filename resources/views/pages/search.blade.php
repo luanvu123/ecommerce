@@ -34,42 +34,49 @@
             </div>
             <div class="row row--15">
                 @foreach ($products as $product)
-                @if ($product->status == 1)
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="axil-product product-style-one has-color-pick mt--40">
-                            <div class="thumbnail">
-                                <a href="{{ route('product', $product->slug) }}">
-                                    <img src="{{ asset('storage/' . $product->image_product) }}"
-                                        alt="Product Images"style="min-height: 276px;max-width: 276px;">
-                                </a>
-                                <div class="label-block label-right">
-                                    @if ($product->discountPercentage > 0)
-                                        <div class="product-badget">{{ $product->discountPercentage }}% OFF</div>
-                                    @endif
+                    @if ($product->status == 1)
+                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                            <div class="axil-product product-style-one has-color-pick mt--40">
+                                <div class="thumbnail">
+                                    <a href="{{ route('product', $product->slug) }}">
+                                        <img src="{{ asset('storage/' . $product->image_product) }}"
+                                            alt="Product Images"style="min-height: 276px;max-width: 276px;">
+                                    </a>
+                                    <div class="label-block label-right">
+                                        @if ($product->discountPercentage > 0)
+                                            <div class="product-badget">{{ $product->discountPercentage }}% OFF</div>
+                                        @endif
+                                    </div>
+                                    <div class="product-hover-action">
+                                        <ul class="cart-action">
+                                            <li class="wishlist"><a
+                                                    href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
+                                                        class="far fa-heart"></i></a></li>
+                                            <li class="select-option"><a
+                                                    href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to
+                                                    Cart</a></li>
+                                            {{-- <li class="quickview"><a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#quick-view-modal" data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a></li> --}}
+                                            <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
+                                                        class="far fa-eye"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal"
-                                                data-bs-target="#quick-view-modal" data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">{{ $product->name }}</a></h5>
-                                    <div class="product-price-variant">
-                                        <span
-                                            class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
-                                            VNĐ</span>
-                                        <span class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                            VNĐ</span>
+                                <div class="product-content">
+                                    <div class="inner">
+                                        <h5 class="title"><a href="single-product.html">{{ $product->name }}</a></h5>
+                                        <div class="product-price-variant">
+                                            <span
+                                                class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
+                                                VNĐ</span>
+                                            <span class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                VNĐ</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                 @endforeach
             </div>

@@ -15,8 +15,9 @@
                                         <h1 class="title">{{ $hot_product->name }}</h1>
                                         <div class="slide-action">
                                             <div class="shop-btn">
-                                                <a href="{{ route('shop') }}" class="axil-btn btn-bg-white"><i
-                                                        class="fal fa-shopping-cart"></i>Shop Now</a>
+                                                <a href="{{ route('product', $hot_product->slug) }}"
+                                                    class="axil-btn btn-bg-white"><i class="fal fa-shopping-cart"></i>Shop
+                                                    Now</a>
                                             </div>
                                             <div class="item-rating">
                                                 <div class="content">
@@ -146,48 +147,56 @@
 
                     <div class="row row--15">
                         @foreach ($category->products as $product)
-                        @if ($product->status == 1)
-                            <div class="col-xl-3 col-lg-4 col-sm-6">
-                                <div class="axil-product product-style-one has-color-pick mt--40">
-                                    <div class="thumbnail">
-                                        <a href="{{ route('product', $product->slug) }}">
-                                            <img src="{{ asset('storage/' . $product->image_product) }}"
-                                                alt="Product Images" style="min-height: 276px;max-width: 276px;">
-                                        </a>
-                                        <div class="label-block label-right">
-                                            @if ($product->discountPercentage > 0)
-                                                <div class="product-badget">{{ $product->discountPercentage }}% OFF</div>
-                                            @endif
-                                        </div>
-                                        <div class="product-hover-action">
-                                            <ul class="cart-action">
-                                                <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
-                                                            class="far fa-heart"></i></a>
-                                                </li>
-                                                <li class="select-option"><a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to Cart</a></li>
-                                                <li class="quickview"><a href="#" data-bs-toggle="modal"
+                            @if ($product->status == 1)
+                                <div class="col-xl-3 col-lg-4 col-sm-6">
+                                    <div class="axil-product product-style-one has-color-pick mt--40">
+                                        <div class="thumbnail">
+                                            <a href="{{ route('product', $product->slug) }}">
+                                                <img src="{{ asset('storage/' . $product->image_product) }}"
+                                                    alt="Product Images" style="min-height: 276px;max-width: 276px;">
+                                            </a>
+                                            <div class="label-block label-right">
+                                                @if ($product->discountPercentage > 0)
+                                                    <div class="product-badget">{{ $product->discountPercentage }}% OFF
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="product-hover-action">
+                                                <ul class="cart-action">
+                                                    <li class="wishlist"><a
+                                                            href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
+                                                                class="far fa-heart"></i></a>
+                                                    </li>
+                                                    <li class="select-option"><a
+                                                            href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                            to Cart</a></li>
+                                                    {{-- <li class="quickview"><a href="" data-bs-toggle="modal"
                                                         data-bs-target="#quick-view-modal"  data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a>
-                                                </li>
-                                            </ul>
+                                                </li> --}}
+                                                    <li class="quickview"><a
+                                                            href="{{ route('product', $product->slug) }}"><i
+                                                                class="far fa-eye"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="inner">
-                                            <h5 class="title"><a
-                                                    href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
-                                            </h5>
-                                            <div class="product-price-variant">
-                                                <span
-                                                    class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
-                                                    VNĐ</span>
-                                                <span
-                                                    class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                    VNĐ</span>
+                                        <div class="product-content">
+                                            <div class="inner">
+                                                <h5 class="title"><a
+                                                        href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
+                                                </h5>
+                                                <div class="product-price-variant">
+                                                    <span
+                                                        class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
+                                                        VNĐ</span>
+                                                    <span
+                                                        class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                        VNĐ</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
                         @endforeach
                     </div>
@@ -217,7 +226,7 @@
                         <div class="slick-single-layout">
                             <div class="axil-product product-style-two">
                                 <div class="thumbnail">
-                                    <a href="">
+                                    <a href="{{ route('product', $product->slug) }}">
                                         <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="500"
                                             src="{{ 'storage/' . $product->image_product }}"
                                             alt="Product Images"style="min-height: 276px;max-width: 276px;">
@@ -228,7 +237,9 @@
                                 </div>
                                 <div class="product-content">
                                     <div class="inner">
-                                        <h5 class="title"><a href="">{{ $product->name }}</a></h5>
+                                        <h5 class="title"><a
+                                                href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
+                                        </h5>
                                         <div class="product-price-variant">
                                             <span
                                                 class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
@@ -239,16 +250,22 @@
                                         </div>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">
-                                                <li class="quickview"> <a href="#" data-bs-toggle="modal"
+                                                {{-- <li class="quickview"> <a href="" data-bs-toggle="modal"
                                                         data-bs-target="#quick-view-modal"
                                                         data-product-id="{{ $product->id }}">
                                                         <i class="far fa-eye"></i>
                                                     </a>
+                                                </li> --}}
+                                                <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
+                                                            class="far fa-eye"></i></a>
                                                 </li>
-                                                <li class="select-option"><a href="single-product.html">Add to Cart</a>
-                                                </li>
-                                                <li class="wishlist"><a href="wishlist.html"><i
-                                                            class="far fa-heart"></i></a></li>
+                                                 <li class="select-option"><a
+                                                            href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                            to Cart</a></li>
+                                                 <li class="wishlist"><a
+                                                            href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
+                                                                class="far fa-heart"></i></a>
+                                                    </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -277,7 +294,7 @@
                         <div class="col">
                             <div class="axil-product-list">
                                 <div class="thumbnail">
-                                    <a href="{{ url('single-product', $product->id) }}">
+                                    <a href="{{ route('product', $product->slug) }}">
                                         <img data-sal="zoom-in" data-sal-delay="100" data-sal-duration="1500"
                                             src="{{ 'storage/' . $product->image_product }}"
                                             alt="{{ $product->name }}"style="min-height: 120px;max-width: 120px;">
@@ -285,7 +302,7 @@
                                 </div>
                                 <div class="product-content">
                                     <h6 class="product-title"><a
-                                            href="{{ url('single-product', $product->id) }}">{{ $product->name }}</a>
+                                            href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
                                     </h6>
                                     <div class="product-price-variant">
                                         <span
@@ -294,10 +311,11 @@
                                             class="price old-price">{{ number_format($product->reduced_price, 0, ',', '.') }}</span>
                                     </div>
                                     <div class="product-cart">
-                                        <a href="{{ url('cart') }}" class="cart-btn"><i
+                                        <a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}" class="cart-btn"><i
                                                 class="fal fa-shopping-cart"></i></a>
-                                        <a href="{{ url('wishlist') }}" class="cart-btn"><i
+                                        <a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}" class="cart-btn"><i
                                                 class="fal fa-heart"></i></a>
+
                                     </div>
                                 </div>
                             </div>

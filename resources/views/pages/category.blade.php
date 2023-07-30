@@ -58,9 +58,12 @@
                                             <li class="select-option"><a
                                                     href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to
                                                     Cart</a></li>
-                                            <li class="quickview"><a href="#" data-bs-toggle="modal"
+                                            {{-- <li class="quickview"><a href="#" data-bs-toggle="modal"
                                                     data-product-id="{{ $product->id }}"
-                                                    data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                                    data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li> --}}
+                                            <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
+                                                        class="far fa-eye"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

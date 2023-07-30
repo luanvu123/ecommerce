@@ -70,9 +70,9 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6">
                                 <div class="axil-product product-style-one has-color-pick mt--40">
                                     <div class="thumbnail">
-                                        <a href="single-product.html">
+                                        <a href="{{ route('product', $product->slug) }}">
                                             <img src="{{ asset('storage/' . $product->image_product) }}"
-                                                alt="Product Images">
+                                                alt="Product Images" style="min-height: 276px;max-width: 276px;">
                                         </a>
                                         <div class="label-block label-right">
                                             @if ($product->discountPercentage > 0)
@@ -81,12 +81,18 @@
                                         </div>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">
-                                                <li class="wishlist"><a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
+                                                <li class="wishlist"><a
+                                                        href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
                                                             class="far fa-heart"></i></a>
                                                 </li>
-                                                <li class="select-option"><a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to Cart</a></li>
-                                                <li class="quickview"><a href="#" data-bs-toggle="modal"
+                                                <li class="select-option"><a
+                                                        href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                        to Cart</a></li>
+                                                {{-- <li class="quickview"><a href="#" data-bs-toggle="modal"
                                                         data-bs-target="#quick-view-modal" data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a>
+                                                </li> --}}
+                                                <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
+                                                            class="far fa-eye"></i></a>
                                                 </li>
                                             </ul>
                                         </div>

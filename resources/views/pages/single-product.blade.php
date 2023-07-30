@@ -8,31 +8,28 @@
                     <div class="col-lg-7 mb--40">
                         <div class="row">
                             <div class="col-lg-10 order-lg-2">
-                                <div class="single-product-thumbnail-wrap zoom-gallery">
-                                    <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                    <div
+                                        class="single-product-thumbnail product-large-thumbnail-3 axil-product thumbnail-badge zoom-gallery">
                                         @foreach ($single_of_product->images as $image)
                                             <div class="thumbnail">
-                                                <a href="{{ asset('uploads/products/large/' . $image->name) }}"
-                                                    class="popup-zoom">
-                                                    <img src="{{ asset('uploads/products/large/' . $image->name) }}"
-                                                        alt="Product Images">
-                                                </a>
+                                                <img src="{{ asset('uploads/products/large/' . $image->name) }}"
+                                                    alt="Product Images">
+                                                @if ($single_of_product->discountPercentage > 0)
+                                                    <div class="label-block label-right">
+                                                        <div class="product-badget">
+                                                            {{ $single_of_product->discountPercentage }}% OFF
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                <div class="product-quick-view position-view">
+                                                    <a href="{{ asset('uploads/products/large/' . $image->name) }}"
+                                                        class="popup-zoom">
+                                                        <i class="far fa-search-plus"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if ($single_of_product->discountPercentage > 0)
-                                        <div class="label-block">
-                                            <div class="product-badget">{{ $single_of_product->discountPercentage }}% OFF
-                                            </div>
-                                        </div>
-                                    @endif
-                                    {{-- <div class="product-quick-view position-view">
-                                        <a href="{{ asset('uploads/products/large/' . $image->name) }}"
-                                            class="popup-zoom">
-                                            <i class="far fa-search-plus"></i>
-                                        </a>
-                                    </div> --}}
-                                </div>
                             </div>
                             <div class="col-lg-2 order-lg-1">
                                 <div class="product-small-thumb-3 small-thumb-wrapper">

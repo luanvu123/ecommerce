@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $customer = Auth::guard('customer')->user();
+        $carts = Cart::where('customer_id', $customer->id)->get();
+        $carts->each(function ($cart) {
+            $product = $cart->product;
+            $price = $product->reduced_price;
+            $cart->subtotal = $cart->quantity * $price;
+        });
+        $total = $carts->sum('subtotal');
+        return view('pages.cart', compact('carts', 'total'));
+    }
     public function addToCart(Request $request, $product_id)
     {
         $customer_id = Auth::guard('customer')->user()->id;
@@ -33,21 +45,55 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Product added to cart.');
     }
-    public function updateQuantity(Request $request)
+
+    public function clearCart()
     {
-        $customerId = Auth::guard('customer')->user()->id;
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity');
+        $customer_id = Auth::guard('customer')->user()->id;
+        Cart::where('customer_id', $customer_id)->delete();
+        return redirect()->back()->with('success', 'Shopping Cart cleared.');
+    }
 
-        $cart = Cart::where('customer_id', $customerId)
-            ->where('product_id', $productId)
-            ->first();
+    public function updateCart(Request $request)
+    {
+        $customer_id = Auth::guard('customer')->user()->id;
+        $cartItems = $request->input('cart');
 
-        if ($cart) {
-            $cart->quantity = $quantity;
-            $cart->save();
+        foreach ($cartItems as $productId => $quantity) {
+            $cart = Cart::where('customer_id', $customer_id)
+                ->where('product_id', $productId)
+                ->first();
+
+            if ($cart) {
+                $cart->quantity = $quantity;
+                $cart->save();
+            }
         }
 
-        return response()->json(['message' => 'Quantity updated successfully.']);
+        return redirect()->back()->with('success', 'Shopping Cart updated.');
+    }
+    public function removeFromCart(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $customerId = Auth::guard('customer')->user()->id;
+        Cart::where('customer_id', $customerId)->where('product_id', $productId)->delete();
+
+        return redirect()->route('cart')->with('success', 'Product removed from cart successfully.');
+    }
+    public function updateQuantity(Request $request)
+    {
+        $customer_id = Auth::guard('customer')->user()->id;
+        $cartItems = $request->input('cart');
+
+        foreach ($cartItems as $productId => $quantity) {
+            $cart = Cart::where('customer_id', $customer_id)
+                ->where('product_id', $productId)
+                ->first();
+
+            if ($cart) {
+                $cart->quantity = $quantity;
+                $cart->save();
+            }
+        }
+        return redirect()->back();
     }
 }

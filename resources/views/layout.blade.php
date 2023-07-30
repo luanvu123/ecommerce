@@ -96,10 +96,10 @@
                 <div class="header-navbar">
                     <div class="header-brand">
                         <a href="{{ route('/') }}" class="logo logo-dark">
-                            <img src="{{ asset('fontend') }}/images/logo/riki-logo.png" alt="Site Logo">
+                            <img src="{{ asset('storage/' . $info->logo1) }}" alt="Site Logo">
                         </a>
                         <a href="{{ route('/') }}" class="logo logo-light">
-                            <img src="{{ asset('fontend') }}/images/logo/riki-logo.png" alt="Site Logo">
+                            <img src="{{ asset('storage/' . $info->logo1) }}" alt="Site Logo">
                         </a>
                     </div>
                     <div class="header-main-nav">
@@ -108,7 +108,7 @@
                             <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
                             <div class="mobile-nav-brand">
                                 <a href="" class="logo">
-                                    <img src="{{ asset('fontend/images/logo/logo.png') }}" alt="Site Logo">
+                                    <img src="" alt="Site Logo">
                                 </a>
                             </div>
                             <ul class="mainmenu">
@@ -116,12 +116,12 @@
                                 @foreach ($categories as $category)
                                     @if ($category->parent_id === null && $category->slug)
                                         <li class="menu-item-has-children">
-                                            <a
-                                                href="{{ route('category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                            {{-- <a href="{{ route('category', ['slug' => $category->slug]) }}">{{ $category->name }}</a> --}}
+                                            <a href="{{ route('/') }}">{{ $category->name }}</a>
                                             @if ($category->children->count() > 0)
                                                 <ul class="axil-submenu">
                                                     @foreach ($category->children as $child)
-                                                        @if ($child->slug)
+                                                        @if ($child->slug && $child->status == 1 && $child->products->count() > 0)
                                                             <li><a
                                                                     href="{{ route('category', ['slug' => $child->slug]) }}">{{ $child->name }}</a>
                                                             </li>
@@ -162,7 +162,7 @@
                                 </a>
                             </li>
                             <li class="shopping-cart">
-                                <a href="#" class="cart-dropdown-btn">
+                                <a href="{{ route('cart') }}"  class="cart-dropdown-btn">
                                     <span class="cart-count">3</span>
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
@@ -498,7 +498,7 @@
     <!-- Header Search Modal End -->
 
 
-    <div class="cart-dropdown" id="cart-dropdown">
+    {{-- <div class="cart-dropdown" id="cart-dropdown">
         <div class="cart-content-wrap">
             <div class="cart-header">
                 <h2 class="header-title">Cart review</h2>
@@ -564,7 +564,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Offer Modal Start -->
     <div class="offer-popup-modal" id="offer-popup-modal">
@@ -680,7 +680,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('.quickview').on('click', function(event) {
                 event.preventDefault();
@@ -742,7 +742,7 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 
 
 </body>
