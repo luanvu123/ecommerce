@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index(): View
     {
         $categories = Category::with('parentCategory')->get();
-    return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -48,7 +48,7 @@ class CategoryController extends Controller
             'name' => 'required',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'parent_id' => 'nullable|exists:categories,id',
-            'slug' => 'nullable',
+            'slug' => 'required',
         ]);
 
         $category = new Category([
@@ -132,7 +132,7 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully');
     }
-      public function cate_choose(Request $request)
+    public function cate_choose(Request $request)
     {
         $data = $request->all();
         $category = Category::find($data['id']);

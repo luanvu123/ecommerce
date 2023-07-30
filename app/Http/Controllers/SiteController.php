@@ -16,7 +16,8 @@ class SiteController extends Controller
         $newviral_products = Product::orderBy('updated_at', 'desc')->where('new_viral', 1)->where('status', 1)->take(15)->get();
         $mostsold_products = Product::orderBy('updated_at', 'desc')->where('most_sold', 1)->where('status', 1)->take(8)->get();
         $category_home = Category::with('products')->where('status', 1)->get();
-        $posters = Poster::where('status', 1)->get();
+        $posters = Poster::where('status', 1)->where('large_poster', 0)->get();
+        $large_posters = Poster::orderBy('updated_at', 'desc')->where('status', 1)->where('large_poster', 1)->take(1)->get();
         $category_home->each(function ($category) {
             $category->products->each(function ($product) {
                 $price = $product->price; // Giá gốc
@@ -31,13 +32,13 @@ class SiteController extends Controller
             $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
             $product->discountPercentage = $discountPercentage;
         });
-
         return view('pages.home', [
             'hot_products' => $hot_products,
             'newviral_products' => $newviral_products,
             'mostsold_products' => $mostsold_products,
             'category_home' => $category_home,
             'posters' => $posters,
+            'large_posters' => $large_posters,
         ]);
     }
 
@@ -91,7 +92,7 @@ class SiteController extends Controller
 
     public function product($slug)
     {
-        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta')->first();
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta','category')->first();
         if (!$single_of_product) {
             abort(404);
         }

@@ -22,7 +22,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         }
     </script>
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
-    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -183,7 +183,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                     </ul>
                                 </li>
 
-                                 <li class="treeview {{ $segment == 'policies' ? 'active' : '' }}">
+                                <li class="treeview {{ $segment == 'policies' ? 'active' : '' }}">
                                     <a href="#">
                                         <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
                                             delay="2000" style="width:20px;height:20px">
@@ -208,7 +208,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
-                                 <li class="treeview {{ $segment == 'posters' ? 'active' : '' }}">
+                                <li class="treeview {{ $segment == 'posters' ? 'active' : '' }}">
                                     <a href="#">
                                         <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
                                             delay="2000" style="width:20px;height:20px">
@@ -233,7 +233,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
-                                 <li class="treeview {{ $segment == 'metas' ? 'active' : '' }}">
+                                <li class="treeview {{ $segment == 'metas' ? 'active' : '' }}">
                                     <a href="#">
                                         <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
                                             delay="2000" style="width:20px;height:20px">
@@ -391,7 +391,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                     <script src="{{ asset('backend/js/dropzone.min.js') }}"></script>
                     <!-- for amcharts js -->
 
-                    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
                     <script src="{{ asset('backend/js/amcharts.js') }}"></script>
                     <script src="{{ asset('backend/js/serial.js') }}"></script>
                     <script src="{{ asset('backend/js/export.min.js') }}"></script>
@@ -422,6 +421,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         @yield('content_login')
     @endif
     <!-- for toggle left push menu script -->
+    <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('backend/js/classie.js') }}"></script>
     <script>
         var menuLeft = document.getElementById('cbp-spmenu-s1'),
@@ -456,13 +456,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        let table = new DataTable('#tableevent');
+    <script>
         $(document).ready(function() {
+            let table = new DataTable('#tableevent');
             $('#tableevent').DataTable();
         });
     </script>
+
     <script>
         function ChangeToSlug() {
 
@@ -512,73 +512,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
     {{-- chon trang thai --}}
 
-
-    {{-- <script type="text/javascript">
-        $(document).on('change', '.file_image', function() {
-
-            // Lấy ID của sự kiện
-            var event_id = $(this).data('event_id');
-            // Lấy tập tin hình ảnh được chọn
-            var files = $("#file-" + event_id)[0].files;
-            var image = document.getElementById("file-" + event_id).files[0];
-            // Khởi tạo đối tượng form data để gửi qua ajax
-            var form_data = new FormData();
-
-            // Thêm hình ảnh và ID sự kiện vào form data
-            form_data.append("file", document.getElementById("file-" + event_id).files[0]);
-            form_data.append("id", event_id);
-
-            // Gọi ajax để update hình ảnh cho sự kiện
-            $.ajax({
-                url: "{{ route('update-image-event-ajax') }}",
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: form_data,
-
-                contentType: false,
-                cache: false,
-                processData: false,
-
-                success: function(response) {
-                    // Cập nhật hình ảnh mới trên trang web
-                    $('#success_image').html(
-                        '<span class="text-success">Thay đổi ảnh thành công</span>');
-                    $('img[data-event_id="' + event_id + '"]').attr('src',
-                        '{{ asset('uploads/event') }}/' + response);
-                }
-            });
-        });
-    </script> --}}
-
-    {{-- <script type="text/javascript">
-        $(document).ready(function() {
-            $('.delete-image-btn').click(function() {
-                var event_id = $(this).data('event_id');
-                if (confirm("Bạn có chắc muốn xóa ảnh này?")) {
-                    $.ajax({
-                        url: "{{ route('delete-image-event-ajax') }}",
-                        method: "POST",
-                        data: {
-                            event_id: event_id,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                $('#file-' + event_id).val('');
-                                $('#success_image').text('Xóa ảnh thành công');
-                                $('#success_image').css('color', 'green');
-                            } else {
-                                $('#success_image').text('Xóa ảnh thất bại');
-                                $('#success_image').css('color', 'red');
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script> --}}
     <script type="text/javascript">
         $('.trangthai_choose').change(function() {
 
@@ -598,7 +531,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         })
     </script>
     <script>
-         $('.policy_choose').change(function() {
+        $('.policy_choose').change(function() {
 
             var trangthai_val = $(this).val();
             var id = $(this).attr('id');
@@ -615,9 +548,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-     <script>
-         $('.poster_choose').change(function() {
-
+    <script>
+        $('.poster_choose').change(function() {
             var trangthai_val = $(this).val();
             var id = $(this).attr('id');
             $.ajax({
@@ -633,6 +565,38 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
+<script>
+     $('.large_poster_choose').change(function() {
+            var large_poster_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('large-poster-choose') }}",
+                method: "GET",
+                data: {
+                    large_poster_val: large_poster_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi thành công!');
+                }
+            });
+        })
+        $('.meta_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('meta-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái meta thành công!');
+                }
+            });
+        })
+</script>
     <script type="text/javascript">
         $('.newviral_choose').change(function() {
 

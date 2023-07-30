@@ -49,6 +49,13 @@
                 <option value="0">Không</option>
             </select>
         </div>
+         <div class="form-group">
+            <label for="large-poster">Chọn poster</label>
+            <select name="large_poster" class="large_poster_choose">
+                <option value="1">Poster lớn</option>
+                <option value="0">Poster nhỏ</option>
+            </select>
+        </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

@@ -17,7 +17,7 @@
                 <div class="col-lg-6 col-md-4">
                     <div class="inner">
                         <div class="bradcrumb-thumb">
-                            <img src="{{ asset('fontend') }}/images/products/product-45.png" alt="Image">
+                            <img src="{{ asset('storage/' . $cate_slug->icon) }}" alt="Image"style="min-height: 120px;max-width: 120px;">
                         </div>
                     </div>
                 </div>

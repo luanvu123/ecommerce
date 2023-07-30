@@ -63,7 +63,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('posters', PosterController::class);
     Route::resource('metas', ProductMetaController::class);
 
-    Route::get('/poster-choose', [PolicyController::class, 'poster_choose'])->name('poster-choose');
+      Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
+    Route::get('/poster-choose', [PosterController::class, 'poster_choose'])->name('poster-choose');
+      Route::get('/large-poster-choose', [PosterController::class, 'large_poster_choose'])->name('large-poster-choose');
     Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
     Route::get('/policy-choose', [PolicyController::class, 'policy_choose'])->name('policy-choose');
     Route::get('/hotDeal-choose', [ProductController::class, 'hotDeal_choose'])->name('hotDeal-choose');
@@ -129,16 +131,16 @@ Route::get('/my-account', [CustomerLoginController::class, 'showAccount'])->name
 
 
 Route::middleware('customer')->group(function () {
+    //wishlist
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::get('/wishlist/add/{product_id}', [WishlistController::class, 'addToWishlist'])->name('add.to.wishlist');
     Route::post('/wishlist/remove', [WishlistController::class, 'removeFromWishlist'])->name('remove.from.wishlist');
 
+    //cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
-    Route::get('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
-    Route::post('/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
+    Route::match(['get', 'post'], '/cart/add/{product_id}', [CartController::class, 'addToCart'])->name('add.to.cart');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
     Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::match(['put', 'patch'], '/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
-
 });

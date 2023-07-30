@@ -24,6 +24,7 @@
                                     <th>Description</th>
                                     <th>Ảnh Thumnail</th>
                                     <th>Status</th>
+                                    <th>Size</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,17 @@
                                                 @else
                                                     <option selected value="1">Hiển thị</option>
                                                     <option value="0">Không</option>
+                                                @endif
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="{{ $poster->id }}" class="large_poster_choose">
+                                                @if ($poster->large_poster == 0)
+                                                    <option value="1">Lớn</option>
+                                                    <option selected value="0">Nhỏ</option>
+                                                @else
+                                                    <option selected value="1">Lớn</option>
+                                                    <option value="0">Nhỏ</option>
                                                 @endif
                                             </select>
                                         </td>

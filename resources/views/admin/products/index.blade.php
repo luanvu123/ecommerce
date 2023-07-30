@@ -10,7 +10,7 @@
                         phẩm</a>
                 @endcan
                 <div class="table-responsive">
-                    <table class="table" id="tableevent">
+                    <table class="display" id="tableevent">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -100,7 +100,8 @@
                                                 href="{{ route('products.edit', $product->id) }}">Edit</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

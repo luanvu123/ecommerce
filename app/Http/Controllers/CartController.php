@@ -19,7 +19,8 @@ class CartController extends Controller
             $cart->subtotal = $cart->quantity * $price;
         });
         $total = $carts->sum('subtotal');
-        return view('pages.cart', compact('carts', 'total'));
+        $cartTotalQuantity = $carts->sum('quantity');
+        return view('pages.cart', compact('carts', 'total', 'cartTotalQuantity'));
     }
     public function addToCart(Request $request, $product_id)
     {

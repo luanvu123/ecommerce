@@ -1,5 +1,31 @@
 @extends('layout')
 @section('content')
+    <div class="axil-breadcrumb-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="inner">
+                        <ul class="axil-breadcrumb">
+                            <li class="axil-breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
+                            <li class="separator"></li>
+                            <li class="axil-breadcrumb-item active" aria-current="page"><a
+                                    href="{{ route('category', $single_of_product->category->slug) }}">
+                                    {{ $single_of_product->category->name }}</a></li>
+                        </ul>
+                        <h1 class="title"> {{ $single_of_product->name }}</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4">
+                    <div class="inner">
+                        <div class="bradcrumb-thumb">
+                            <img src="{{ asset('storage/' . $single_of_product->category->icon) }}"
+                                alt="Image"style="min-height: 120px;max-width: 120px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Start Shop Area  -->
     <div class="axil-single-product-area axil-section-gap pb--0 bg-color-white">
         <div class="single-product-thumb mb--40">
@@ -8,28 +34,28 @@
                     <div class="col-lg-7 mb--40">
                         <div class="row">
                             <div class="col-lg-10 order-lg-2">
-                                    <div
-                                        class="single-product-thumbnail product-large-thumbnail-3 axil-product thumbnail-badge zoom-gallery">
-                                        @foreach ($single_of_product->images as $image)
-                                            <div class="thumbnail">
-                                                <img src="{{ asset('uploads/products/large/' . $image->name) }}"
-                                                    alt="Product Images">
-                                                @if ($single_of_product->discountPercentage > 0)
-                                                    <div class="label-block label-right">
-                                                        <div class="product-badget">
-                                                            {{ $single_of_product->discountPercentage }}% OFF
-                                                        </div>
+                                <div
+                                    class="single-product-thumbnail product-large-thumbnail-3 axil-product thumbnail-badge zoom-gallery">
+                                    @foreach ($single_of_product->images as $image)
+                                        <div class="thumbnail">
+                                            <img src="{{ asset('uploads/products/large/' . $image->name) }}"
+                                                alt="Product Images">
+                                            @if ($single_of_product->discountPercentage > 0)
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">
+                                                        {{ $single_of_product->discountPercentage }}% OFF
                                                     </div>
-                                                @endif
-                                                <div class="product-quick-view position-view">
-                                                    <a href="{{ asset('uploads/products/large/' . $image->name) }}"
-                                                        class="popup-zoom">
-                                                        <i class="far fa-search-plus"></i>
-                                                    </a>
                                                 </div>
+                                            @endif
+                                            <div class="product-quick-view position-view">
+                                                <a href="{{ asset('uploads/products/large/' . $image->name) }}"
+                                                    class="popup-zoom">
+                                                    <i class="far fa-search-plus"></i>
+                                                </a>
                                             </div>
-                                        @endforeach
-                                    </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="col-lg-2 order-lg-1">
                                 <div class="product-small-thumb-3 small-thumb-wrapper">
@@ -124,11 +150,15 @@
                                 </div>
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
-                                        <li class="wishlist"><a href="{{ route('wishlist') }}"><i
+                                        <li class="wishlist"><a
+                                                href="{{ route('add.to.wishlist', ['product_id' => $item->id]) }}"><i
                                                     class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a href="{{ route('cart') }}">Add to Cart</a></li>
-                                        <li class="quickview"><a href="#" data-bs-toggle="modal"
-                                                data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                        <li class="select-option"><a
+                                                href="{{ route('add.to.cart', ['product_id' => $item->id]) }}">Add to
+                                                Cart</a></li>
+                                        <li class="quickview"><a href="{{ route('product', $item->slug) }}"><i
+                                                    class="far fa-eye"></i></a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

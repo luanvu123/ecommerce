@@ -162,11 +162,14 @@
                                 </a>
                             </li>
                             <li class="shopping-cart">
-                                <a href="{{ route('cart') }}"  class="cart-dropdown-btn">
-                                    <span class="cart-count">3</span>
+                                <a href="{{ route('cart') }}" class="cart-dropdown-btn">
+                                    @if ($cartTotalQuantity > 0)
+                                        <span class="cart-count">{{ $cartTotalQuantity }}</span>
+                                    @endif
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
+
                             <li class="my-account">
                                 <a href="javascript:void(0)">
                                     <i class="flaticon-person"></i>
@@ -187,9 +190,10 @@
                                             <a href="#">Language</a>
                                         </li>
                                     </ul>
-                                    <a href="sign-in.html" class="axil-btn btn-bg-primary">Login</a>
-                                    <div class="reg-footer text-center">No account yet? <a href="sign-up.html"
-                                            class="btn-link">REGISTER HERE.</a></div>
+                                    <a href="{{ route('customer.login') }}" class="axil-btn btn-bg-primary">Login</a>
+                                    <div class="reg-footer text-center">No account yet? <a
+                                            href="{{ route('customer.signup') }}" class="btn-link">REGISTER HERE.</a>
+                                    </div>
                                 </div>
                             </li>
                             <li class="axil-mobile-toggle">

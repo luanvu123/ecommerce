@@ -31,16 +31,31 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Meta Key:</strong>
-                    <input type="text" name="meta_key" value="{{ $meta->meta_key }}" class="form-control" placeholder="Meta Key">
+                    <input type="text" name="meta_key" value="{{ $meta->meta_key }}" class="form-control"
+                        placeholder="Meta Key">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Meta Value:</strong>
-                    <input type="text" name="meta_value" value="{{ $meta->meta_value }}" class="form-control" placeholder="Meta Value">
+                    <input type="text" name="meta_value" value="{{ $meta->meta_value }}" class="form-control"
+                        placeholder="Meta Value">
                 </div>
             </div>
-            <!-- Thêm các trường khác của meta nếu có -->
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Status:</strong>
+                    <select id="{{ $meta->id }}"name="status"class="meta_choose">
+                        @if ($meta->status == 0)
+                            <option value="1">Hiển thị</option>
+                            <option selected value="0">Không</option>
+                        @else
+                            <option selected value="1">Hiển thị</option>
+                            <option value="0">Không</option>
+                        @endif
+                    </select>
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Update</button>
             </div>

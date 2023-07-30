@@ -68,10 +68,12 @@
                                             </option>
                                             @if ($category->children)
                                                 @foreach ($category->children as $child)
-                                                    <option value="{{ $child->id }}"
-                                                        @if ($child->id === $product->category_id ? 'selected' : '') selected @endif>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
-                                                    </option>
+                                                    @if ($child->status == 1)
+                                                        <option value="{{ $child->id }}"
+                                                            @if ($child->id === $product->category_id ? 'selected' : '') selected @endif>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $child->name }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         @endforeach
@@ -157,12 +159,15 @@
                                 <div class="form-group">
                                     <label for="meta">Product Meta</label><br>
                                     @foreach ($list_metas as $key => $met)
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" name="meta[]"
-                                                value="{{ $met->id }}"
-                                                @if ($product->product_meta->contains($met->id)) checked @endif>
-                                            <label class="form-check-label" for="meta">{{ $met->meta_key }}</label>
-                                        </div>
+                                        @if ($met->status == 1)
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" name="meta[]"
+                                                    value="{{ $met->id }}"
+                                                    @if ($product->product_meta->contains($met->id)) checked @endif>
+                                                <label class="form-check-label"
+                                                    for="meta">{{ $met->meta_key }}</label>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

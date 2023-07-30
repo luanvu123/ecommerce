@@ -36,8 +36,16 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Meta Value:</strong>
-                    <textarea class="form-control" style="height:150px" name="meta_value"
-                        placeholder="Meta Value"></textarea>
+                    <textarea class="form-control" style="height:150px" name="meta_value" placeholder="Meta Value"></textarea>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group">
+                    <strong>Status:</strong>
+                    <select name="status" class="form-control">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -46,4 +54,3 @@
         </div>
     </form>
 @endsection
-

@@ -44,8 +44,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::all();
-        $list_metas = Meta::all();
+        $categories = Category::where('status', 1)->get();
+        $list_metas = Meta::where('status', 1)->get();
         return view('admin.products.create', compact('categories', 'list_metas'));
     }
 
@@ -110,8 +110,10 @@ class ProductController extends Controller
             'most_sold' => $request->has('most_sold'),
         ]);
         $product->user_id = auth()->id();
-        foreach ($request['meta'] as $key => $met) {
-            $product->meta_id = $met[0];
+        if (!empty($request->meta)) {
+            foreach ($request['meta'] as $key => $met) {
+                $product->meta_id = $met[0];
+            }
         }
         $product->save();
         $product->product_meta()->attach($request['meta']);
@@ -173,7 +175,7 @@ class ProductController extends Controller
             'reduced_price' => 'required|numeric',
         ]);
 
-         $category = Category::find($request->input('category_id'));
+        $category = Category::find($request->input('category_id'));
 
         if ($category && $category->parent_id === null) {
             // If the parent_id is NULL, it means the category is not suitable for product association.
@@ -214,8 +216,10 @@ class ProductController extends Controller
         $product->new_viral = $request->input('new_viral');
         $product->most_sold = $request->input('most_sold');
         $product->user_id = auth()->id();
-        foreach ($request['meta'] as $key => $met) {
-            $product->meta_id = $met[0];
+        if (!empty($request->meta)) {
+            foreach ($request['meta'] as $key => $met) {
+                $product->meta_id = $met[0];
+            }
         }
         $product->save();
         $product->product_meta()->sync($request['meta']);
@@ -260,7 +264,7 @@ class ProductController extends Controller
      */
     // ProductController.php
 
-    public function edit($product_id, Request $request)
+    public function edit($product_id, Request $request): View
     {
         $product = Product::find($product_id);
         $product_meta = $product->product_meta;

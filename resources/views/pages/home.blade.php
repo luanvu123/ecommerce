@@ -77,8 +77,8 @@
                 <h2 class="title">{{ $info->title2_categories }}</h2>
             </div>
             <div class="categrie-product-activation slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
-                @foreach ($categories as $category)
-                    @if ($category->parent_id !== null)
+                @foreach ($category_home as $category)
+                    @if ($category->parent_id !== null && $category->products->count() > 0)
                         <div class="slick-single-layout">
                             <div class="categrie-product" data-sal="zoom-out" data-sal-delay="200" data-sal-duration="500">
                                 <a href="{{ route('category', $category->slug) }}">
@@ -101,33 +101,36 @@
     <!-- Poster Countdown Area  -->
     <div class="axil-poster-countdown">
         <div class="container">
-            <div class="poster-countdown-wrap bg-lighter">
-                <div class="row">
-                    <div class="col-xl-5 col-lg-6">
-                        <div class="poster-countdown-content">
-                            <div class="section-title-wrapper">
-                                <span class="title-highlighter highlighter-secondary"> <i class="fal fa-headphones-alt"></i>
-                                    {{ $info->title_dontmiss }}</span>
-                                <h2 class="title">{{ $info->title2_dontmiss }}</h2>
-                            </div>
-                            <div class="poster-countdown countdown mb--40"></div>
-                            <a href="#" class="axil-btn btn-bg-primary">Check it Out!</a>
-                        </div>
-                    </div>
-                    <div class="col-xl-7 col-lg-6">
-                        <div class="poster-countdown-thumbnail">
-                            <img src="{{ asset('fontend') }}/images/poster/poster-03.png" alt="Poster Product">
-                            <div class="music-singnal">
-                                <div class="item-circle circle-1"></div>
-                                <div class="item-circle circle-2"></div>
-                                <div class="item-circle circle-3"></div>
-                                <div class="item-circle circle-4"></div>
-                                <div class="item-circle circle-5"></div>
+            @foreach ($large_posters as $large_poster)
+                <div class="poster-countdown-content">
+                    <div class="single-poster">
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="poster-countdown-content">
+                                <div class="section-title-wrapper">
+                                    <span class="title-highlighter highlighter-secondary"> <i
+                                            class="fal fa-headphones-alt"></i>
+                                        {{ $info->title_dontmiss }}</span>
+                                </div>
                             </div>
                         </div>
+                        <a href="{{ route('shop') }}">
+                            @if ($large_poster->image_poster)
+                                <img src="{{ asset('storage/' . $large_poster->image_poster) }}"
+                                    alt="eTrade promotion poster" style="max-height: 450px">
+                            @endif
+                            <div class="poster-content">
+                                <div class="inner">
+                                    <div class="section-title-wrapper">
+                                        <h2 class="title">{{ $large_poster->title_poster }}</h2>
+                                    </div>
+                                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-primary" style="max-width: 180px;">Check it Out! </a>
+                                </div>
+                                <!-- End .poster-content -->
+                        </a>
                     </div>
+                    <!-- End .single-poster -->
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
     <!-- End Poster Countdown Area  -->
@@ -259,13 +262,13 @@
                                                 <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
                                                             class="far fa-eye"></i></a>
                                                 </li>
-                                                 <li class="select-option"><a
-                                                            href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
-                                                            to Cart</a></li>
-                                                 <li class="wishlist"><a
-                                                            href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
-                                                                class="far fa-heart"></i></a>
-                                                    </li>
+                                                <li class="select-option"><a
+                                                        href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                        to Cart</a></li>
+                                                <li class="wishlist"><a
+                                                        href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
+                                                            class="far fa-heart"></i></a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -311,10 +314,10 @@
                                             class="price old-price">{{ number_format($product->reduced_price, 0, ',', '.') }}</span>
                                     </div>
                                     <div class="product-cart">
-                                        <a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}" class="cart-btn"><i
-                                                class="fal fa-shopping-cart"></i></a>
-                                        <a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}" class="cart-btn"><i
-                                                class="fal fa-heart"></i></a>
+                                        <a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}"
+                                            class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                        <a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"
+                                            class="cart-btn"><i class="fal fa-heart"></i></a>
 
                                     </div>
                                 </div>

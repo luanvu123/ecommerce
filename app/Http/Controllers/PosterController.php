@@ -36,7 +36,8 @@ class PosterController extends Controller
         $poster->title_poster = $request->input('title_poster');
         $poster->image_poster = $imagePath;
         $poster->description_poster = $request->input('description_poster');
-        $poster->status = $request->has('status');
+        $poster->status = $request->input('status');
+        $poster->large_poster = $request->input('large_poster');
         $poster->save();
 
         return redirect()->route('posters.index')->with('success', 'Poster created successfully.');
@@ -71,7 +72,8 @@ class PosterController extends Controller
             $poster->image_poster = $imagePath;
         }
 
-        $poster->status = $request->has('status');
+        $poster->status = $request->input('status');
+        $poster->large_poster = $request->input('large_poster');
         $poster->save();
 
         return redirect()->route('posters.index')->with('success', 'Poster updated successfully.');
@@ -92,6 +94,14 @@ class PosterController extends Controller
         $data = $request->all();
         $poster = Poster::find($data['id']);
         $poster->status = $data['trangthai_val'];
+        $poster->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $poster->save();
+    }
+    public function large_poster_choose(Request $request)
+    {
+        $data = $request->all();
+        $poster = Poster::find($data['id']);
+        $poster->large_poster = $data['large_poster_val'];
         $poster->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
         $poster->save();
     }

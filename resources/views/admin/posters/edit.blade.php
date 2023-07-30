@@ -58,6 +58,20 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <strong>Kich thước:</strong>
+                    <select id="{{ $poster->id }}"name="large_poster"class="large_poster_choose">
+                        @if ($poster->large_poster == 0)
+                            <option value="1">Lớn</option>
+                            <option selected value="0">Nhỏ</option>
+                        @else
+                            <option selected value="1">Lớn</option>
+                            <option value="0">Nhỏ</option>
+                        @endif
+                    </select>
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
             <a href="{{ route('posters.index') }}" class="btn btn-secondary">Cancel</a>
