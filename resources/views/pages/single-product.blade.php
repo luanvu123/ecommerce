@@ -84,7 +84,8 @@
                                         <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>
                                     @endforeach
                                 </ul>
-                                <p class="description">{{ $single_of_product->detail }}</p>
+                                <p class="description">{!! $single_of_product->detail !!}</p>
+
 
                                 <div class="product-variations-wrapper">
 

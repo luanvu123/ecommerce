@@ -442,6 +442,11 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         }
     </script>
     <script src="{{ asset('backend/js/jquery.nicescroll.js') }}"></script>
+    <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+    <script>
+       CKEDITOR.replace('ckeditor1');
+        CKEDITOR.replace('ckeditor2');
+    </script>
     <script src="{{ asset('backend/js/scripts.js') }}"></script>
     <!--//scrolling js-->
     <!-- side nav js -->
@@ -565,8 +570,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-<script>
-     $('.large_poster_choose').change(function() {
+    <script>
+        $('.large_poster_choose').change(function() {
             var large_poster_val = $(this).val();
             var id = $(this).attr('id');
             $.ajax({
@@ -596,7 +601,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 }
             });
         })
-</script>
+    </script>
     <script type="text/javascript">
         $('.newviral_choose').change(function() {
 

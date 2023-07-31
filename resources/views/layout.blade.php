@@ -75,7 +75,8 @@
                                     <li>
                                         <form action="{{ route('customer.logout') }}" method="POST">
                                             @csrf
-                                            <button type="submit">Logout</button>
+                                            {{-- <button type="submit">Logout</button> --}}
+                                                @include('pages.include.logoutbutton')
                                         </form>
                                     </li>
                                 @else

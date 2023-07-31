@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="update-btn">
-                            <button type="submit" class="axil-btn btn-outline">Update Cart</button>
+                            <button type="submit" class="axil-btn btn-outline"style="max-width: 180px;" >Update Cart</button>
                         </div>
                     </div>
                 </form>

@@ -37,7 +37,8 @@
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <strong>Detail:</strong>
-                                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
+                                    <textarea class="form-control" style="height:150px" name="detail" id="ckeditor1" placeholder="Detail"></textarea>
+
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -162,6 +163,8 @@
             </form>
         </div>
     </div>
+   
+
     <script type="text/javascript">
         function deleteImage(id) {
             if (confirm("Are you sure you want to delete?")) {
