@@ -10,7 +10,7 @@ class WishlistController extends Controller
      public function index()
     {
         $customerId = Auth::guard('customer')->user()->id;
-        $wishlistItems = Wishlist::where('customer_id', $customerId)->with('product')->get();
+        $wishlistItems = Wishlist::where('customer_id', $customerId)->with('product', 'product.inventory')->get();
         return view('pages.wishlist', compact('wishlistItems'));
     }
       public function addToWishlist($product_id)

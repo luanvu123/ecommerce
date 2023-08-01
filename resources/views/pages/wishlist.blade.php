@@ -31,15 +31,25 @@
                                 </td>
 
                                 <td class="product-thumbnail">
-                                    <a href="{{ route('product', $item->product->slug) }}"><img src="{{ '/storage/' . $item->product->image_product }}"
+                                    <a href="{{ route('product', $item->product->slug) }}"><img
+                                            src="{{ '/storage/' . $item->product->image_product }}"
                                             alt="Digital Product"></a>
                                 </td>
-                                <td class="product-title"><a href="{{ route('product', $item->product->slug) }}">{{ $item->product->name }}</a></td>
+                                <td class="product-title"><a
+                                        href="{{ route('product', $item->product->slug) }}">{{ $item->product->name }}</a>
+                                </td>
                                 <td class="product-price" data-title="Price"><span
                                         class="currency-symbol"></span>{{ number_format($item->product->reduced_price, 0, ',', '.') }}
-                                                    VNĐ</td>
-                                <td class="product-stock-status" data-title="Status">{{ $item->product->detail }}</td>
-                                <td class="product-add-cart"><a href="{{ route('add.to.cart', ['product_id' => $item->product_id]) }}"
+                                    VNĐ</td>
+                                <td class="product-stock-status" data-title="Status">
+                                    @if ($item->product->inventory)
+                                        <p>Còn hàng</p>
+                                    @else
+                                        <p>Hết hàng</p>
+                                    @endif
+                                </td>
+                                <td class="product-add-cart"><a
+                                        href="{{ route('add.to.cart', ['product_id' => $item->product_id]) }}"
                                         class="axil-btn btn-outline">Add to Cart</a></td>
                             </tr>
                         @endforeach

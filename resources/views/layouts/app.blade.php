@@ -258,6 +258,31 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li>
                                     </ul>
                                 </li>
+                                 <li class="treeview {{ $segment == 'inventories' ? 'active' : '' }}">
+                                    <a href="#">
+                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
+                                            delay="2000" style="width:20px;height:20px">
+                                        </lord-icon>
+                                        <span>inventories</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                           <a href="{{ route('inventories.create') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Thêm inventories
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('inventories.index') }}">
+                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
+                                                    delay="2000" style="width:20px;height:20px">
+                                                </lord-icon>Liệt kê inventories
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
 
 
@@ -444,8 +469,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/jquery.nicescroll.js') }}"></script>
     <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
     <script>
-       CKEDITOR.replace('ckeditor1');
+        CKEDITOR.replace('ckeditor1');
         CKEDITOR.replace('ckeditor2');
+        CKEDITOR.replace('note');
     </script>
     <script src="{{ asset('backend/js/scripts.js') }}"></script>
     <!--//scrolling js-->

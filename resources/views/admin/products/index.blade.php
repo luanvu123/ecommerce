@@ -20,6 +20,8 @@
                                 <th>Product Meta</th>
                                 <th>Price</th>
                                 <th>Giảm giá</th>
+                                <th>Số lượng tồn</th>
+                                <th>Thêm số lượng</th>
                                 <th>Hot Deals</th>
                                 <th>New viral</th>
                                 <th>Most_sold</th>
@@ -46,6 +48,16 @@
                                     <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>
                                     <td>{{ number_format($product->reduced_price, 0, ',', '.') }} VNĐ</td>
                                     <td>
+                                        @php
+                                            $totalQuantity = $totalQuantities[$product->id] ?? 0;
+                                        @endphp
+                                        {{ $totalQuantity }}
+                                    </td>
+                                      <td>
+                                        <a href="{{ route('inventories.create.product', ['product_id' => $product->id]) }}"
+                                            class="btn btn-primary btn-sm">Add Quantity</a>
+                                    </td>
+                                    <td>
                                         <select id="{{ $product->id }}"class="hotDeal_choose">
                                             @if ($product->hot_deals == 0)
                                                 <option value="1"> Có</option>
@@ -56,6 +68,7 @@
                                             @endif
                                         </select>
                                     </td>
+
                                     <td>
                                         <select class="newviral_choose" id="{{ $product->id }}">
                                             <option value="1" @if ($product->new_viral == 1) selected @endif>Yes

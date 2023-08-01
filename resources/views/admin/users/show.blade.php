@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">User Information</div>
-
                 <div class="card-body">
                     <div class="form-group row">
                         <label for="name" class="col-md-4 col-form-label text-md-right">Name:</label>
@@ -14,14 +13,12 @@
                             <p class="form-control-static">{{ $user->name }}</p>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="email" class="col-md-4 col-form-label text-md-right">Email:</label>
                         <div class="col-md-6">
                             <p class="form-control-static">{{ $user->email }}</p>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="roles" class="col-md-4 col-form-label text-md-right">Roles:</label>
                         <div class="col-md-6">
@@ -32,7 +29,6 @@
                             @endif
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="avatar" class="col-md-4 col-form-label text-md-right">Avatar:</label>
                         <div class="col-md-6">
@@ -43,7 +39,6 @@
                             @endif
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="favorite_color" class="col-md-4 col-form-label text-md-right">Favorite Color:</label>
                         <div class="col-md-6">
@@ -54,7 +49,6 @@
                             @endif
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="gender" class="col-md-4 col-form-label text-md-right">Gender:</label>
                         <div class="col-md-6">

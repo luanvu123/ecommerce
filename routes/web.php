@@ -18,6 +18,7 @@ use App\Http\Controllers\CustomerLoginController;
 use App\Http\Controllers\CustomerRegisterController;
 use App\Http\Controllers\CustomerForgotPasswordController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
@@ -62,10 +63,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('policies', PolicyController::class);
     Route::resource('posters', PosterController::class);
     Route::resource('metas', ProductMetaController::class);
+    Route::resource('inventories', InventoryController::class);
+    Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
 
-      Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
+
+    Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
     Route::get('/poster-choose', [PosterController::class, 'poster_choose'])->name('poster-choose');
-      Route::get('/large-poster-choose', [PosterController::class, 'large_poster_choose'])->name('large-poster-choose');
+    Route::get('/large-poster-choose', [PosterController::class, 'large_poster_choose'])->name('large-poster-choose');
     Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
     Route::get('/policy-choose', [PolicyController::class, 'policy_choose'])->name('policy-choose');
     Route::get('/hotDeal-choose', [ProductController::class, 'hotDeal_choose'])->name('hotDeal-choose');
@@ -119,6 +123,10 @@ Route::get('/signup', [CustomerRegisterController::class, 'showRegistrationForm'
 Route::post('/customer-logout', [CustomerLoginController::class, 'logout'])->name('customer.logout');
 Route::get('/customer/password/reset', [CustomerForgotPasswordController::class, 'showCustomerLinkRequestForm'])
     ->name('customer.request');
+Route::post('/reset-new-pass', [CustomerForgotPasswordController::class, 'reset_new_pass'])->name('customer.update');
+Route::get('/update-new-pass', [CustomerForgotPasswordController::class, 'update_new_pass']);
+Route::post('/customer/password/email', [CustomerForgotPasswordController::class, 'sendPasswordResetLink'])
+    ->name('customer.email');
 
 
 // Route for showing the customer login form

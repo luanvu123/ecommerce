@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="product-content">
                                     <div class="inner">
-                                        <h5 class="title"><a href="single-product.html">{{ $product->name }}</a></h5>
+                                        <h5 class="title"><a href="{{ route('product', $product->slug) }}">{{ $product->name }}</a></h5>
                                         <div class="product-price-variant">
                                             <span
                                                 class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}

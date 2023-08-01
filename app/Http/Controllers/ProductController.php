@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Meta;
 use App\Models\Product;
 use App\Models\Product_Meta;
@@ -29,12 +30,17 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::with('product_meta')->orderBy('id', 'DESC')->get();
+        $productIds = $products->pluck('id')->toArray();
+        $totalQuantities = Inventory::whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->selectRaw('product_id, SUM(quantity) as total_quantity')
+            ->pluck('total_quantity', 'product_id');
         $path = public_path() . "/json/";
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
         File::put($path . 'products.json', json_encode($products));
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products', 'totalQuantities'));
     }
 
     /**
