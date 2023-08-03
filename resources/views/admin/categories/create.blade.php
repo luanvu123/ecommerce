@@ -22,6 +22,14 @@
             </ul>
         </div>
     @endif
+    @if (Session::has('success'))
+        <div class="alert alert-success">{{ Session::get('success') }}</div>
+    @endif
+
+    @if (Session::has('error'))
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+    @endif
+
 
     <form action="{{ route('categories.store') }}" method="POST"enctype="multipart/form-data">
         @csrf
@@ -55,7 +63,7 @@
                     </select>
                 </div>
             </div>
-               <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Parent Category:</strong>
                     <select name="parent_id" class="form-control">

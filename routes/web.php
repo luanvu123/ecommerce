@@ -136,7 +136,11 @@ Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])
 Route::post('/customer-login', [CustomerLoginController::class, 'login'])->name('customer.login.submit');
 // Routes that require customer authentication
 Route::get('/my-account', [CustomerLoginController::class, 'showAccount'])->name('customer.account');
+Route::get('/customer-login-google', [CustomerLoginController::class, 'redirectToGoogle'])->name('customer.login.google');
+Route::get('/customer-login-google/callback', [CustomerLoginController::class, 'handleGoogleCallback']);
 
+Route::get('/customer-login-facebook', [CustomerLoginController::class, 'redirectToFacebook'])->name('customer.login.facebook');
+Route::get('/customer-login-facebook/callback', [CustomerLoginController::class, 'handleFacebookCallback']);
 
 Route::middleware('customer')->group(function () {
     //wishlist

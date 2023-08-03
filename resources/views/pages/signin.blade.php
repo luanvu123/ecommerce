@@ -36,8 +36,8 @@
         <div class="signin-header">
             <div class="row align-items-center">
                 <div class="col-sm-4">
-                    <a href="{{ route('/') }}" class="site-logo"><img src="{{ asset('fontend') }}/images/logo/logo.png"
-                            alt="logo"></a>
+                    <a href="{{ route('/') }}" class="site-logo"><img
+                            src="{{ asset('fontend') }}/images/logo/logo.png" alt="logo"></a>
                 </div>
                 <div class="col-sm-8">
                     <div class="singin-header-btn">
@@ -81,6 +81,20 @@
                                     password?</a>
                             </div>
                         </form>
+                        <!-- Đăng nhập bằng Google -->
+                        <a href="{{ route('customer.login.google') }}">
+                            <img src="{{ asset('fontend/images/logo/682665_favicon_google_logo_new_icon.png') }}"
+                                alt="Google" width="20" height="20">
+                            Đăng nhập bằng Google
+                        </a>
+
+                        <!-- Đăng nhập bằng Facebook -->
+                        <a href="{{ route('customer.login.facebook') }}">
+                            <img src="{{ asset('fontend/images/logo/4102573_applications_facebook_media_social_icon.png') }}"
+                                alt="Facebook" width="20" height="20">
+                            Đăng nhập bằng Facebook
+                        </a>
+
                     </div>
                 </div>
             </div>
