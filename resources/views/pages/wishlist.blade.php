@@ -42,7 +42,10 @@
                                         class="currency-symbol"></span>{{ number_format($item->product->reduced_price, 0, ',', '.') }}
                                     VNĐ</td>
                                 <td class="product-stock-status" data-title="Status">
-                                    @if ($item->product->inventory)
+                                    @php
+                                        $remainQuantity = $remainQuantities[$item->product->id] ?? 0;
+                                    @endphp
+                                    @if ($remainQuantity > 0)
                                         <p>Còn hàng</p>
                                     @else
                                         <p>Hết hàng</p>

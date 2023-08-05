@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use App\Models\Category;
 use App\Models\Info;
 use App\Models\Policy;
@@ -9,6 +10,7 @@ use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Composers\CartTotalQuantityComposer;
+use App\Http\View\Composers\RemainQuantitiesComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         //route layout
         $categories = Category::where('status', 1)->get();
         View::composer('layout', CartTotalQuantityComposer::class);
+        View::composer('pages.cart', RemainQuantitiesComposer::class);
         View::share([
             'info' => $info,
             'product_total' => $product_total,

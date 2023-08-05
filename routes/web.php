@@ -13,16 +13,19 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CouponController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CustomerLoginController;
 use App\Http\Controllers\CustomerRegisterController;
 use App\Http\Controllers\CustomerForgotPasswordController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OutgoingProductController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TempImageController;
 use App\Http\Controllers\WishlistController;
 
@@ -63,11 +66,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('policies', PolicyController::class);
     Route::resource('posters', PosterController::class);
     Route::resource('metas', ProductMetaController::class);
+    Route::resource('coupons', CouponController::class);
     Route::resource('inventories', InventoryController::class);
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('outgoing_products', OutgoingProductController::class);
     Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
-
+    Route::get('/outgoing-products/create/{product_id}', [OutgoingProductController::class, 'outgoing_create_product'])->name('outgoing.products.create.product');
 
     Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
+    Route::get('/supplier-choose', [SupplierController::class, 'supplier_choose'])->name('supplier-choose');
     Route::get('/poster-choose', [PosterController::class, 'poster_choose'])->name('poster-choose');
     Route::get('/large-poster-choose', [PosterController::class, 'large_poster_choose'])->name('large-poster-choose');
     Route::get('/trangthai-choose', [ProductController::class, 'trangthai_choose'])->name('trangthai-choose');
@@ -76,6 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/cate-choose', [CategoryController::class, 'cate_choose'])->name('cate-choose');
     Route::get('/newviral-choose', [ProductController::class, 'updateNewViralChoose'])->name('newviral-choose');
     Route::get('/mostsold-choose', [ProductController::class, 'updateMostSoldChoose'])->name('mostsold-choose');
+    Route::get('/coupon-choose', [CouponController::class, 'coupon_choose'])->name('coupon-choose');
 
 
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
@@ -155,4 +163,5 @@ Route::middleware('customer')->group(function () {
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
     Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::match(['put', 'patch'], '/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
+    Route::post('/cart/applyCoupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
 });

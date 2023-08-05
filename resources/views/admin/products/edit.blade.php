@@ -82,6 +82,20 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
+                                    <label for="supplier_id">Supplier</label>
+                                    <select name="supplier_id" id="supplier_id" class="form-control">
+                                        <option value="">Select a supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}"
+                                                {{ $supplier->id == $product->supplier_id ? 'selected' : '' }}>
+                                                {{ $supplier->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
                                     <strong>Detail:</strong>
                                     <textarea class="form-control" id="ckeditor2" name="detail" placeholder="Detail">{{ $product->detail }}</textarea>
                                 </div>

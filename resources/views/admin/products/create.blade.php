@@ -93,6 +93,18 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
+                                    <label for="supplier_id">Nhà cung cấp</label>
+                                    <select name="supplier_id" id="supplier_id" class="form-control">
+                                        <option value="">Chọn nhà cung cấp</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
                                     <strong>Hot Deals:</strong>
                                     <select name="status" class="form-control">
                                         <option value="1">Có</option>
@@ -163,7 +175,7 @@
             </form>
         </div>
     </div>
-   
+
 
     <script type="text/javascript">
         function deleteImage(id) {

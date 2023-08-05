@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="containe-fluid">
-
         <div class="row justify-content-center">
             <div class="col-md-12">
                 @can('product-create')
@@ -16,12 +15,13 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Category</th>
-                                <th>Detail</th>
+                                <th>Nhà phân phối</th>
                                 <th>Product Meta</th>
                                 <th>Price</th>
                                 <th>Giảm giá</th>
-                                <th>Số lượng tồn</th>
-                                <th>Thêm số lượng</th>
+                                <th>Số lượng nhập</th>
+                                <th>Số lượng xuất</th>
+                                <th>SLT</th>
                                 <th>Hot Deals</th>
                                 <th>New viral</th>
                                 <th>Most_sold</th>
@@ -38,7 +38,13 @@
                                     <td>
                                         <span class="badge badge-pill badge-primary">{{ $product->category->name }}</span>
                                     </td>
-                                    <td>{{ Str::limit($product->detail, 50) }}</td>
+                                    <td>
+                                        @if ($product->supplier)
+                                            {{ $product->supplier->name }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
 
                                     <td>
                                         @foreach ($product->product_meta as $met)
@@ -51,11 +57,23 @@
                                         @php
                                             $totalQuantity = $totalQuantities[$product->id] ?? 0;
                                         @endphp
-                                        {{ $totalQuantity }}
+                                        {{ $totalQuantity }} <a
+                                            href="{{ route('inventories.create.product', ['product_id' => $product->id]) }}"
+                                            class="btn btn-primary btn-sm">Nhập kho</a>
                                     </td>
-                                      <td>
-                                        <a href="{{ route('inventories.create.product', ['product_id' => $product->id]) }}"
-                                            class="btn btn-primary btn-sm">Add Quantity</a>
+                                    <td>
+                                        @php
+                                            $totalOutgoingProduct = $outgoingProducts[$product->id] ?? 0;
+                                        @endphp
+                                        {{ $totalOutgoingProduct }} <a
+                                            href="{{ route('outgoing.products.create.product', ['product_id' => $product->id]) }}"
+                                            class="btn btn-primary btn-sm">Xuất kho</a>
+                                    </td>
+                                    <td>
+                                        @php
+                                            $remainQuantity = $remainQuantities[$product->id] ?? 0;
+                                        @endphp
+                                        {{ $remainQuantity }}
                                     </td>
                                     <td>
                                         <select id="{{ $product->id }}"class="hotDeal_choose">

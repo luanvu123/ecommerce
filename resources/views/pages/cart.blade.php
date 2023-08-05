@@ -5,6 +5,18 @@
         <div class="container">
             <div class="axil-product-cart-wrap">
                 <div class="product-table-heading">
+                    @if (session()->has('coupon_error'))
+                        <div class="alert alert-danger">
+                            {{ session()->get('coupon_error') }}
+                        </div>
+                    @endif
+
+                    @if (session()->has('coupon_message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('coupon_message') }}
+                        </div>
+                    @endif
+
                     <h4 class="title">Your Cart</h4>
                     <a href="{{ route('cart.clear') }}" class="cart-clear">Clear Shoping Cart</a>
                 </div>
@@ -19,6 +31,7 @@
                                     <th scope="col" class="product-thumbnail">Product</th>
                                     <th scope="col" class="product-title"></th>
                                     <th scope="col" class="product-price">Price</th>
+                                    <th scope="col" class="product-stock-status">Stock Status</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     <th scope="col" class="product-subtotal">Subtotal</th>
                                 </tr>
@@ -44,23 +57,34 @@
                                             <a
                                                 href="{{ route('product', $cart->product->slug) }}">{{ $cart->product->name }}</a>
                                         </td>
+
+
                                         <td class="product-price" data-title="Price">
                                             <span class="currency-symbol"></span>
                                             {{ number_format($cart->product->reduced_price, 0, ',', '.') }}
                                             VNĐ
                                         </td>
+                                        <td class="product-stock-status" data-title="Status">
+
+                                            @php
+                                                $remainQuantity =  $cart->product_id ?? 0;
+                                            @endphp
+                                            @if ($remainQuantity > 0)
+                                                <p>Còn hàng</p>
+                                            @else
+                                                <p>Hết hàng</p>
+                                            @endif
+                                        </td>
                                         <td class="product-quantity" data-title="Qty">
                                             <div class="pro-qty">
                                                 <input type="number" class="quantity-input"
-                                                    name="cart[{{ $cart->product_id }}]"
-                                                    value="{{ $cart->quantity }}">
+                                                    name="cart[{{ $cart->product_id }}]" value="{{ $cart->quantity }}">
                                             </div>
                                         </td>
-                                        <td class="product-subtotal"
-                                                    data-title="Subtotal">
-                                                <span
-                                                    class="currency-symbol"></span>{{ number_format($cart->subtotal, 0, ',', '.') }}
-                                                VNĐ
+                                        <td class="product-subtotal" data-title="Subtotal">
+                                            <span
+                                                class="currency-symbol"></span>{{ number_format($cart->subtotal, 0, ',', '.') }}
+                                            VNĐ
                                         </td>
                                     </tr>
                                 @endforeach
@@ -69,14 +93,18 @@
                         </table>
                     </div>
                     <div class="cart-update-btn-area">
-                        <div class="input-group product-cupon">
-                            <input placeholder="Enter coupon code" type="text">
-                            <div class="product-cupon-btn">
-                                <button type="submit" class="axil-btn btn-outline">Apply</button>
+                        <form action="{{ route('cart.applyCoupon') }}" method="POST">
+                            @csrf
+                            <div class="input-group product-cupon">
+                                <input name="coupon_code" placeholder="Enter coupon code" type="text">
+                                <div class="product-cupon-btn">
+                                    <button type="submit" class="axil-btn btn-outline">Apply</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="update-btn">
-                            <button type="submit" class="axil-btn btn-outline"style="max-width: 180px;" >Update Cart</button>
+                            <button type="submit" class="axil-btn btn-outline"style="max-width: 180px;">Update
+                                Cart</button>
                         </div>
                     </div>
                 </form>
@@ -89,7 +117,12 @@
                                     <tbody>
                                         <tr class="order-subtotal">
                                             <td>Subtotal</td>
-                                            <td>$117.00</td>
+                                            <td>{{ number_format($total, 0, ',', '.') }}
+                                                VNĐ</td>
+                                        </tr>
+                                        <tr class="order-tax">
+                                            <td>Coupon</td>
+                                            <td>{{ number_format($couponDiscount, 0, ',', '.') }} VNĐ</td>
                                         </tr>
                                         <tr class="order-shipping">
                                             <td>Shipping</td>
@@ -114,7 +147,8 @@
                                         </tr>
                                         <tr class="order-total">
                                             <td>Total</td>
-                                            <td class="order-total-amount">$125.00</td>
+                                            <td class="order-total-amount">
+                                                {{ number_format($totalAfterCoupon, 0, ',', '.') }} VNĐ</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>Danh sách kho hàng</h2>
+         <a href="{{ route('inventories.create') }}" class="btn btn-primary">Tạo mới</a>
         <table class="table" id="tableevent">
             <thead>
                 <tr>

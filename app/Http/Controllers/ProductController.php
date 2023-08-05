@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Inventory;
 use App\Models\Meta;
+use App\Models\OutgoingProduct;
 use App\Models\Product;
 use App\Models\Product_Meta;
 use App\Models\ProductImage;
+use App\Models\Supplier;
 use App\Models\TempImage;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
@@ -35,12 +37,28 @@ class ProductController extends Controller
             ->groupBy('product_id')
             ->selectRaw('product_id, SUM(quantity) as total_quantity')
             ->pluck('total_quantity', 'product_id');
+
+        // Calculate total outgoing product quantities
+        $outgoingProducts = OutgoingProduct::whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->selectRaw('product_id, SUM(quantity) as total_outgoing_quantity')
+            ->pluck('total_outgoing_quantity', 'product_id');
+
+        // Calculate remain quantities
+        $remainQuantities = collect();
+        foreach ($products as $product) {
+            $totalQuantity = $totalQuantities[$product->id] ?? 0;
+            $outgoingQuantity = $outgoingProducts[$product->id] ?? 0;
+            $remainQuantity = $totalQuantity - $outgoingQuantity;
+            $remainQuantities[$product->id] = $remainQuantity;
+        }
+
         $path = public_path() . "/json/";
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
         File::put($path . 'products.json', json_encode($products));
-        return view('admin.products.index', compact('products', 'totalQuantities'));
+        return view('admin.products.index', compact('products', 'totalQuantities', 'remainQuantities', 'outgoingProducts'));
     }
 
     /**
@@ -52,7 +70,8 @@ class ProductController extends Controller
     {
         $categories = Category::where('status', 1)->get();
         $list_metas = Meta::where('status', 1)->get();
-        return view('admin.products.create', compact('categories', 'list_metas'));
+        $suppliers = Supplier::where('status', 1)->get();
+        return view('admin.products.create', compact('categories', 'list_metas', 'suppliers'));
     }
 
     /**
@@ -75,6 +94,7 @@ class ProductController extends Controller
             'status' => 'nullable|boolean',
             'new_viral' => 'nullable|boolean',
             'most_sold' => 'nullable|boolean',
+            'supplier_id' => 'nullable|exists:suppliers,id', // Thêm validation cho supplier_id
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -85,7 +105,6 @@ class ProductController extends Controller
         $category = Category::find($request->input('category_id'));
 
         if ($category && $category->parent_id === null) {
-            // If the parent_id is NULL, it means the category is not suitable for product association.
             return redirect()->back()->withErrors(['category_id' => 'Vui lòng chọn danh mục con.']);
         }
         $validator->after(function ($validator) use ($request) {
@@ -114,6 +133,7 @@ class ProductController extends Controller
             'status' => $request->has('status'),
             'new_viral' => $request->has('new_viral'),
             'most_sold' => $request->has('most_sold'),
+            'supplier_id' => $request->has('supplier_id'),
         ]);
         $product->user_id = auth()->id();
         if (!empty($request->meta)) {
@@ -174,6 +194,7 @@ class ProductController extends Controller
             'status' => 'nullable|boolean',
             'new_viral' => 'nullable|boolean',
             'most_sold' => 'nullable|boolean',
+            'supplier_id' => 'nullable|exists:suppliers,id', // Thêm validation cho supplier_id
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -221,6 +242,7 @@ class ProductController extends Controller
         $product->status = $request->input('status');
         $product->new_viral = $request->input('new_viral');
         $product->most_sold = $request->input('most_sold');
+        $product->supplier_id = $request->input('supplier_id');
         $product->user_id = auth()->id();
         if (!empty($request->meta)) {
             foreach ($request['meta'] as $key => $met) {
@@ -274,14 +296,15 @@ class ProductController extends Controller
     {
         $product = Product::find($product_id);
         $product_meta = $product->product_meta;
-        $list_metas = Meta::all();
+        $suppliers = Supplier::where('status', 1)->get();
+        $list_metas = Meta::where('status', 1)->get();
         if ($product == null) {
             return redirect()->route('products.index');
         }
         $productImages = ProductImage::where('product_id', $product->id)->get();
         $data['product'] = $product;
         $data['productImages'] = $productImages;
-        return view('admin.products.edit', $data, compact('product_meta', 'list_metas'));
+        return view('admin.products.edit', $data, compact('product_meta', 'list_metas', 'suppliers'));
     }
 
 

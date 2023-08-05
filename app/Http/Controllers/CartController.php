@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Coupon;
 use App\Models\Product;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +22,10 @@ class CartController extends Controller
         });
         $total = $carts->sum('subtotal');
         $cartTotalQuantity = $carts->sum('quantity');
-        return view('pages.cart', compact('carts', 'total', 'cartTotalQuantity'));
+        $couponDiscount = 0;
+        $totalAfterCoupon = $total;
+
+        return view('pages.cart', compact('carts', 'total', 'couponDiscount', 'cartTotalQuantity', 'totalAfterCoupon'));
     }
     public function addToCart(Request $request, $product_id)
     {
@@ -96,6 +101,39 @@ class CartController extends Controller
             }
         }
         return redirect()->back();
-
     }
+    public function applyCoupon(Request $request)
+{
+    $customer = Auth::guard('customer')->user();
+    $carts = Cart::where('customer_id', $customer->id)->get();
+    $carts->each(function ($cart) {
+        $product = $cart->product;
+        $price = $product->reduced_price;
+        $cart->subtotal = $cart->quantity * $price;
+    });
+    $total = $carts->sum('subtotal');
+    $cartTotalQuantity = $carts->sum('quantity');
+
+    $couponCode = $request->input('coupon_code');
+    $couponDiscount = 0;
+    $message = '';
+
+    if ($couponCode) {
+        $coupon = Coupon::where('code', $couponCode)->where('status', 1)->where('expires_at', '>=', now())->first();
+
+        if ($coupon) {
+            $couponDiscount = ($coupon->type === 'percent') ? $total * ($coupon->value / 100) : $coupon->value;
+            $message = 'Coupon applied successfully!';
+        } else {
+            $message = 'Invalid coupon code. Please try again.';
+            return redirect()->back()->with('coupon_error', $message);
+        }
+    }
+
+    $totalAfterCoupon = $total - $couponDiscount;
+    session()->flash('coupon_message', $message);
+
+    return view('pages.cart', compact('carts', 'total', 'cartTotalQuantity', 'couponDiscount', 'totalAfterCoupon'));
+}
+
 }

@@ -15,7 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id'
+        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id', 'supplier_id'
     ];
 
     /**
@@ -46,6 +46,10 @@ class Product extends Model
      public function inventory()
     {
         return $this->hasOne(Inventory::class);
+    }
+     public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
 }
