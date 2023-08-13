@@ -38,9 +38,15 @@
                                 <td class="product-title"><a
                                         href="{{ route('product', $item->product->slug) }}">{{ $item->product->name }}</a>
                                 </td>
-                                <td class="product-price" data-title="Price"><span
-                                        class="currency-symbol"></span>{{ number_format($item->product->reduced_price, 0, ',', '.') }}
-                                    VNĐ</td>
+                                <td class="product-price" data-title="Price"><span class="currency-symbol"></span>
+                                    @if ($item->product->reduced_price !== null)
+                                        {{ number_format($item->product->reduced_price, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($item->product->price, 0, ',', '.') }}
+                                        VNĐ
+                                    @endif
+
+                                </td>
                                 <td class="product-stock-status" data-title="Status">
                                     @php
                                         $remainQuantity = $remainQuantities[$item->product->id] ?? 0;

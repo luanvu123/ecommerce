@@ -50,6 +50,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/owl.carousel.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('backend/css/dropzone.min.css') }}">
     <script src="{{ asset('backend/js/jquery-1.11.1.min.js') }}"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#owl-demo').owlCarousel({
@@ -491,7 +492,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/bootstrap.js') }}"></script>
     <!-- //Bootstrap Core JavaScript -->
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
@@ -747,6 +748,10 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
+
+
+
+
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>

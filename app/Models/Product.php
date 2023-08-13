@@ -51,5 +51,9 @@ class Product extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+      public function outgoing_product()
+    {
+        return $this->hasOne(OutgoingProduct::class);
+    }
 
 }

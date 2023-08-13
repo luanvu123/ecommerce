@@ -25,4 +25,8 @@ class Supplier extends Model
     {
         return $this->belongsTo(User::class);
     }
+     public function outgoingProducts()
+    {
+        return $this->hasMany(OutgoingProduct::class);  // Add the new outgoingProducts relationship
+    }
 }

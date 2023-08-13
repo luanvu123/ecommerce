@@ -1,21 +1,15 @@
-<!-- create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
     <div class="container">
-        <h2>Add Quantity for: <b>{{ $product->name }}</b></h2>
-        <form action="{{ route('inventories.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" name="quantity" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="note">Note (optional):</label>
-                <textarea name="note" class="form-control" id="note"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Quantity</button>
-        </form>
+        <h2>Thông tin kho hàng</h2>
+        <p><strong>Sản phẩm:</strong> {{ $inventory->product->name }}</p>
+        <p><strong>Số lượng:</strong> {{ $inventory->quantity }}</p>
+        <p><strong>Đơn giá:</strong> {{ $inventory->price }}</p>
+        <p><strong>Thành tiền:</strong> {{ $inventory->total_amount }}</p>
+        <p><strong>Ghi chú:</strong> {{ $inventory->note }}</p>
+        <p><strong>Người nhập kho:</strong> {{ $inventory->user->name }}</p>
+        <a href="{{ route('inventories.generatePDF', $inventory->id) }}" class="btn btn-primary">Tạo PDF</a>
     </div>
 @endsection
+

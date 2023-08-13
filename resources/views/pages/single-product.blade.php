@@ -73,9 +73,14 @@
                         <div class="single-product-content">
                             <div class="inner">
                                 <h2 class="product-title"> {{ $single_of_product->name }}</h2>
-                                <span
-                                    class="price-amount">{{ number_format($single_of_product->reduced_price, 0, ',', '.') }}
-                                    VNĐ</span>
+                                <span class="price-amount">
+                                    @if ($single_of_product->reduced_price !== null)
+                                        {{ number_format($single_of_product->reduced_price, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($single_of_product->price, 0, ',', '.') }}
+                                        VNĐ
+                                    @endif
+                                </span>
                                 <div class="product-rating">
 
                                 </div>

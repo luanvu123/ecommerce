@@ -118,7 +118,7 @@
                                     @if ($category->parent_id === null && $category->slug)
                                         <li class="menu-item-has-children">
                                             {{-- <a href="{{ route('category', ['slug' => $category->slug]) }}">{{ $category->name }}</a> --}}
-                                            <a href="{{ route('/') }}">{{ $category->name }}</a>
+                                            <a href="#">{{ $category->name }}</a>
                                             @if ($category->children->count() > 0)
                                                 <ul class="axil-submenu">
                                                     @foreach ($category->children as $child)

@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('outgoing_products', OutgoingProductController::class);
     Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
     Route::get('/outgoing-products/create/{product_id}', [OutgoingProductController::class, 'outgoing_create_product'])->name('outgoing.products.create.product');
+    Route::get('inventories/{inventory}/print', [InventoryController::class, 'generatePDF'])->name('inventories.generatePDF');
+    Route::get('/outgoing-products/{id}/generate-pdf', [OutgoingProductController::class, 'generatePDF'])->name('outgoing.products.generate.pdf');
+
 
     Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
     Route::get('/supplier-choose', [SupplierController::class, 'supplier_choose'])->name('supplier-choose');

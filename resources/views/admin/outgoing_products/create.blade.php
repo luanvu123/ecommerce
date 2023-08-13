@@ -2,6 +2,17 @@
 
 @section('content')
     <div class="container">
+         @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <h2>Tạo mới sản phẩm xuất kho</h2>
         <form action="{{ route('outgoing_products.store') }}" method="POST">
             @csrf

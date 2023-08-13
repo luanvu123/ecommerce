@@ -17,7 +17,11 @@ class CartController extends Controller
         $carts = Cart::where('customer_id', $customer->id)->get();
         $carts->each(function ($cart) {
             $product = $cart->product;
-            $price = $product->reduced_price;
+            if ($product->reduced_price !== null) {
+                $price = $product->reduced_price;
+            } else {
+                $price = $product->price;
+            }
             $cart->subtotal = $cart->quantity * $price;
         });
         $total = $carts->sum('subtotal');
@@ -40,7 +44,11 @@ class CartController extends Controller
             $cart->save();
         } else {
             $product = Product::findOrFail($product_id);
-            $price = $product->reduced_price;
+            if ($product->reduced_price !== null) {
+                $price = $product->reduced_price;
+            } else {
+                $price = $product->price;
+            }
             Cart::create([
                 'customer_id' => $customer_id,
                 'product_id' => $product_id,
@@ -103,37 +111,40 @@ class CartController extends Controller
         return redirect()->back();
     }
     public function applyCoupon(Request $request)
-{
-    $customer = Auth::guard('customer')->user();
-    $carts = Cart::where('customer_id', $customer->id)->get();
-    $carts->each(function ($cart) {
-        $product = $cart->product;
-        $price = $product->reduced_price;
-        $cart->subtotal = $cart->quantity * $price;
-    });
-    $total = $carts->sum('subtotal');
-    $cartTotalQuantity = $carts->sum('quantity');
+    {
+        $customer = Auth::guard('customer')->user();
+        $carts = Cart::where('customer_id', $customer->id)->get();
+        $carts->each(function ($cart) {
+            $product = $cart->product;
+            if ($product->reduced_price !== null) {
+                $price = $product->reduced_price;
+            } else {
+                $price = $product->price;
+            }
+            $cart->subtotal = $cart->quantity * $price;
+        });
+        $total = $carts->sum('subtotal');
+        $cartTotalQuantity = $carts->sum('quantity');
 
-    $couponCode = $request->input('coupon_code');
-    $couponDiscount = 0;
-    $message = '';
+        $couponCode = $request->input('coupon_code');
+        $couponDiscount = 0;
+        $message = '';
 
-    if ($couponCode) {
-        $coupon = Coupon::where('code', $couponCode)->where('status', 1)->where('expires_at', '>=', now())->first();
+        if ($couponCode) {
+            $coupon = Coupon::where('code', $couponCode)->where('status', 1)->where('expires_at', '>=', now())->first();
 
-        if ($coupon) {
-            $couponDiscount = ($coupon->type === 'percent') ? $total * ($coupon->value / 100) : $coupon->value;
-            $message = 'Coupon applied successfully!';
-        } else {
-            $message = 'Invalid coupon code. Please try again.';
-            return redirect()->back()->with('coupon_error', $message);
+            if ($coupon) {
+                $couponDiscount = ($coupon->type === 'percent') ? $total * ($coupon->value / 100) : $coupon->value;
+                $message = 'Coupon applied successfully!';
+            } else {
+                $message = 'Invalid coupon code. Please try again.';
+                return redirect()->back()->with('coupon_error', $message);
+            }
         }
+
+        $totalAfterCoupon = $total - $couponDiscount;
+        session()->flash('coupon_message', $message);
+
+        return view('pages.cart', compact('carts', 'total', 'cartTotalQuantity', 'couponDiscount', 'totalAfterCoupon'));
     }
-
-    $totalAfterCoupon = $total - $couponDiscount;
-    session()->flash('coupon_message', $message);
-
-    return view('pages.cart', compact('carts', 'total', 'cartTotalQuantity', 'couponDiscount', 'totalAfterCoupon'));
-}
-
 }

@@ -3,13 +3,16 @@
 @section('content')
     <div class="container">
         <h2>Danh sách kho hàng</h2>
-         <a href="{{ route('inventories.create') }}" class="btn btn-primary">Tạo mới</a>
-        <table class="table" id="tableevent">
+        <a href="{{ route('inventories.create') }}" class="btn btn-primary">Tạo mới</a>
+        <table class="display" id="tableevent">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Sản phẩm</th>
                     <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Người nhập</th>
                     <th>Ngày nhập</th>
                     <th>Ghi chú</th>
                     <th width="280px">Action</th>
@@ -18,12 +21,23 @@
             <tbody>
                 @foreach ($inventories as $key => $inventory)
                     <tr>
-                        <td>{{ $key }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>{{ $inventory->product->name }}</td>
                         <td>{{ $inventory->quantity }}</td>
-                        <td>{{ $inventory->created_at }}</td>
-                        <td>{!! $inventory->note !!}</td>
+                        <td>{{ $inventory->price }}</td>
+                        <td>{{ $inventory->total_amount }}</td>
                         <td>
+                            @if ($inventory->user)
+                                {{ $inventory->user->name }}
+                            @else
+                                Không có người dùng
+                            @endif
+                        </td>
+
+                        <td>{{ $inventory->created_at }}</td>
+                        <td>{{ $inventory->note }}</td>
+                        <td>
+                            <a href="{{ route('inventories.show', $inventory->id) }}" class="btn btn-info btn-sm">Xem</a>
                             <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

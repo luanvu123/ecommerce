@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use PDF;
 
 class InventoryController extends Controller
 {
@@ -13,7 +14,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::with('product')->orderBy('id', 'DESC')->get();
+        $inventories = Inventory::with('product', 'user')->orderBy('id', 'DESC')->get();
         return view('admin.inventories.index', compact('inventories'));
     }
 
@@ -21,10 +22,10 @@ class InventoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-     public function create_product($product_id)
+    public function create_product($product_id)
     {
         $product = Product::findOrFail($product_id);
-        return view('admin.inventories.show', compact('product'));
+        return view('admin.inventories.create_product', compact('product'));
     }
     public function create()
     {
@@ -32,24 +33,24 @@ class InventoryController extends Controller
         return view('admin.inventories.create', compact('products'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
             'note' => 'nullable|string',
+            'custom_price' => 'required|numeric|min:0',
         ]);
 
-        // Create a new Inventory instance
+        $product = Product::findOrFail($validatedData['product_id']);
+
         $inventory = new Inventory();
         $inventory->product_id = $validatedData['product_id'];
         $inventory->quantity = $validatedData['quantity'];
         $inventory->note = $validatedData['note'];
+        $inventory->price = $validatedData['custom_price'];
+        $inventory->total_amount = $validatedData['quantity'] * $validatedData['custom_price'];
+        $inventory->user_id = auth()->user()->id;
         $inventory->save();
 
         return redirect()->route('inventories.index')->with('success', 'Nhập kho thành công.');
@@ -60,10 +61,6 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -84,10 +81,26 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-  public function destroy(Inventory $inventory)
-{
-    $inventory->delete();
+    public function destroy(Inventory $inventory)
+    {
+        $inventory->delete();
 
-    return redirect()->route('inventories.index')->with('success', 'Xóa kho thành công.');
-}
+        return redirect()->route('inventories.index')->with('success', 'Xóa kho thành công.');
+    }
+    public function show(Inventory $inventory)
+    {
+        return view('admin.inventories.show', compact('inventory'));
+    }
+
+    /**
+     * Generate PDF for a specific inventory record.
+     *
+     * @param  \App\Models\Inventory  $inventory
+     * @return \Illuminate\Http\Response
+     */
+    public function generatePDF(Inventory $inventory)
+    {
+        $pdf = PDF::loadView('admin.inventories.pdf', compact('inventory'));
+        return $pdf->download('inventory.pdf');
+    }
 }
