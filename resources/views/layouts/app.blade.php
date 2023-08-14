@@ -50,7 +50,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/owl.carousel.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('backend/css/dropzone.min.css') }}">
     <script src="{{ asset('backend/js/jquery-1.11.1.min.js') }}"></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#owl-demo').owlCarousel({
@@ -102,9 +102,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 <li class="header">MAIN EVENT</li>
                                 <li class="treeview">
                                     <a href="{{ url('/home') }}">
-                                        <lord-icon src="https://cdn.lordicon.com/ridbdkcb.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon> <span>Dashboard</span>
+                                        <img src="{{ asset('backend/images/3643769_building_home_house_main_menu_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
+                                        <span>Dashboard</span>
                                     </a>
                                 </li>
                                 @php
@@ -112,105 +112,94 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 @endphp
                                 <li class="treeview {{ $segment == 'products' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/9165478_unbox_package_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>Sản phẩm</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('products.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Thêm sản phẩm
+                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Thêm sản phẩm
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('products.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Liệt kê sản phẩm
+                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Liệt kê sản phẩm
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="treeview">
                                     <a href="{{ route('users.index') }}">
-                                        <lord-icon src="https://cdn.lordicon.com/ljvjsnvh.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/3209206_add_admin_create_plus_user_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>User</span>
                                     </a>
                                 </li>
                                 <li class="treeview">
                                     <a href="{{ route('roles.index') }}">
-                                        <lord-icon src="https://cdn.lordicon.com/amxnacxd.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/3018587_admin_administrator_ajax_options_permission_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>Roles</span>
                                     </a>
                                 </li>
                                 <li class="treeview {{ $segment == 'categories' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/9054381_bx_category_alt_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>Thể loại</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('categories.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Thêm thể loại
+                                                <img src="{{ asset('backend/images/103433_category_add_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Thêm thể loại
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('categories.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Liệt kê thể loại
-                                            </a>
+                                                    <img src="{{ asset('backend/images/103614_numbered_list_icon.svg') }}"
+                                                        alt="Google" width="20" height="20">Liệt kê thể loại
+                                                </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="treeview {{ $segment == 'posters' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/7106362_layout_infographic_data_ui_element_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>Giao diện frontend</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('info.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/lxotnbfa.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon> <span>Chỉnh sửa giao diện</span>
+                                                <img src="{{ asset('backend/images/5355692_code_coding_development_programming_web_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                                <span>Chỉnh sửa giao diện</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('metas.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Product meta
+                                                <img src="{{ asset('backend/images/7787568_currenctly_right_arrow_direction_left_icon.svg') }}"
+                                                    alt="Google" width="20" height="20"> Product meta
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('posters.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Posters
+                                                <img src="{{ asset('backend/images/1851819_advertising_agent_banner_property_rent_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Posters
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('policies.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Policies
+                                                <img src="{{ asset('backend/images/9044964_policy_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                                Policies
                                             </a>
                                         </li>
                                     </ul>
@@ -218,50 +207,46 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </li>
                                 <li class="treeview {{ $segment == 'inventories' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/4295567_close_list_numbered_catalogue_checklist_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>inventories</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('inventories.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Nhập kho
+                                                <img src="{{ asset('backend/images/9057111_import_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Nhập kho
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('outgoing_products.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Xuất kho
+                                                <img src="{{ asset('backend/images/9057101_export_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                                Xuất kho
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="treeview {{ $segment == 'coupons' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/3615756_card_coupon_discount_gift_label_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>coupons</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('coupons.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Thêm coupons
+                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                                Thêm coupons
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('coupons.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Liệt kê coupons
+                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Liệt kê coupons
                                             </a>
                                         </li>
                                     </ul>
@@ -269,25 +254,22 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                                 <li class="treeview {{ $segment == 'suppliers' ? 'active' : '' }}">
                                     <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/ihyatngg.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                        <img src="{{ asset('backend/images/9989704_rating_evaluation_grade_ranking_rate_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>supplier</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('suppliers.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Thêm supplier
+                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Thêm supplier
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('suppliers.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Liệt kê supplier
+                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Liệt kê supplier
                                             </a>
                                         </li>
                                     </ul>
@@ -606,7 +588,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-      <script>
+    <script>
         $('.supplier_choose').change(function() {
 
             var trangthai_val = $(this).val();

@@ -65,9 +65,8 @@
                                             VNĐ
                                         </td>
                                         <td class="product-stock-status" data-title="Status">
-
                                             @php
-                                                $remainQuantity =  $cart->product_id ?? 0;
+                                                $remainQuantity = $remainQuantities[$cart->product->id] ?? 0;
                                             @endphp
                                             @if ($remainQuantity > 0)
                                                 <p>Còn hàng</p>
