@@ -71,7 +71,7 @@
                                                 class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
                                                 VNĐ</span>
                                             <span class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                VNĐ</span>
+                                                VNĐ</span> 
                                         </div>
                                     </div>
                                 </div>

@@ -8,6 +8,7 @@ use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+
 class SiteController extends Controller
 {
     public function index()
@@ -92,7 +93,7 @@ class SiteController extends Controller
 
     public function product($slug)
     {
-        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta','category')->first();
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta', 'category')->first();
         if (!$single_of_product) {
             abort(404);
         }
@@ -101,7 +102,12 @@ class SiteController extends Controller
         $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
         $single_of_product->discountPercentage = $discountPercentage;
         $viewedItems = Product::inRandomOrder()->where('status', 1)->limit(5)->get();
-
+        $viewedItems->each(function ($item) {
+            $price_item = $item->price; // Giá gốc
+            $reducedPrice_item = $item->reduced_price; // Giá giảm
+            $discountPercentageItems = round((($price_item - $reducedPrice_item) / $price_item) * 100);
+            $item->discountPercentageItems = $discountPercentageItems;
+        });
         return view('pages.single-product', [
             'single_of_product' =>  $single_of_product,
             'viewedItems' => $viewedItems,
@@ -173,7 +179,4 @@ class SiteController extends Controller
         ];
         return response()->json($data);
     }
-
-
-
 }

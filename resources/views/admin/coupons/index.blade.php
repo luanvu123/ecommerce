@@ -48,13 +48,17 @@
                             </select>
                         </td>
                         <td>
-                            <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-primary"> <img
+                                    src="{{ asset('backend/images/3671905_show_view_icon.svg') }}" alt="Google"
+                                    width="15" height="15"></a>
                             <form action="{{ route('coupons.destroy', $coupon->id) }}" method="POST"
                                 style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this coupon?')">Delete</button>
+                                    onclick="return confirm('Are you sure you want to delete this coupon?')">
+                                 <img src="{{ asset('backend/images/185090_delete_garbage_icon.svg') }}"
+                                                    alt="Google" width="15" height="15"></button>
                             </form>
                         </td>
                     </tr>

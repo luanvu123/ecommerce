@@ -37,12 +37,14 @@
                         <td>{{ $inventory->created_at }}</td>
                         <td>{{ $inventory->note }}</td>
                         <td>
-                            <a href="{{ route('inventories.show', $inventory->id) }}" class="btn btn-info btn-sm">Xem</a>
+                            <a href="{{ route('inventories.show', $inventory->id) }}" class="btn btn-info btn-sm"><img src="{{ asset('backend/images/3671905_show_view_icon.svg') }}"
+                                                    alt="Google" width="20" height="27" title="Xem"></a>
                             <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                    onclick="return confirm('Are you sure you want to delete?')"><img src="{{ asset('backend/images/185090_delete_garbage_icon.svg') }}"
+                                                    alt="Google" width="19" height="20"></button>
                             </form>
                         </td>
                     </tr>

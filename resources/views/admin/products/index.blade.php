@@ -57,17 +57,27 @@
                                         @php
                                             $totalQuantity = $totalQuantities[$product->id] ?? 0;
                                         @endphp
-                                        {{ $totalQuantity }} <a
-                                            href="{{ route('inventories.create.product', ['product_id' => $product->id]) }}"
-                                            class="btn btn-primary btn-sm">Nhập kho</a>
+                                        {{ $totalQuantity }}
+                                        <button title="Thêm số lượng">
+                                            <a
+                                                href="{{ route('inventories.create.product', ['product_id' => $product->id]) }}">
+                                                <img src="{{ asset('backend/images/9080891_database_import_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                            </a>
+                                        </button>
                                     </td>
                                     <td>
                                         @php
                                             $totalOutgoingProduct = $outgoingProducts[$product->id] ?? 0;
                                         @endphp
-                                        {{ $totalOutgoingProduct }} <a
-                                            href="{{ route('outgoing.products.create.product', ['product_id' => $product->id]) }}"
-                                            class="btn btn-primary btn-sm">Xuất kho</a>
+                                        {{ $totalOutgoingProduct }}
+                                        <button title="Xuất kho">
+                                            <a
+                                                href="{{ route('outgoing.products.create.product', ['product_id' => $product->id]) }}">
+                                                <img src="{{ asset('backend/images/6619689_and_arrow_cart_ecommerce_export_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                            </a>
+                                        </button>
                                     </td>
                                     <td>
                                         @php
@@ -127,12 +137,17 @@
                                     </td>
                                     <td>
                                         <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                                            <a class="btn btn-primary"
-                                                href="{{ route('products.edit', $product->id) }}">Edit</a>
+                                            <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}" title="Edit">
+                                                <img src="{{ asset('backend/images/185042_edit_modify_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                            </a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"
-                                                onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                                onclick="return confirm('Are you sure you want to delete this product?')">
+                                                <img src="{{ asset('backend/images/185090_delete_garbage_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

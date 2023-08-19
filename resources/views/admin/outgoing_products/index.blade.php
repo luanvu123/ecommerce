@@ -45,12 +45,14 @@
                         <td>{!! $outgoingProduct->note !!}</td>
                         <td>{{ $outgoingProduct->created_at }}</td>
                         <td>
-                             <a href="{{ route('outgoing_products.show', $outgoingProduct->id) }}" class="btn btn-info btn-sm">Xem</a>
                             <form action="{{ route('outgoing_products.destroy', $outgoingProduct->id) }}" method="POST">
+                                <a href="{{ route('outgoing_products.show', $outgoingProduct->id) }}" class="btn btn-info btn-sm"> <img src="{{ asset('backend/images/3671905_show_view_icon.svg') }}"
+                                                    alt="Google" width="20" height="28"></a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete?')">Xóa</button>
+                                    onclick="return confirm('Are you sure you want to delete?')"> <img src="{{ asset('backend/images/185090_delete_garbage_icon.svg') }}"
+                                                    alt="Google" width="20" height="20"></button>
                             </form>
                         </td>
                     </tr>

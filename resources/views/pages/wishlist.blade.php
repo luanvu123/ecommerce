@@ -41,6 +41,7 @@
                                 <td class="product-price" data-title="Price"><span class="currency-symbol"></span>
                                     @if ($item->product->reduced_price !== null)
                                         {{ number_format($item->product->reduced_price, 0, ',', '.') }}
+                                        VND
                                     @else
                                         {{ number_format($item->product->price, 0, ',', '.') }}
                                         VNĐ
