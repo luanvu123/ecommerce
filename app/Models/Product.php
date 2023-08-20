@@ -56,4 +56,13 @@ class Product extends Model
         return $this->hasOne(OutgoingProduct::class);
     }
 
+     public function options(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Option::class);
+    }
+
+    public function optionValues(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OptionValue::class);
+    }
 }
