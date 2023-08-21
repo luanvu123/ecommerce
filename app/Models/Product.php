@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     use HasFactory;
@@ -56,13 +56,8 @@ class Product extends Model
         return $this->hasOne(OutgoingProduct::class);
     }
 
-     public function options(): \Illuminate\Database\Eloquent\Relations\HasMany
+     public function skus(): HasMany
     {
-        return $this->hasMany(Option::class);
-    }
-
-    public function optionValues(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(OptionValue::class);
+        return $this->hasMany(Sku::class);
     }
 }

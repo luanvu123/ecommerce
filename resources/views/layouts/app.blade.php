@@ -275,6 +275,29 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                     </ul>
                                 </li>
 
+                                 <li class="treeview {{ $segment == 'attributes' ? 'active' : '' }}">
+                                    <a href="#">
+                                        <img src="{{ asset('backend/images/9989704_rating_evaluation_grade_ranking_rate_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
+                                        <span>attributes</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('attribute-options.index') }}">
+                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Gia tri attributes
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('attributes.index') }}">
+                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Liệt kê attributes
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
 
 
 

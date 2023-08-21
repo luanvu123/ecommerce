@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttributeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategoryController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
+use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TempImageController;
 use App\Http\Controllers\WishlistController;
@@ -70,6 +72,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('inventories', InventoryController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('outgoing_products', OutgoingProductController::class);
+    Route::resource('attributes', AttributeController::class);
+    Route::resource('attribute-options', AttributeOptionController::class);
+
     Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
     Route::get('/outgoing-products/create/{product_id}', [OutgoingProductController::class, 'outgoing_create_product'])->name('outgoing.products.create.product');
     Route::get('inventories/{inventory}/print', [InventoryController::class, 'generatePDF'])->name('inventories.generatePDF');
