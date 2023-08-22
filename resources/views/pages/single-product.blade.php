@@ -75,15 +75,87 @@
                                 <h2 class="product-title"> {{ $single_of_product->name }}</h2>
                                 <span class="price-amount">
                                     @if ($single_of_product->reduced_price !== null)
-                                        {{ number_format($single_of_product->reduced_price, 0, ',', '.') }}
+                                        {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
                                     @else
-                                        {{ number_format($single_of_product->price, 0, ',', '.') }}
-                                        VNĐ
+                                        {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
                                     @endif
                                 </span>
-                                <div class="product-rating">
 
-                                </div>
+                                @foreach ($attributeOptionsData as $attributeData)
+                                    <div class="product-rating">
+                                        <p>{{ $attributeData['name'] }}</p>
+                                        <div class="btn-group" role="group">
+                                            @foreach ($attributeData['options'] as $option)
+                                                <button type="button" class="btn btn-secondary option-button"
+                                                    data-attribute="{{ $attributeData['name'] }}"
+                                                    data-option="{{ $option }}">{{ $option }}</button>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const optionButtons = document.querySelectorAll(".option-button");
+                                        const selectedOptions = {};
+
+                                        const priceAmountElement = document.querySelector(".price-amount");
+                                        const originalPrice = {{ $single_of_product->price }};
+                                        const reducedPrice = {{ $single_of_product->reduced_price ?? $single_of_product->price }};
+
+                                        optionButtons.forEach(button => {
+                                            button.addEventListener("click", function() {
+                                                const attribute = button.getAttribute("data-attribute");
+                                                const option = button.getAttribute("data-option");
+
+                                                if (!selectedOptions[attribute]) {
+                                                    selectedOptions[attribute] = option;
+                                                    button.classList.add("active");
+                                                } else if (selectedOptions[attribute] === option) {
+                                                    delete selectedOptions[attribute];
+                                                    button.classList.remove("active");
+                                                } else {
+                                                    const prevOptionButton = document.querySelector(
+                                                        `.option-button[data-attribute="${attribute}"][data-option="${selectedOptions[attribute]}"]`
+                                                    );
+                                                    prevOptionButton.classList.remove("active");
+
+                                                    selectedOptions[attribute] = option;
+                                                    button.classList.add("active");
+                                                }
+
+                                                // Calculate and update price based on selected options
+                                                const calculatedPrice = selectedOptions.reduced_price !== undefined ?
+                                                    reducedPrice : originalPrice;
+                                                priceAmountElement.textContent = formatPrice(calculatedPrice);
+                                            });
+                                        });
+
+                                        function formatPrice(price) {
+                                            return new Intl.NumberFormat("en-US", {
+                                                style: "currency",
+                                                currency: "VND"
+                                            }).format(price);
+                                        }
+                                    });
+                                </script>
+
+
+
+
+                                <style>
+                                    /* Định dạng mặc định cho nút */
+                                    .btn-secondary.option-button {
+                                        background-color: white;
+                                        color: black;
+                                    }
+
+                                    /* Định dạng cho nút khi có lớp active */
+                                    .btn-secondary.option-button.active {
+                                        background-color: red;
+                                        color: white;
+                                    }
+                                </style>
                                 <ul class="product-meta">
                                     @foreach ($single_of_product->product_meta as $meta)
                                         <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>

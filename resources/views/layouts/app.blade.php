@@ -753,8 +753,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         })
     </script>
 
-
-
+    
 
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 

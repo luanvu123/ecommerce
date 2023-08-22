@@ -36,14 +36,19 @@
                 <input type="radio" name="status" value="0" {{ !$sku->status ? 'checked' : '' }}> Do Not Display
             </label>
         </div>
-        <div class="form-group">
-            <label for="attribute_options">Attribute Options</label>
-            <select name="attribute_options[]" id="attribute_options" class="form-control" multiple>
-                @foreach ($attributeOptions as $option)
-                    <option value="{{ $option->id }}" {{ in_array($option->id, $selectedOptions) ? 'selected' : '' }}>  {{ $option->attribute->name }}: {{ $option->value }}</option>
-                @endforeach
-            </select>
+       <div class="form-group">
+    <label for="attribute_options">Attribute Options</label><br>
+    @foreach ($attributeOptions as $option)
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="attribute_options[{{ $option->attribute->name }}]"
+                value="{{ $option->id }}" {{ in_array($option->id, $selectedOptions[$option->attribute->name] ?? []) ? 'checked' : '' }}>
+            <label class="form-check-label" for="option{{ $option->id }}">
+                {{ $option->value }}
+            </label>
         </div>
+    @endforeach
+</div>
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
     <a href="{{ route('skus.index') }}" class="btn btn-secondary">Back to Skus</a>

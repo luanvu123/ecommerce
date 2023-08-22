@@ -3,6 +3,23 @@
 
 @section('content')
     <h1>Sku List</h1>
+     @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if (Session::has('success'))
+        <div class="alert alert-success">{{ Session::get('success') }}</div>
+    @endif
+
+    @if (Session::has('error'))
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+    @endif
     <a href="{{ route('products.index') }}" class="btn btn-primary">Create Sku</a>
     <table class="table" id="tableevent">
         <thead>

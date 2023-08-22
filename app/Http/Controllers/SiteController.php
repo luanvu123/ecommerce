@@ -7,6 +7,7 @@ use App\Models\Policy;
 use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Sku;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -21,15 +22,15 @@ class SiteController extends Controller
         $large_posters = Poster::orderBy('updated_at', 'desc')->where('status', 1)->where('large_poster', 1)->take(1)->get();
         $category_home->each(function ($category) {
             $category->products->each(function ($product) {
-                $price = $product->price; // Giá gốc
-                $reducedPrice = $product->reduced_price; // Giá giảm
+                $price = $product->price;
+                $reducedPrice = $product->reduced_price;
                 $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
                 $product->discountPercentage = $discountPercentage;
             });
         });
         $newviral_products->each(function ($product) {
-            $price = $product->price; // Giá gốc
-            $reducedPrice = $product->reduced_price; // Giá giảm
+            $price = $product->price;
+            $reducedPrice = $product->reduced_price;
             $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
             $product->discountPercentage = $discountPercentage;
         });
@@ -94,6 +95,23 @@ class SiteController extends Controller
     public function product($slug)
     {
         $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta', 'category')->first();
+        $skus = Sku::where('product_id', $single_of_product->id)->where('status', 1)->with('attributeOptions.attribute')->get();
+        $attributeOptionsData = [];
+        foreach ($skus as $sku) {
+            foreach ($sku->attributeOptions as $attributeOption) {
+                $attributeId = $attributeOption->attribute->id;
+                $attributeName = $attributeOption->attribute->name;
+                $optionValue = $attributeOption->value;
+
+                if (!isset($attributeOptionsData[$attributeId])) {
+                    $attributeOptionsData[$attributeId] = [
+                        'name' => $attributeName,
+                        'options' => [],
+                    ];
+                }
+                $attributeOptionsData[$attributeId]['options'][] = $optionValue;
+            }
+        }
         if (!$single_of_product) {
             abort(404);
         }
@@ -111,6 +129,8 @@ class SiteController extends Controller
         return view('pages.single-product', [
             'single_of_product' =>  $single_of_product,
             'viewedItems' => $viewedItems,
+            'skus' => $skus,
+            'attributeOptionsData' => $attributeOptionsData,
         ]);
     }
 

@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class SkuController extends Controller
 {
-     public function create_sku($product_id)
+    public function create_sku($product_id)
     {
-         $product = Product::findOrFail($product_id);
+        $product = Product::findOrFail($product_id);
         $attributeOptions = AttributeOption::all(); // Lấy danh sách tất cả các tùy chọn thuộc tính
         return view('admin.skus.create', compact('product', 'attributeOptions'));
     }
 
-  public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -48,22 +48,34 @@ class SkuController extends Controller
 
         $sku = Sku::create($skuData);
 
-        // Lưu mối quan hệ với tùy chọn thuộc tính
-        $attributeOptions = $request->input('attribute_options', []);
-        $sku->attributeOptions()->sync($attributeOptions);
+        // Lưu tùy chọn thuộc tính được chọn từ form
+        $attributeOptions = $request->all(); // Lấy tất cả dữ liệu gửi từ form
+        unset(
+            $attributeOptions['_token'],
+            $attributeOptions['product_id'],
+            $attributeOptions['code'],
+            $attributeOptions['price'],
+            $attributeOptions['reduced_price'],
+            $attributeOptions['stock'],
+            $attributeOptions['images'],
+            $attributeOptions['status']
+        ); // Loại bỏ các trường không cần thiết
+        $attributeOptions = array_values($attributeOptions); // Chuyển về mảng chỉ chứa giá trị tùy chọn
+        $sku->attributeOptions()->attach($attributeOptions);
+
 
         return redirect()->route('products.index')->with('success', 'Sku created successfully.');
     }
-   public function index()
+    public function index()
     {
         $skus = Sku::with(['product', 'attributeOptions.attribute'])->get();
         return view('admin.skus.index', compact('skus'));
     }
 
-  public function destroy($id)
+    public function destroy($id)
     {
         $sku = Sku::findOrFail($id);
-
+        $sku->attributeOptions()->detach();
         // Xóa hình ảnh nếu tồn tại
         if ($sku->images) {
             Storage::delete('public/' . $sku->images);
@@ -73,19 +85,25 @@ class SkuController extends Controller
 
         return redirect()->route('skus.index')->with('success', 'Sku deleted successfully.');
     }
-     public function edit($id)
-    {
-        $sku = Sku::findOrFail($id);
-        $attributeOptions = AttributeOption::all(); // Lấy tất cả tùy chọn thuộc tính
-        $selectedOptions = $sku->attributeOptions->pluck('id')->toArray(); // Lấy các tùy chọn đã chọn của Sku
-        return view('admin.skus.edit', compact('sku', 'attributeOptions', 'selectedOptions'));
+   public function edit($id)
+{
+    $sku = Sku::findOrFail($id);
+    $attributeOptions = AttributeOption::all();
+
+    $selectedOptions = [];
+    foreach ($sku->attributeOptions as $option) {
+        $attributeName = $option->attribute->name;
+        $selectedOptions[$attributeName][] = $option->id;
     }
-      public function update(Request $request, $id)
+
+    return view('admin.skus.edit', compact('sku', 'attributeOptions', 'selectedOptions'));
+}
+    public function update(Request $request, $id)
     {
         $request->validate([
             'code' => 'required|unique:skus,code,' . $id,
             'price' => 'required|integer|min:0',
-             'reduced_price' => 'nullable|integer|min:0',
+            'reduced_price' => 'nullable|integer|min:0',
             'stock' => 'required|integer|min:0',
             'status' => 'required|in:0,1',
             'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
@@ -107,15 +125,15 @@ class SkuController extends Controller
 
         $sku->update($skuData);
 
-        $sku->attributeOptions()->sync($request->input('attribute_options')); // Cập nhật lại quan hệ
+       $selectedOptions = $request->input('attribute_options', []);
+    $sku->attributeOptions()->sync($selectedOptions);
 
         return redirect()->route('skus.index')->with('success', 'Sku updated successfully.');
     }
 
-   public function show($id)
+    public function show($id)
     {
         $sku = Sku::with('product', 'attributeOptions.attribute')->findOrFail($id);
         return view('admin.skus.show', compact('sku'));
     }
-
 }
