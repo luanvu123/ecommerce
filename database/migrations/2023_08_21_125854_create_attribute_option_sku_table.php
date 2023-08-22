@@ -11,7 +11,7 @@ class CreateAttributeOptionSkuTable extends Migration
         Schema::create('attribute_option_sku', function (Blueprint $table) {
             $table->foreignId('sku_id')->constrained();
             $table->foreignId('attribute_option_id')->constrained();
-            $table->primary(['sku_id', 'attribute_option_id']); // Adding a primary key for the pivot table
+            $table->primary(['sku_id', 'attribute_option_id']);
         });
     }
 

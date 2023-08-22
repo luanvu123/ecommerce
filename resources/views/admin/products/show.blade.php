@@ -21,7 +21,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Details:</strong>
-                {{ $product->detail }}
+                {!! $product->detail !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -30,7 +30,7 @@
                 {{ number_format($product->price, 0, ',', '.') }} VNĐ
             </div>
         </div>
-         <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Gia giam:</strong>
                 {{ number_format($product->reduced_price, 0, ',', '.') }} VNĐ
@@ -44,7 +44,29 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Image:</strong>
+                <strong>Suplier:</strong>
+                @if ($product->supplier)
+                    {{ $product->supplier->name }}
+                @else
+                    N/A
+                @endif
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Product_meta:</strong>
+                @if ($product->product_meta)
+                    @foreach ($product->product_meta as $met)
+                        <span class="badge badge-dark">{{ $met->meta_key }}</span>
+                    @endforeach
+                @else
+                    N/A
+                @endif
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Thumbnail:</strong>
                 @if ($product->image_product)
                     <img src="{{ asset('storage/' . $product->image_product) }}" alt="Product Image" style="width: 200px;">
                 @else
@@ -53,3 +75,4 @@
             </div>
         </div>
     </div>
+@endsection

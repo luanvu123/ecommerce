@@ -13,9 +13,10 @@ class Sku extends Model
         'product_id',
         'code',
         'price',
-        'stock',    // Thêm stock vào fillable
-        'images',   // Thêm images vào fillable
-        'status',   // Thêm status vào fillable
+        'reduced_price',
+        'stock',
+        'images',
+        'status',
     ];
 
     protected function price(): CastAttribute

@@ -37,14 +37,10 @@ class ProductController extends Controller
             ->groupBy('product_id')
             ->selectRaw('product_id, SUM(quantity) as total_quantity')
             ->pluck('total_quantity', 'product_id');
-
-        // Calculate total outgoing product quantities
         $outgoingProducts = OutgoingProduct::whereIn('product_id', $productIds)
             ->groupBy('product_id')
             ->selectRaw('product_id, SUM(quantity) as total_outgoing_quantity')
             ->pluck('total_outgoing_quantity', 'product_id');
-
-        // Calculate remain quantities
         $remainQuantities = collect();
         foreach ($products as $product) {
             $totalQuantity = $totalQuantities[$product->id] ?? 0;
