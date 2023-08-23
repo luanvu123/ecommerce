@@ -9,10 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
     {
         Schema::table('skus', function (Blueprint $table) {
-            $table->integer('reduced_price')->default(0)->after('price');
+            $table->integer('reduced_price')->nullable()->after('price');
         });
     }
 

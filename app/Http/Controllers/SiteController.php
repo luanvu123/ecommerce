@@ -109,7 +109,9 @@ class SiteController extends Controller
                         'options' => [],
                     ];
                 }
-                $attributeOptionsData[$attributeId]['options'][] = $optionValue;
+                if (!in_array($optionValue, $attributeOptionsData[$attributeId]['options'])) {
+                    $attributeOptionsData[$attributeId]['options'][] = $optionValue;
+                }
             }
         }
         if (!$single_of_product) {
