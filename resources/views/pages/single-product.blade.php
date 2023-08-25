@@ -74,21 +74,17 @@
                             <div class="inner">
                                 <h2 class="product-title"> {{ $single_of_product->name }}</h2>
                                 <div class="product-rating">
- {{-- @if ($single_of_product->reduced_price !== null)
+
+                                </div>
+                                <span class="price-amount">
+                                    @if ($single_of_product->reduced_price !== null)
                                         {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
                                     @else
                                         {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
-                                    @endif --}}
-                                </div>
-                                <span class="price-amount">
-
+                                    @endif
                                 </span>
-                                <div class="product-image">
-
-                                </div>
-                                <div class="product-stock">
-
-                                </div>
+                                <div class="product-image"></div>
+                                <div class="product-stock"></div>
                                 <div class="product-variations-wrapper">
                                     @foreach ($attributeOptionsData as $attributeData)
                                         <p class="description">{{ $attributeData['name'] }}</p>
@@ -103,6 +99,82 @@
                                 </div>
 
                                 <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        const optionButtons = document.querySelectorAll(".option-button");
+                                        const selectedOptions = {};
+                                        const priceAmountElement = document.querySelector(".price-amount");
+                                        const productImageElement = document.querySelector(".product-image");
+                                        const productStockElement = document.querySelector(".product-stock");
+                                        const skus = {!! $skusJson !!};
+
+                                        optionButtons.forEach(button => {
+                                            button.addEventListener("click", function() {
+                                                const attribute = button.getAttribute("data-attribute");
+                                                const option = button.getAttribute("data-option");
+
+                                                if (!selectedOptions[attribute]) {
+                                                    selectedOptions[attribute] = option;
+                                                    button.classList.add("active");
+                                                } else if (selectedOptions[attribute] === option) {
+                                                    delete selectedOptions[attribute];
+                                                    button.classList.remove("active");
+                                                } else {
+                                                    const prevOptionButton = document.querySelector(
+                                                        `.option-button[data-attribute="${attribute}"][data-option="${selectedOptions[attribute]}"]`
+                                                    );
+                                                    prevOptionButton.classList.remove("active");
+
+                                                    selectedOptions[attribute] = option;
+                                                    button.classList.add("active");
+                                                }
+
+                                                const matchedSku = findMatchingSku(selectedOptions, skus);
+                                                if (matchedSku) {
+                                                    const calculatedPrice = matchedSku.reduced_price !== null ? matchedSku
+                                                        .reduced_price : matchedSku.price;
+                                                    priceAmountElement.textContent = formatPrice(calculatedPrice);
+                                                    productStockElement.textContent = `Stock: ${matchedSku.stock}`;
+                                                    if (matchedSku.images && matchedSku.images.length > 0) {
+                                                        const firstImage = matchedSku.images;//[0]
+                                                        productImageElement.innerHTML =
+                                                            `<img src="/storage/${firstImage}" style="min-height: 100px; max-width: 100px; alt="Product Image">`;
+                                                    } else {
+                                                        productImageElement.innerHTML =
+                                                        ""; // Clear image if no images available
+                                                    }
+                                                }
+                                            });
+                                        });
+
+                                        function findMatchingSku(selectedOptions, skus) {
+                                            for (const sku of skus) {
+                                                let isMatched = true;
+                                                for (const attribute in selectedOptions) {
+                                                    const selectedOption = selectedOptions[attribute];
+                                                    if (!sku.attributeOptions.some(option => option.attribute.name === attribute && option
+                                                            .value === selectedOption)) {
+                                                        isMatched = false;
+                                                        break;
+                                                    }
+                                                }
+                                                if (isMatched) {
+                                                    return sku;
+                                                }
+                                            }
+                                            return null;
+                                        }
+
+                                        function formatPrice(price) {
+                                            return new Intl.NumberFormat("en-US", {
+                                                style: "currency",
+                                                currency: "VND"
+                                            }).format(price);
+                                        }
+                                    });
+                                </script>
+
+
+                                {{-- <script>
                                     document.addEventListener("DOMContentLoaded", function() {
                                         const optionButtons = document.querySelectorAll(".option-button");
                                         const selectedOptions = {};
@@ -167,7 +239,7 @@
                                             }).format(price);
                                         }
                                     });
-                                </script>
+                                </script> --}}
 
                                 <ul class="product-meta">
                                     @foreach ($single_of_product->product_meta as $meta)

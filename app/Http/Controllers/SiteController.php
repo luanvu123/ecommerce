@@ -96,7 +96,7 @@ class SiteController extends Controller
     {
         $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta', 'category', 'skus.attributeOptions.attribute')->first();
         $skus = $single_of_product->skus;
-        $skusJson = json_encode($skus);
+        $skusJson = json_encode($skus, JSON_UNESCAPED_SLASHES);
         // dd($skusJson);
         $attributeOptionsData = [];
         foreach ($skus as $sku) {

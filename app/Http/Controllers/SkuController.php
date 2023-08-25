@@ -47,9 +47,7 @@ class SkuController extends Controller
         }
 
         $sku = Sku::create($skuData);
-
-        // Lưu tùy chọn thuộc tính được chọn từ form
-        $attributeOptions = $request->all(); // Lấy tất cả dữ liệu gửi từ form
+        $attributeOptions = $request->all();
         unset(
             $attributeOptions['_token'],
             $attributeOptions['product_id'],
