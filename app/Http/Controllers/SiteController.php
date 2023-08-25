@@ -94,8 +94,10 @@ class SiteController extends Controller
 
     public function product($slug)
     {
-        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta', 'category')->first();
-        $skus = Sku::where('product_id', $single_of_product->id)->where('status', 1)->with('attributeOptions.attribute')->get();
+        $single_of_product = Product::where('slug', $slug)->where('status', 1)->with('images', 'product_meta', 'category', 'skus.attributeOptions.attribute')->first();
+        $skus = $single_of_product->skus;
+        $skusJson = json_encode($skus);
+        // dd($skusJson);
         $attributeOptionsData = [];
         foreach ($skus as $sku) {
             foreach ($sku->attributeOptions as $attributeOption) {
@@ -133,6 +135,7 @@ class SiteController extends Controller
             'viewedItems' => $viewedItems,
             'skus' => $skus,
             'attributeOptionsData' => $attributeOptionsData,
+            'skusJson' => $skusJson,
         ]);
     }
 

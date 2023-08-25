@@ -85,19 +85,19 @@ class SkuController extends Controller
 
         return redirect()->route('skus.index')->with('success', 'Sku deleted successfully.');
     }
-   public function edit($id)
-{
-    $sku = Sku::findOrFail($id);
-    $attributeOptions = AttributeOption::all();
+    public function edit($id)
+    {
+        $sku = Sku::findOrFail($id);
+        $attributeOptions = AttributeOption::all();
 
-    $selectedOptions = [];
-    foreach ($sku->attributeOptions as $option) {
-        $attributeName = $option->attribute->name;
-        $selectedOptions[$attributeName][] = $option->id;
+        $selectedOptions = [];
+        foreach ($sku->attributeOptions as $option) {
+            $attributeName = $option->attribute->name;
+            $selectedOptions[$attributeName][] = $option->id;
+        }
+
+        return view('admin.skus.edit', compact('sku', 'attributeOptions', 'selectedOptions'));
     }
-
-    return view('admin.skus.edit', compact('sku', 'attributeOptions', 'selectedOptions'));
-}
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -115,6 +115,7 @@ class SkuController extends Controller
             'code' => $request->input('code'),
             'price' => $request->input('price'),
             'stock' => $request->input('stock'),
+            'reduced_price' => $request->input('reduced_price'),
             'status' => $request->input('status'),
         ];
 
@@ -125,8 +126,8 @@ class SkuController extends Controller
 
         $sku->update($skuData);
 
-       $selectedOptions = $request->input('attribute_options', []);
-    $sku->attributeOptions()->sync($selectedOptions);
+        $selectedOptions = $request->input('attribute_options', []);
+        $sku->attributeOptions()->sync($selectedOptions);
 
         return redirect()->route('skus.index')->with('success', 'Sku updated successfully.');
     }
