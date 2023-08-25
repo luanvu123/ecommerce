@@ -73,10 +73,20 @@
                         <div class="single-product-content">
                             <div class="inner">
                                 <h2 class="product-title"> {{ $single_of_product->name }}</h2>
-                                <span class="price-amount">
-                                  
-                                </span>
                                 <div class="product-rating">
+ {{-- @if ($single_of_product->reduced_price !== null)
+                                        {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
+                                    @else
+                                        {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
+                                    @endif --}}
+                                </div>
+                                <span class="price-amount">
+
+                                </span>
+                                <div class="product-image">
+
+                                </div>
+                                <div class="product-stock">
 
                                 </div>
                                 <div class="product-variations-wrapper">
@@ -98,7 +108,7 @@
                                         const selectedOptions = {};
                                         const priceAmountElement = document.querySelector(".price-amount");
                                         const skus =
-                                        {!! $skusJson !!};
+                                            {!! $skusJson !!};
 
                                         optionButtons.forEach(button => {
                                             button.addEventListener("click", function() {
