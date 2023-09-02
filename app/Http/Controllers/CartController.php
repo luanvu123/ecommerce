@@ -15,6 +15,7 @@ class CartController extends Controller
     {
         $customer = Auth::guard('customer')->user();
         $carts = Cart::where('customer_id', $customer->id)->get();
+
         $carts->each(function ($cart) {
             $product = $cart->product;
             if ($product->reduced_price !== null) {
@@ -35,12 +36,17 @@ class CartController extends Controller
     {
         $customer_id = Auth::guard('customer')->user()->id;
         $quantity = $request->input('quantity', 1);
+
+        // Serialize the array to JSON before saving
+        $selectedOptions = json_encode($request->input('selected_options', []));
+
         $cart = Cart::where('customer_id', $customer_id)
             ->where('product_id', $product_id)
             ->first();
 
         if ($cart) {
             $cart->quantity += $quantity;
+            $cart->selected_options = $selectedOptions;
             $cart->save();
         } else {
             $product = Product::findOrFail($product_id);
@@ -54,11 +60,14 @@ class CartController extends Controller
                 'product_id' => $product_id,
                 'quantity' => $quantity,
                 'price' => $price,
+                'selected_options' => $selectedOptions, // Save as a JSON string
             ]);
         }
 
-        return redirect()->back()->with('success', 'Product added to cart.');
+
+        return redirect()->route('cart')->with('success', 'Product added to cart.');
     }
+
 
     public function clearCart()
     {

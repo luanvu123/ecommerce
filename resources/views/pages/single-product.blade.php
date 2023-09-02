@@ -68,130 +68,111 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="product-rating">
-                            {!! $single_of_product->description !!}
-                        </div>
+                        <p class="description">{!! $single_of_product->description !!}</p>
                     </div>
                     <div class="col-lg-5 mb--40">
                         <div class="single-product-content">
                             <div class="inner">
-                                <h2 class="product-title"> {{ $single_of_product->name }}</h2>
-                                <div class="product-rating">
-
-                                </div>
-                                <div class="price-amount">
-                                    @if ($single_of_product->reduced_price !== null)
-                                        {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
-                                    @else
-                                        {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
-                                    @endif
-                                </div>
-                                <div class="product-image">
-                                    <img src="" style="min-height: 100px; max-width: 100px;"
-                                        id="selected-sku-image">
-                                </div>
-                                <div class="product-stock">
-                                    {{ $single_of_product->stock }}
-                                </div>
-                                <div class="product-variations-wrapper">
-                                    @php
-                                        $groupedOptions = [];
-                                    @endphp
-                                    @foreach ($single_of_product->skus as $sku)
-                                        @foreach ($sku->attributeOptions as $attributeOption)
-                                            @php
-                                                $attributeName = $attributeOption->attribute->name;
-                                                $optionValue = $attributeOption->value;
-                                                $price = $sku->reduced_price ?? $sku->price;
-                                                $images = $sku->images ? asset('storage/' . $sku->images) : null; // Check if $sku->images is not null
-                                                $stock = $sku->stock;
-                                                $groupedOptions[$attributeName][$optionValue] = compact('price', 'images', 'stock');
-                                            @endphp
-                                        @endforeach
-                                    @endforeach
-
-                                    @foreach ($groupedOptions as $attributeName => $options)
-                                        <div>
-                                            <p>{{ $attributeName }}</p>
-                                            @foreach ($options as $optionValue => $data)
-                                                <button type="button" data-attribute="{{ $attributeName }}"
-                                                    data-value="{{ $optionValue }}" data-price="{{ $data['price'] }}"
-                                                    data-images="{{ $data['images'] }}" data-stock="{{ $data['stock'] }}">
-                                                    {{ $optionValue }}
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <script>
-                                    const buttons = document.querySelectorAll('.product-variations-wrapper button');
-                                    const priceAmount = document.querySelector('.price-amount');
-                                    const productImage = document.getElementById('selected-sku-image');
-                                    const productStock = document.querySelector('.product-stock');
-
-                                    const attributeButtons = {};
-
-                                    buttons.forEach(button => {
-                                        button.addEventListener('click', function() {
-                                            const selectedAttribute = this.getAttribute('data-attribute');
-                                            const selectedValue = this.getAttribute('data-value');
-                                            const selectedPrice = this.getAttribute('data-price');
-                                            const selectedImageURL = this.getAttribute('data-images');
-                                            const selectedStock = this.getAttribute('data-stock');
-
-                                            // Check if an active button for this attribute already exists
-                                            if (attributeButtons[selectedAttribute]) {
-                                                // Remove the "active-button" class from the existing active button
-                                                attributeButtons[selectedAttribute].classList.remove('active-button');
-                                            }
-
-                                            // Add the "active-button" class to the clicked button
-                                            this.classList.add('active-button');
-
-                                            // Store the clicked button as the active button for this attribute
-                                            attributeButtons[selectedAttribute] = this;
-
-                                            priceAmount.innerHTML = selectedPrice;
-                                            productImage.src = selectedImageURL;
-                                            productStock.textContent = 'Stock: ' + selectedStock;
-
-
-                                            const allButtons = document.querySelectorAll(
-                                                `.product-variations-wrapper button[data-attribute="${selectedAttribute}"]`);
-                                            const allActive = Array.from(allButtons).every(btn => btn.classList.contains(
-                                                'active-button'));
-
-                                            if (allActive) {
-                                                // All buttons for this attribute are active, you can now display the corresponding options
-                                                console.log($groupedOptions[selectedAttribute]);
-                                                // You can display $groupedOptions[selectedAttribute] here as per your design
-                                            }
-                                        });
-                                    });
-                                </script>
-
-
-
-
-
-
-
-
-                                <ul class="product-meta">
-                                    @foreach ($single_of_product->product_meta as $meta)
-                                        <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>
-                                    @endforeach
-                                </ul>
-                                <p class="description">{!! $single_of_product->detail !!}</p>
-
-
-
-
-                                <!-- Start Product Action Wrapper  -->
-                                <!-- Thêm form để truyền giá trị pro-qty vào CartController -->
                                 <form action="{{ route('add.to.cart', ['product_id' => $single_of_product->id]) }}"
                                     method="POST">
                                     @csrf
+                                    <h2 class="product-title"> {{ $single_of_product->name }}</h2>
+                                    <div class="product-rating">
+                                    </div>
+                                    <div class="price-amount">
+                                        @if ($single_of_product->reduced_price !== null)
+                                            {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
+                                        @else
+                                            {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
+                                        @endif
+                                    </div>
+                                    <div class="product-image">
+                                        <img src="" style="min-height: 100px; max-width: 100px;"
+                                            id="selected-sku-image">
+                                    </div>
+                                    <div class="product-stock">
+                                        {{ $single_of_product->stock }}
+                                    </div>
+                                    <div class="product-variations-wrapper">
+                                        @php
+                                            $groupedOptions = [];
+                                        @endphp
+                                        @foreach ($single_of_product->skus as $sku)
+                                            @foreach ($sku->attributeOptions as $attributeOption)
+                                                @php
+                                                    $attributeName = $attributeOption->attribute->name;
+                                                    $optionValue = $attributeOption->value;
+                                                    $price = $sku->reduced_price ?? $sku->price;
+                                                    $images = $sku->images ? asset('storage/' . $sku->images) : null; // Check if $sku->images is not null
+                                                    $stock = $sku->stock;
+                                                    $groupedOptions[$attributeName][$optionValue] = compact('price', 'images', 'stock');
+                                                @endphp
+                                            @endforeach
+                                        @endforeach
+
+                                        @foreach ($groupedOptions as $attributeName => $options)
+                                            <div>
+                                                <p>{{ $attributeName }}</p>
+                                                @foreach ($options as $optionValue => $data)
+                                                    <button type="button" data-attribute="{{ $attributeName }}"
+                                                        data-value="{{ $optionValue }}" data-price="{{ $data['price'] }}"
+                                                        data-images="{{ $data['images'] }}"
+                                                        data-stock="{{ $data['stock'] }}">
+                                                        {{ $optionValue }}
+                                                        <input type="hidden" name="selected_options[{{ $attributeName }}]" value="{{ $optionValue }}">
+                                                    </button>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                      <script>
+                                        const buttons = document.querySelectorAll('.product-variations-wrapper button');
+                                        const priceAmount = document.querySelector('.price-amount');
+                                        const productImage = document.getElementById('selected-sku-image');
+                                        const productStock = document.querySelector('.product-stock');
+
+                                        const attributeButtons = {};
+
+                                        buttons.forEach(button => {
+                                            button.addEventListener('click', function() {
+                                                const selectedAttribute = this.getAttribute('data-attribute');
+                                                const selectedValue = this.getAttribute('data-value');
+                                                const selectedPrice = this.getAttribute('data-price');
+                                                const selectedImageURL = this.getAttribute('data-images');
+                                                const selectedStock = this.getAttribute('data-stock');
+                                                if (attributeButtons[selectedAttribute]) {
+                                                    attributeButtons[selectedAttribute].classList.remove('active-button');
+                                                }
+                                                this.classList.add('active-button');
+                                                attributeButtons[selectedAttribute] = this;
+
+                                                priceAmount.innerHTML = selectedPrice;
+                                                productImage.src = selectedImageURL;
+                                                productStock.textContent = 'Stock: ' + selectedStock;
+
+
+                                                const allButtons = document.querySelectorAll(
+                                                    `.product-variations-wrapper button[data-attribute="${selectedAttribute}"]`);
+                                                const allActive = Array.from(allButtons).every(btn => btn.classList.contains(
+                                                    'active-button'));
+
+                                                if (allActive) {
+                                                    // All buttons for this attribute are active, you can now display the corresponding options
+                                                    console.log($groupedOptions[selectedAttribute]);
+                                                    // You can display $groupedOptions[selectedAttribute] here as per your design
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                    <ul class="product-meta">
+                                        @foreach ($single_of_product->product_meta as $meta)
+                                            <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <p class="description">{!! $single_of_product->detail !!}</p>
+                                    <!-- Start Product Action Wrapper  -->
+                                    <!-- Thêm form để truyền giá trị pro-qty vào CartController -->
+
                                     <div class="product-action-wrapper d-flex-center">
                                         <div class="pro-qty">
                                             <input type="text" name="quantity" value="1">
@@ -217,9 +198,6 @@
             </div>
         </div>
         <!-- End .single-product-thumb -->
-
-
-
     </div>
     <!-- End Shop Area  -->
 
@@ -305,4 +283,6 @@
             /* Change to your desired active text color */
         }
     </style>
+    <!-- Add this code to your JavaScript -->
+
 @endsection

@@ -30,6 +30,7 @@
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-thumbnail">Product</th>
                                     <th scope="col" class="product-title"></th>
+                                    <th scope="col" class="product-title"></th>
                                     <th scope="col" class="product-price">Price</th>
                                     <th scope="col" class="product-stock-status">Stock Status</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
@@ -56,6 +57,17 @@
                                         <td class="product-title">
                                             <a
                                                 href="{{ route('product', $cart->product->slug) }}">{{ $cart->product->name }}</a>
+                                        </td>
+
+                                        <td>
+                                            @if ($cart->selected_options)
+                                                @php
+                                                    $selectedOptions = json_decode($cart->selected_options, true);
+                                                @endphp
+                                                @foreach ($selectedOptions as $attribute => $option)
+                                                    {{ $attribute }}: {{ $option }}<br>
+                                                @endforeach
+                                            @endif
                                         </td>
 
 
