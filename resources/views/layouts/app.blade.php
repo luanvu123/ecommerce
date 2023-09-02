@@ -484,6 +484,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <script>
         CKEDITOR.replace('ckeditor1');
         CKEDITOR.replace('ckeditor2');
+        CKEDITOR.replace('ckeditor3');
+        CKEDITOR.replace('ckeditor4');
         CKEDITOR.replace('note');
     </script>
     <script src="{{ asset('backend/js/scripts.js') }}"></script>
@@ -759,7 +761,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     {!! Toastr::message() !!}
-    
+
 </body>
 
 </html>

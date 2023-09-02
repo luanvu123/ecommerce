@@ -14,11 +14,12 @@
             <label for="price">Price</label>
             <input type="number" name="price" id="price" class="form-control" value="{{ $sku->price }}">
         </div>
-          <div class="form-group">
+        <div class="form-group">
             <label for="price">Reduced Price</label>
-            <input type="number" name="reduced_price" id="reduced_price" class="form-control" value="{{ $sku->reduced_price }}">
+            <input type="number" name="reduced_price" id="reduced_price" class="form-control"
+                value="{{ $sku->reduced_price }}">
         </div>
-          <div class="form-group">
+        <div class="form-group">
             <label for="images">Images</label>
             <input type="file" name="images" id="images" class="form-control-file">
             <small class="form-text text-muted">Leave empty if no images available.</small>
@@ -36,21 +37,45 @@
                 <input type="radio" name="status" value="0" {{ !$sku->status ? 'checked' : '' }}> Do Not Display
             </label>
         </div>
-       <div class="form-group">
-    <label for="attribute_options">Attribute Options</label><br>
-    @foreach ($attributeOptions as $option)
+        <div class="form-group">
+            <label for="attribute_options">Attribute Options</label><br>
+            @php
+                $currentAttributeName = null;
+            @endphp
+            @foreach ($attributeOptions as $option)
+                @php
+                    $attributeName = $option->attribute->name;
+                    $attributeValue = $option->value;
+                @endphp
+
+                @if ($attributeName !== $currentAttributeName)
+                    {{-- Hiển thị label mới nếu attribute name khác với attribute name trước đó --}}
+                    @if ($currentAttributeName !== null)
+        </div> {{-- Đóng div trước đó --}}
+        @endif
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="attribute_options[{{ $option->attribute->name }}]"
-                value="{{ $option->id }}" {{ in_array($option->id, $selectedOptions[$option->attribute->name] ?? []) ? 'checked' : '' }}>
-            <label class="form-check-label" for="option{{ $option->id }}">
-                {{ $option->value }}
+            <label class="form-check-label">
+                {{ $attributeName }}
             </label>
+            @php
+                $currentAttributeName = $attributeName;
+            @endphp
+            @endif
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="attribute_options[{{ $attributeName }}]"
+                    value="{{ $option->id }}"
+                    {{ in_array($option->id, $selectedOptions[$attributeName] ?? []) ? 'checked' : '' }}>
+                <label class="form-check-label" for="option{{ $option->id }}">
+                    {{ $attributeValue }}
+                </label>
+            </div>
+            @endforeach
+        </div> {{-- Đóng div cuối cùng --}}
         </div>
-    @endforeach
-</div>
+
 
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
     <a href="{{ route('skus.index') }}" class="btn btn-secondary">Back to Skus</a>
 @endsection
-

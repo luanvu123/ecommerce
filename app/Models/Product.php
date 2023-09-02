@@ -15,7 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id', 'supplier_id'
+        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id', 'supplier_id','description'
     ];
 
     /**
@@ -59,5 +59,9 @@ class Product extends Model
      public function skus(): HasMany
     {
         return $this->hasMany(Sku::class);
+    }
+     public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

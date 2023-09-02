@@ -100,6 +100,12 @@
                                     <textarea class="form-control" id="ckeditor2" name="detail" placeholder="Detail">{{ $product->detail }}</textarea>
                                 </div>
                             </div>
+                              <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <strong>Description:</strong>
+                                    <textarea class="form-control" id="ckeditor4" name="description" placeholder="Description">{{ $product->description }}</textarea>
+                                </div>
+                            </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <strong>Price:</strong>

@@ -13,7 +13,7 @@ class SkuController extends Controller
     public function create_sku($product_id)
     {
         $product = Product::findOrFail($product_id);
-        $attributeOptions = AttributeOption::all(); // Lấy danh sách tất cả các tùy chọn thuộc tính
+        $attributeOptions = AttributeOption::all();
         return view('admin.skus.create', compact('product', 'attributeOptions'));
     }
 
@@ -57,8 +57,8 @@ class SkuController extends Controller
             $attributeOptions['stock'],
             $attributeOptions['images'],
             $attributeOptions['status']
-        ); // Loại bỏ các trường không cần thiết
-        $attributeOptions = array_values($attributeOptions); // Chuyển về mảng chỉ chứa giá trị tùy chọn
+        );
+        $attributeOptions = array_values($attributeOptions);
         $sku->attributeOptions()->attach($attributeOptions);
 
 

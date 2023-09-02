@@ -24,35 +24,47 @@ class OutgoingProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'note' => 'nullable|string',
-            'supplier_id' => 'required|exists:suppliers,id',
-        ]);
+{
+    $validatedData = $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'quantity' => 'required|integer|min:1',
+        'note' => 'nullable|string',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'price_type' => 'required|in:product_price,custom_price', // Thêm luật kiểm tra cho trường price_type
+    ]);
 
-        $product = Product::findOrFail($validatedData['product_id']);
+    $product = Product::findOrFail($validatedData['product_id']);
 
-        if (!$product->inventory || $product->inventory->quantity === null || $product->inventory->quantity < $validatedData['quantity']) {
-            return redirect()->back()->with('error', 'Không đủ số lượng sản phẩm để xuất kho.');
-        }
+    if (!$product->inventory || $product->inventory->quantity === null || $product->inventory->quantity < $validatedData['quantity']) {
+        return redirect()->back()->with('error', 'Không đủ số lượng sản phẩm để xuất kho.');
+    }
 
-        $outgoingProduct = new OutgoingProduct();
-        $outgoingProduct->product_id = $validatedData['product_id'];
-        $outgoingProduct->quantity = $validatedData['quantity'];
-        $outgoingProduct->note = $validatedData['note'];
+    $outgoingProduct = new OutgoingProduct();
+    $outgoingProduct->product_id = $validatedData['product_id'];
+    $outgoingProduct->quantity = $validatedData['quantity'];
+    $outgoingProduct->note = $validatedData['note'];
+
+    if ($validatedData['price_type'] === 'custom_price') {
+        // Nếu giá khác được chọn, lấy giá từ trường 'custom_price' (sử dụng tùy chọn ở biểu mẫu)
+        $customPrice = $request->input('custom_price');
+        $outgoingProduct->price = $customPrice;
+        $outgoingProduct->total_amount = $customPrice * $validatedData['quantity'];
+    } else {
+        // Nếu giá sản phẩm được chọn, lấy giá từ sản phẩm
         if ($product->reduced_price !== null) {
             $outgoingProduct->price = $product->reduced_price;
         } else {
             $outgoingProduct->price = $product->price;
         }
-        $outgoingProduct->total_amount = $validatedData['quantity'] * $product->price;
-        $outgoingProduct->supplier_id = $validatedData['supplier_id'];
-        $outgoingProduct->user_id = auth()->user()->id;
-        $outgoingProduct->save();
-        return redirect()->route('outgoing_products.index')->with('success', 'Xuất kho thành công.');
+        $outgoingProduct->total_amount = $outgoingProduct->price * $validatedData['quantity'];
     }
+
+    $outgoingProduct->supplier_id = $validatedData['supplier_id'];
+    $outgoingProduct->user_id = auth()->user()->id;
+    $outgoingProduct->save();
+    return redirect()->route('outgoing_products.index')->with('success', 'Xuất kho thành công.');
+}
+
     public function destroy($id)
     {
         $outgoingProduct = OutgoingProduct::findOrFail($id);

@@ -27,6 +27,7 @@
                                 <th>Most_sold</th>
                                 <th>Ảnh Thumnail</th>
                                 <th>Status</th>
+                                <th>Người nhập</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -135,16 +136,16 @@
                                             @endif
                                         </select>
                                     </td>
+                                      <td>{{ $product->user->name }}</td>
                                     <td>
-                                         <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}"
-                                                title="Edit">
-                                                <img src="{{ asset('backend/images/185042_edit_modify_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">
-                                            </a>
-                                            <a href="{{ route('products.show',$product->id) }}"
-                                                class="btn btn-warning">Xem</a>
-                                            <a href="{{ route('skus.create.product', ['product_id' => $product->id]) }}"
-                                                class="btn btn-warning">SKU</a>
+                                        <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}"
+                                            title="Edit">
+                                            <img src="{{ asset('backend/images/185042_edit_modify_icon.svg') }}"
+                                                alt="Google" width="20" height="20">
+                                        </a>
+                                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-warning">Xem</a>
+                                        <a href="{{ route('skus.create.product', ['product_id' => $product->id]) }}"
+                                            class="btn btn-warning">SKU</a>
                                         <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

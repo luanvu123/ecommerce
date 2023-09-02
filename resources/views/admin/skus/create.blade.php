@@ -52,21 +52,37 @@
             </label>
         </div>
         @php
-            $selectedOptions = []; 
+            $selectedOptions = [];
         @endphp
 
         <div class="form-group">
             <label for="attribute_options">Attribute Options</label><br>
+            @php
+                $uniqueAttributeNames = [];
+            @endphp
             @foreach ($attributeOptions as $option)
+                @php
+                    $attributeName = $option->attribute->name;
+                    $attributeValue = $option->value;
+                @endphp
+
+                @if (!in_array($attributeName, $uniqueAttributeNames))
+                    @php
+                        $uniqueAttributeNames[] = $attributeName;
+                    @endphp
+                    <p>{{ $attributeName }}</p>
+                @endif
+
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ $option->attribute->name }}"
-                        value="{{ $option->id }}" {{ in_array($option->id, $selectedOptions) ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="{{ $attributeName }}" value="{{ $option->id }}"
+                        {{ in_array($option->id, $selectedOptions) ? 'checked' : '' }}>
                     <label class="form-check-label" for="option{{ $option->id }}">
-                        {{ $option->value }}
+                        {{ $attributeValue }}
                     </label>
                 </div>
             @endforeach
         </div>
+
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {

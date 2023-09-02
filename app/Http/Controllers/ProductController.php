@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use File;
 
+
 class ProductController extends Controller
 {
     /**
@@ -31,7 +32,7 @@ class ProductController extends Controller
      */
     public function index(): View
     {
-        $products = Product::with('product_meta')->orderBy('id', 'DESC')->get();
+        $products = Product::with('product_meta','user')->orderBy('id', 'DESC')->get();
         $productIds = $products->pluck('id')->toArray();
         $totalQuantities = Inventory::whereIn('product_id', $productIds)
             ->groupBy('product_id')
@@ -91,6 +92,7 @@ class ProductController extends Controller
             'new_viral' => 'nullable|boolean',
             'most_sold' => 'nullable|boolean',
             'supplier_id' => 'nullable|exists:suppliers,id', // Thêm validation cho supplier_id
+            'description' => 'nullable',
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -130,6 +132,7 @@ class ProductController extends Controller
             'new_viral' => $request->has('new_viral'),
             'most_sold' => $request->has('most_sold'),
             'supplier_id' => $request->has('supplier_id'),
+            'description' => $request->input('description'),
         ]);
         $product->user_id = auth()->id();
         if (!empty($request->meta)) {
@@ -191,6 +194,7 @@ class ProductController extends Controller
             'new_viral' => 'nullable|boolean',
             'most_sold' => 'nullable|boolean',
             'supplier_id' => 'nullable|exists:suppliers,id', // Thêm validation cho supplier_id
+            'description' => 'nullable',
         ]);
 
         $validator = Validator::make($request->all(), [
@@ -239,6 +243,7 @@ class ProductController extends Controller
         $product->new_viral = $request->input('new_viral');
         $product->most_sold = $request->input('most_sold');
         $product->supplier_id = $request->input('supplier_id');
+        $product->description = $request->input('description');
         $product->user_id = auth()->id();
         if (!empty($request->meta)) {
             foreach ($request['meta'] as $key => $met) {

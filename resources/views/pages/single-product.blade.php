@@ -76,170 +76,103 @@
                                 <div class="product-rating">
 
                                 </div>
-                                <span class="price-amount">
+                                <div class="price-amount">
                                     @if ($single_of_product->reduced_price !== null)
                                         {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
                                     @else
                                         {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
                                     @endif
-                                </span>
-                                <div class="product-image"></div>
-                                <div class="product-stock"></div>
+                                </div>
+                                <div class="product-image">
+                                    <img src="" style="min-height: 100px; max-width: 100px;"
+                                        id="selected-sku-image">
+                                </div>
+                                <div class="product-stock">
+                                    {{ $single_of_product->stock }}
+                                </div>
                                 <div class="product-variations-wrapper">
-                                    @foreach ($attributeOptionsData as $attributeData)
-                                        <p class="description">{{ $attributeData['name'] }}</p>
-                                        <div class="btn-group" role="group" style="margin-top: -45px;">
-                                            @foreach ($attributeData['options'] as $option)
-                                                <button type="button" class="btn btn-secondary option-button"
-                                                    data-attribute="{{ $attributeData['name'] }}"
-                                                    data-option="{{ $option }}">{{ $option }}</button>
+                                    @php
+                                        $groupedOptions = [];
+                                    @endphp
+                                    @foreach ($single_of_product->skus as $sku)
+                                        @foreach ($sku->attributeOptions as $attributeOption)
+                                            @php
+                                                $attributeName = $attributeOption->attribute->name;
+                                                $optionValue = $attributeOption->value;
+                                                $price = $sku->reduced_price ?? $sku->price;
+                                                $images = $sku->images ? asset('storage/' . $sku->images) : null; // Check if $sku->images is not null
+                                                $stock = $sku->stock;
+                                                $groupedOptions[$attributeName][$optionValue] = compact('price', 'images', 'stock');
+                                            @endphp
+                                        @endforeach
+                                    @endforeach
+
+                                    @foreach ($groupedOptions as $attributeName => $options)
+                                        <div>
+                                            <p>{{ $attributeName }}</p>
+                                            @foreach ($options as $optionValue => $data)
+                                                <button type="button" data-attribute="{{ $attributeName }}"
+                                                    data-value="{{ $optionValue }}" data-price="{{ $data['price'] }}"
+                                                    data-images="{{ $data['images'] }}" data-stock="{{ $data['stock'] }}">
+                                                    {{ $optionValue }}
+                                                </button>
                                             @endforeach
                                         </div>
                                     @endforeach
                                 </div>
-
                                 <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const optionButtons = document.querySelectorAll(".option-button");
-                                        const selectedOptions = {};
-                                        const priceAmountElement = document.querySelector(".price-amount");
-                                        const productImageElement = document.querySelector(".product-image");
-                                        const productStockElement = document.querySelector(".product-stock");
-                                        const skus = {!! $skusJson !!};
+                                    const buttons = document.querySelectorAll('.product-variations-wrapper button');
+                                    const priceAmount = document.querySelector('.price-amount');
+                                    const productImage = document.getElementById('selected-sku-image');
+                                    const productStock = document.querySelector('.product-stock');
 
-                                        optionButtons.forEach(button => {
-                                            button.addEventListener("click", function() {
-                                                const attribute = button.getAttribute("data-attribute");
-                                                const option = button.getAttribute("data-option");
+                                    const attributeButtons = {};
 
-                                                if (!selectedOptions[attribute]) {
-                                                    selectedOptions[attribute] = option;
-                                                    button.classList.add("active");
-                                                } else if (selectedOptions[attribute] === option) {
-                                                    delete selectedOptions[attribute];
-                                                    button.classList.remove("active");
-                                                } else {
-                                                    const prevOptionButton = document.querySelector(
-                                                        `.option-button[data-attribute="${attribute}"][data-option="${selectedOptions[attribute]}"]`
-                                                    );
-                                                    prevOptionButton.classList.remove("active");
+                                    buttons.forEach(button => {
+                                        button.addEventListener('click', function() {
+                                            const selectedAttribute = this.getAttribute('data-attribute');
+                                            const selectedValue = this.getAttribute('data-value');
+                                            const selectedPrice = this.getAttribute('data-price');
+                                            const selectedImageURL = this.getAttribute('data-images');
+                                            const selectedStock = this.getAttribute('data-stock');
 
-                                                    selectedOptions[attribute] = option;
-                                                    button.classList.add("active");
-                                                }
-
-                                                const matchedSku = findMatchingSku(selectedOptions, skus);
-                                                if (matchedSku) {
-                                                    const calculatedPrice = matchedSku.reduced_price !== null ? matchedSku
-                                                        .reduced_price : matchedSku.price;
-                                                    priceAmountElement.textContent = formatPrice(calculatedPrice);
-                                                    productStockElement.textContent = `Stock: ${matchedSku.stock}`;
-                                                    if (matchedSku.images && matchedSku.images.length > 0) {
-                                                        const firstImage = matchedSku.images;//[0]
-                                                        productImageElement.innerHTML =
-                                                            `<img src="/storage/${firstImage}" style="min-height: 100px; max-width: 100px; alt="Product Image">`;
-                                                    } else {
-                                                        productImageElement.innerHTML =
-                                                        ""; // Clear image if no images available
-                                                    }
-                                                }
-                                            });
-                                        });
-
-                                        function findMatchingSku(selectedOptions, skus) {
-                                            for (const sku of skus) {
-                                                let isMatched = true;
-                                                for (const attribute in selectedOptions) {
-                                                    const selectedOption = selectedOptions[attribute];
-                                                    if (!sku.attributeOptions.some(option => option.attribute.name === attribute && option
-                                                            .value === selectedOption)) {
-                                                        isMatched = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (isMatched) {
-                                                    return sku;
-                                                }
+                                            // Check if an active button for this attribute already exists
+                                            if (attributeButtons[selectedAttribute]) {
+                                                // Remove the "active-button" class from the existing active button
+                                                attributeButtons[selectedAttribute].classList.remove('active-button');
                                             }
-                                            return null;
-                                        }
 
-                                        function formatPrice(price) {
-                                            return new Intl.NumberFormat("en-US", {
-                                                style: "currency",
-                                                currency: "VND"
-                                            }).format(price);
-                                        }
+                                            // Add the "active-button" class to the clicked button
+                                            this.classList.add('active-button');
+
+                                            // Store the clicked button as the active button for this attribute
+                                            attributeButtons[selectedAttribute] = this;
+
+                                            priceAmount.innerHTML = selectedPrice;
+                                            productImage.src = selectedImageURL;
+                                            productStock.textContent = 'Stock: ' + selectedStock;
+
+
+                                            const allButtons = document.querySelectorAll(
+                                                `.product-variations-wrapper button[data-attribute="${selectedAttribute}"]`);
+                                            const allActive = Array.from(allButtons).every(btn => btn.classList.contains(
+                                                'active-button'));
+
+                                            if (allActive) {
+                                                // All buttons for this attribute are active, you can now display the corresponding options
+                                                console.log($groupedOptions[selectedAttribute]);
+                                                // You can display $groupedOptions[selectedAttribute] here as per your design
+                                            }
+                                        });
                                     });
                                 </script>
 
 
-                                {{-- <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const optionButtons = document.querySelectorAll(".option-button");
-                                        const selectedOptions = {};
-                                        const priceAmountElement = document.querySelector(".price-amount");
-                                        const skus =
-                                            {!! $skusJson !!};
-
-                                        optionButtons.forEach(button => {
-                                            button.addEventListener("click", function() {
-                                                const attribute = button.getAttribute("data-attribute");
-                                                const option = button.getAttribute("data-option");
-
-                                                if (!selectedOptions[attribute]) {
-                                                    selectedOptions[attribute] = option;
-                                                    button.classList.add("active");
-                                                } else if (selectedOptions[attribute] === option) {
-                                                    delete selectedOptions[attribute];
-                                                    button.classList.remove("active");
-                                                } else {
-                                                    const prevOptionButton = document.querySelector(
-                                                        `.option-button[data-attribute="${attribute}"][data-option="${selectedOptions[attribute]}"]`
-                                                    );
-                                                    prevOptionButton.classList.remove("active");
-
-                                                    selectedOptions[attribute] = option;
-                                                    button.classList.add("active");
-                                                }
 
 
-                                                const matchedSku = findMatchingSku(selectedOptions, skus);
-                                                if (matchedSku) {
-                                                    const calculatedPrice = matchedSku.reduced_price !== null ? matchedSku
-                                                        .reduced_price : matchedSku.price;
-                                                    priceAmountElement.textContent = formatPrice(calculatedPrice);
-                                                }
-                                            });
-                                        });
 
 
-                                        function findMatchingSku(selectedOptions, skus) {
-                                            for (const sku of skus) {
-                                                let isMatched = true;
-                                                for (const attribute in selectedOptions) {
-                                                    const selectedOption = selectedOptions[attribute];
-                                                    if (!sku.attributeOptions.some(option => option.attribute.name === attribute && option
-                                                            .value === selectedOption)) {
-                                                        isMatched = false;
-                                                        break;
-                                                    }
-                                                }
-                                                if (isMatched) {
-                                                    return sku;
-                                                }
-                                            }
-                                            return null;
-                                        }
 
-                                        function formatPrice(price) {
-                                            return new Intl.NumberFormat("en-US", {
-                                                style: "currency",
-                                                currency: "VND"
-                                            }).format(price);
-                                        }
-                                    });
-                                </script> --}}
 
                                 <ul class="product-meta">
                                     @foreach ($single_of_product->product_meta as $meta)
@@ -348,16 +281,25 @@
     <!-- End Axil Newsletter Area  -->
 
     <style>
-        /* Định dạng mặc định cho nút */
-        .btn-secondary.option-button {
-            background-color: white;
-            color: black;
+        /* Style for the buttons */
+        .product-variations-wrapper button {
+            display: inline-block;
+            padding: 10px 20px;
+            min-height: 50px;
+            max-width: 100px;
+            margin: 5px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Định dạng cho nút khi có lớp active */
-        .btn-secondary.option-button.active {
-            background-color: red;
-            color: white;
+        /* Style for active buttons */
+        .product-variations-wrapper button.active-button {
+            background-color: #007bff;
+            /* Change to your desired active color */
+            color: #fff;
+            /* Change to your desired active text color */
         }
     </style>
 @endsection
