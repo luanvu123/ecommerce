@@ -68,6 +68,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="product-rating">
+                            {!! $single_of_product->description !!}
+                        </div>
                     </div>
                     <div class="col-lg-5 mb--40">
                         <div class="single-product-content">
