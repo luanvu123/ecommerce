@@ -103,7 +103,7 @@
                                                     $attributeName = $attributeOption->attribute->name;
                                                     $optionValue = $attributeOption->value;
                                                     $price = $sku->reduced_price ?? $sku->price;
-                                                    $images = $sku->images ? asset('storage/' . $sku->images) : null; // Check if $sku->images is not null
+                                                    $images = $sku->images ? asset('storage/' . $sku->images) : null;
                                                     $stock = $sku->stock;
                                                     $groupedOptions[$attributeName][$optionValue] = compact('price', 'images', 'stock');
                                                 @endphp
@@ -155,11 +155,8 @@
                                                     `.product-variations-wrapper button[data-attribute="${selectedAttribute}"]`);
                                                 const allActive = Array.from(allButtons).every(btn => btn.classList.contains(
                                                     'active-button'));
-
                                                 if (allActive) {
-                                                    // All buttons for this attribute are active, you can now display the corresponding options
                                                     console.log($groupedOptions[selectedAttribute]);
-                                                    // You can display $groupedOptions[selectedAttribute] here as per your design
                                                 }
                                             });
                                         });
@@ -170,9 +167,6 @@
                                         @endforeach
                                     </ul>
                                     <p class="description">{!! $single_of_product->detail !!}</p>
-                                    <!-- Start Product Action Wrapper  -->
-                                    <!-- Thêm form để truyền giá trị pro-qty vào CartController -->
-
                                     <div class="product-action-wrapper d-flex-center">
                                         <div class="pro-qty">
                                             <input type="text" name="quantity" value="1">
@@ -186,18 +180,14 @@
                                                     class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a>
                                             </li>
                                         </ul>
-                                        <!-- End Product Action  -->
                                     </div>
                                 </form>
-
-                                <!-- End Product Action Wrapper  -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End .single-product-thumb -->
     </div>
     <!-- End Shop Area  -->
 
