@@ -86,81 +86,51 @@
                                             {{ number_format($single_of_product->price, 0, ',', '.') }} VNĐ
                                         @endif
                                     </div>
-                                    <div class="product-image">
-                                        <img src="" style="min-height: 100px; max-width: 100px;"
-                                            id="selected-sku-image">
-                                    </div>
                                     <div class="product-stock">
-                                        {{ $single_of_product->stock }}
                                     </div>
-                                    <div class="product-variations-wrapper">
-                                        @php
-                                            $groupedOptions = [];
-                                        @endphp
-                                        @foreach ($single_of_product->skus as $sku)
-                                            @foreach ($sku->attributeOptions as $attributeOption)
-                                                @php
-                                                    $attributeName = $attributeOption->attribute->name;
-                                                    $optionValue = $attributeOption->value;
-                                                    $price = $sku->reduced_price ?? $sku->price;
-                                                    $images = $sku->images ? asset('storage/' . $sku->images) : null;
-                                                    $stock = $sku->stock;
-                                                    $groupedOptions[$attributeName][$optionValue] = compact('price', 'images', 'stock');
-                                                @endphp
-                                            @endforeach
-                                        @endforeach
-
-                                        @foreach ($groupedOptions as $attributeName => $options)
-                                            <div>
-                                                <p>{{ $attributeName }}</p>
-                                                @foreach ($options as $optionValue => $data)
-                                                    <button type="button" data-attribute="{{ $attributeName }}"
-                                                        data-value="{{ $optionValue }}" data-price="{{ $data['price'] }}"
-                                                        data-images="{{ $data['images'] }}"
-                                                        data-stock="{{ $data['stock'] }}">
-                                                        {{ $optionValue }}
-                                                        <input type="hidden" name="selected_options[{{ $attributeName }}]" value="{{ $optionValue }}">
-                                                    </button>
+                                    @if ($single_of_product->skus->isNotEmpty())
+                                        <div class="product-variations-wrapper">
+                                            <label for="sku">Choose a SKU:</label>
+                                            <select name="sku" id="sku">
+                                                @foreach ($single_of_product->skus as $sku)
+                                                    <option value="{{ $sku->id }}">{{ $sku->code }}</option>
                                                 @endforeach
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                      <script>
-                                        const buttons = document.querySelectorAll('.product-variations-wrapper button');
-                                        const priceAmount = document.querySelector('.price-amount');
-                                        const productImage = document.getElementById('selected-sku-image');
-                                        const productStock = document.querySelector('.product-stock');
+                                            </select>
+                                        </div>
+                                    @endif
 
-                                        const attributeButtons = {};
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var skuSelect = document.getElementById('sku');
+                                            var priceElement = document.querySelector('.price-amount');
+                                            var stockElement = document.querySelector('.product-stock');
+                                            var imageElement = document.querySelector('.thumbnail');
 
-                                        buttons.forEach(button => {
-                                            button.addEventListener('click', function() {
-                                                const selectedAttribute = this.getAttribute('data-attribute');
-                                                const selectedValue = this.getAttribute('data-value');
-                                                const selectedPrice = this.getAttribute('data-price');
-                                                const selectedImageURL = this.getAttribute('data-images');
-                                                const selectedStock = this.getAttribute('data-stock');
-                                                if (attributeButtons[selectedAttribute]) {
-                                                    attributeButtons[selectedAttribute].classList.remove('active-button');
-                                                }
-                                                this.classList.add('active-button');
-                                                attributeButtons[selectedAttribute] = this;
+                                            skuSelect.addEventListener('change', function() {
+                                                var selectedSkuId = this.value;
+                                                var selectedSku = {!! json_encode($single_of_product->skus->toArray(), JSON_HEX_TAG) !!}.find(function(sku) {
+                                                    return sku.id == selectedSkuId;
+                                                });
 
-                                                priceAmount.innerHTML = selectedPrice;
-                                                productImage.src = selectedImageURL;
-                                                productStock.textContent = 'Stock: ' + selectedStock;
+                                                if (selectedSku) {
+                                                    priceElement.textContent = selectedSku.reduced_price !== null ?
+                                                        selectedSku.reduced_price.toLocaleString('vi-VN') + ' VND' :
+                                                        selectedSku.price.toLocaleString('vi-VN') + ' VNĐ';
+                                                    stockElement.textContent = selectedSku.stock;
 
-
-                                                const allButtons = document.querySelectorAll(
-                                                    `.product-variations-wrapper button[data-attribute="${selectedAttribute}"]`);
-                                                const allActive = Array.from(allButtons).every(btn => btn.classList.contains(
-                                                    'active-button'));
-                                                if (allActive) {
-                                                    console.log($groupedOptions[selectedAttribute]);
+                                                    // Hiển thị hình ảnh của SKU
+                                                    if (selectedSku.image_url) {
+                                                        imageElement.innerHTML = ''; // Xóa hình ảnh cũ
+                                                        var img = document.createElement('img');
+                                                        img.src = selectedSku.image_url;
+                                                        img.style.maxWidth = '100%';
+                                                        imageElement.appendChild(img);
+                                                    }
                                                 }
                                             });
                                         });
                                     </script>
+
                                     <ul class="product-meta">
                                         @foreach ($single_of_product->product_meta as $meta)
                                             <li><i class="fal fa-check"></i>{{ $meta->meta_key }}</li>
@@ -274,5 +244,4 @@
         }
     </style>
     <!-- Add this code to your JavaScript -->
-
 @endsection

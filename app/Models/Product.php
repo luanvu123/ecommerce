@@ -56,7 +56,7 @@ class Product extends Model
         return $this->hasOne(OutgoingProduct::class);
     }
 
-     public function skus(): HasMany
+     public function skus(): HasMany 
     {
         return $this->hasMany(Sku::class);
     }

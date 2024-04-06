@@ -102,6 +102,9 @@ class SiteController extends Controller
         $reducedPrice =  $single_of_product->reduced_price;
         $discountPercentage = round((($price - $reducedPrice) / $price) * 100);
         $single_of_product->discountPercentage = $discountPercentage;
+         $single_of_product->skus->each(function ($sku) {
+            $sku->image_url = $sku->images ? asset('storage/' . $sku->images) : null;
+        });
         $viewedItems = Product::inRandomOrder()->where('status', 1)->limit(5)->get();
         $viewedItems->each(function ($item) {
             $price_item = $item->price; // Giá gốc
@@ -109,6 +112,8 @@ class SiteController extends Controller
             $discountPercentageItems = round((($price_item - $reducedPrice_item) / $price_item) * 100);
             $item->discountPercentageItems = $discountPercentageItems;
         });
+
+
         return view('pages.single-product', [
             'single_of_product' =>  $single_of_product,
             'viewedItems' => $viewedItems,
