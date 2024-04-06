@@ -76,6 +76,7 @@
                                 <form action="{{ route('add.to.cart', ['product_id' => $single_of_product->id]) }}"
                                     method="POST">
                                     @csrf
+                                    <input type="hidden" name="sku_id" id="sku_id">
                                     <h2 class="product-title"> {{ $single_of_product->name }}</h2>
                                     <div class="product-rating">
                                     </div>
@@ -88,8 +89,10 @@
                                     </div>
                                     <div class="product-stock">
                                     </div>
+
                                     @if ($single_of_product->skus->isNotEmpty())
                                         <div class="product-variations-wrapper">
+
                                             <label for="sku">Choose a SKU:</label>
                                             <select name="sku" id="sku">
                                                 @foreach ($single_of_product->skus as $sku)
@@ -102,12 +105,14 @@
                                     <script>
                                         document.addEventListener("DOMContentLoaded", function() {
                                             var skuSelect = document.getElementById('sku');
+                                            var skuIdInput = document.getElementById('sku_id');
                                             var priceElement = document.querySelector('.price-amount');
                                             var stockElement = document.querySelector('.product-stock');
                                             var imageElement = document.querySelector('.thumbnail');
 
                                             skuSelect.addEventListener('change', function() {
                                                 var selectedSkuId = this.value;
+                                                skuIdInput.value = this.value;
                                                 var selectedSku = {!! json_encode($single_of_product->skus->toArray(), JSON_HEX_TAG) !!}.find(function(sku) {
                                                     return sku.id == selectedSkuId;
                                                 });

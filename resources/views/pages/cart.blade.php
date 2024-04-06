@@ -60,7 +60,7 @@
                                         </td>
 
                                         <td class="product-variations-wrapper">
-                                              
+
                                         </td>
                                         <td class="product-price" data-title="Price">
                                             <span class="currency-symbol"></span>
