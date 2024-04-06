@@ -59,18 +59,9 @@
                                                 href="{{ route('product', $cart->product->slug) }}">{{ $cart->product->name }}</a>
                                         </td>
 
-                                        <td>
-                                            @if ($cart->selected_options)
-                                                @php
-                                                    $selectedOptions = json_decode($cart->selected_options, true);
-                                                @endphp
-                                                @foreach ($selectedOptions as $attribute => $option)
-                                                    {{ $attribute }}: {{ $option }}<br>
-                                                @endforeach
-                                            @endif
+                                        <td class="product-variations-wrapper">
+                                              
                                         </td>
-
-
                                         <td class="product-price" data-title="Price">
                                             <span class="currency-symbol"></span>
                                             {{ number_format($cart->product->reduced_price, 0, ',', '.') }}
