@@ -76,7 +76,7 @@
                                         <form action="{{ route('customer.logout') }}" method="POST">
                                             @csrf
                                             {{-- <button type="submit">Logout</button> --}}
-                                                @include('pages.include.logoutbutton')
+                                            @include('pages.include.logoutbutton')
                                         </form>
                                     </li>
                                 @else
@@ -653,7 +653,7 @@
                                             <span class="price old-price">${value.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
                                         </div>
                                         <div class="product-cart">
-                                            <a href="/cart/add/${value.id}" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                            <a href="/product/${value.slug}" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
                                             <a href="/wishlist/add/${value.id}" class="cart-btn"><i class="fal fa-heart"></i></a>
                                         </div>
                                     </div>
@@ -674,8 +674,7 @@
             });
         });
     </script>
-
-
+    {{-- <a href="/cart/add/${value.id}" class="cart-btn"><i class="fal fa-shopping-cart"></i></a> --}}
 
     <script>
         $(document).ready(function() {

@@ -123,7 +123,8 @@
                                     <div class="section-title-wrapper">
                                         <h2 class="title">{{ $large_poster->title_poster }}</h2>
                                     </div>
-                                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-primary" style="max-width: 180px;">Check it Out! </a>
+                                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-primary"
+                                        style="max-width: 180px;">Check it Out! </a>
                                 </div>
                                 <!-- End .poster-content -->
                         </a>
@@ -170,9 +171,21 @@
                                                             href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
                                                                 class="far fa-heart"></i></a>
                                                     </li>
-                                                    <li class="select-option"><a
+                                                    @if ($product->skus->count() > 0)
+                                                        {{-- Nếu sản phẩm có skus --}}
+                                                        <li class="select-option"><a
+                                                                href="{{ route('product', $product->slug) }}">Add to
+                                                                Cart</a></li>
+                                                    @else
+                                                        {{-- Nếu sản phẩm không có skus --}}
+                                                        <li class="select-option"><a
+                                                                href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                                to Cart</a></li>
+                                                    @endif
+
+                                                    {{-- <li class="select-option"><a
                                                             href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
-                                                            to Cart</a></li>
+                                                            to Cart</a></li>  --}}
                                                     {{-- <li class="quickview"><a href="" data-bs-toggle="modal"
                                                         data-bs-target="#quick-view-modal"  data-product-id="{{ $product->id }}"><i class="far fa-eye"></i></a>
                                                 </li> --}}
@@ -262,9 +275,21 @@
                                                 <li class="quickview"><a href="{{ route('product', $product->slug) }}"><i
                                                             class="far fa-eye"></i></a>
                                                 </li>
-                                                <li class="select-option"><a
+
+                                                @if ($product->skus->count() > 0)
+                                                    {{-- Nếu sản phẩm có skus --}}
+                                                    <li class="select-option"><a
+                                                            href="{{ route('product', $product->slug) }}">Add to
+                                                            Cart</a></li>
+                                                @else
+                                                    {{-- Nếu sản phẩm không có skus --}}
+                                                    <li class="select-option"><a
+                                                            href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                            to Cart</a></li>
+                                                @endif
+                                                {{-- <li class="select-option"><a
                                                         href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
-                                                        to Cart</a></li>
+                                                        to Cart</a></li> --}}
                                                 <li class="wishlist"><a
                                                         href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
                                                             class="far fa-heart"></i></a>
@@ -313,9 +338,17 @@
                                         <span
                                             class="price old-price">{{ number_format($product->reduced_price, 0, ',', '.') }}</span>
                                     </div>
+
+
+
                                     <div class="product-cart">
-                                        <a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}"
-                                            class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                        @if ($product->skus->count() > 0)
+                                            <a href="{{ route('product', $product->slug) }}"class="cart-btn"><i
+                                                    class="fal fa-shopping-cart"></i></a></li>
+                                        @else
+                                            <a href="{{ route('add.to.cart', ['product_id' => $product->id]) }}"
+                                                class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                        @endif
                                         <a href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"
                                             class="cart-btn"><i class="fal fa-heart"></i></a>
 

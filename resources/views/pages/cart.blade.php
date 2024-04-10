@@ -60,23 +60,45 @@
                                         </td>
 
                                         <td class="product-variations-wrapper">
-
-                                        </td>
-                                        <td class="product-price" data-title="Price">
-                                            <span class="currency-symbol"></span>
-                                            {{ number_format($cart->product->reduced_price, 0, ',', '.') }}
-                                            VNĐ
-                                        </td>
-                                        <td class="product-stock-status" data-title="Status">
-                                            @php
-                                                $remainQuantity = $remainQuantities[$cart->product->id] ?? 0;
-                                            @endphp
-                                            @if ($remainQuantity > 0)
-                                                <p>Còn hàng</p>
+                                            @if ($cart->sku_id)
+                                                {{-- Hiển thị thông tin về SKU --}}
+                                                @php
+                                                    $sku = \App\Models\Sku::find($cart->sku_id);
+                                                @endphp
+                                                @if ($sku)
+                                                    <p>{{ $sku->code }}</p>
+                                                @endif
                                             @else
-                                                <p>Hết hàng</p>
+                                                {{-- Nếu không có sku_id --}}
+                                                <p></p>
                                             @endif
                                         </td>
+
+                                        <td class="product-price" data-title="Price">
+                                            <span class="currency-symbol"></span>
+                                            @if ($cart->sku_id && isset($sku))
+                                                {{ number_format($sku->reduced_price ?? $sku->price, 0, ',', '.') }} VNĐ
+                                            @else
+                                                {{ number_format($cart->product->reduced_price ?? $cart->product->price, 0, ',', '.') }}
+                                                VNĐ
+                                            @endif
+                                        </td>
+
+                                        <td class="product-stock-status" data-title="Status">
+                                            @if ($cart->sku_id && isset($sku))
+                                                {{ $sku->stock }} Sản phẩm
+                                            @else
+                                                @php
+                                                    $remainQuantity = $remainQuantities[$cart->product->id] ?? 0;
+                                                @endphp
+                                                @if ($remainQuantity > 0)
+                                                     {{$remainQuantity}} Sản phẩm
+                                                @else
+                                                    <p>Hết hàng</p>
+                                                @endif
+                                            @endif
+                                        </td>
+
                                         <td class="product-quantity" data-title="Qty">
                                             <div class="pro-qty">
                                                 <input type="number" class="quantity-input"

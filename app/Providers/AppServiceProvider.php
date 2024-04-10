@@ -11,6 +11,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Composers\CartTotalQuantityComposer;
 use App\Http\View\Composers\RemainQuantitiesComposer;
+use App\Models\Inventory;
+use App\Models\OutgoingProduct;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,29 @@ class AppServiceProvider extends ServiceProvider
         $policy_home = Policy::where('status', 1)->get();
 
 
+        $products_stock = Product::all();
+        $productIds =  $products_stock->pluck('id')->toArray();
+        $totalQuantities = Inventory::whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->selectRaw('product_id, SUM(quantity) as total_quantity')
+            ->pluck('total_quantity', 'product_id');
+
+        // Calculate total outgoing product quantities
+        $outgoingProducts = OutgoingProduct::whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->selectRaw('product_id, SUM(quantity) as total_outgoing_quantity')
+            ->pluck('total_outgoing_quantity', 'product_id');
+
+        // Calculate remain quantities
+        $remainQuantities = collect();
+        foreach ($products_stock as $product) {
+            $totalQuantity = $totalQuantities[$product->id] ?? 0;
+            $outgoingQuantity = $outgoingProducts[$product->id] ?? 0;
+            $remainQuantity = $totalQuantity - $outgoingQuantity;
+            $remainQuantities[$product->id] = $remainQuantity;
+        }
+
+
 
         //route layout
         $categories = Category::where('status', 1)->get();
@@ -44,6 +69,9 @@ class AppServiceProvider extends ServiceProvider
             'category_total' => $category_total,
             'categories' => $categories,
             'policy_home' => $policy_home,
+            'remainQuantities' => $remainQuantities,
+            'totalQuantities'=> $totalQuantities,
+            'outgoingProducts'=> $outgoingProducts,
         ]);
     }
 }

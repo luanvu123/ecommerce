@@ -33,29 +33,12 @@ class ProductController extends Controller
     public function index(): View
     {
         $products = Product::with('product_meta','user')->orderBy('id', 'DESC')->get();
-        $productIds = $products->pluck('id')->toArray();
-        $totalQuantities = Inventory::whereIn('product_id', $productIds)
-            ->groupBy('product_id')
-            ->selectRaw('product_id, SUM(quantity) as total_quantity')
-            ->pluck('total_quantity', 'product_id');
-        $outgoingProducts = OutgoingProduct::whereIn('product_id', $productIds)
-            ->groupBy('product_id')
-            ->selectRaw('product_id, SUM(quantity) as total_outgoing_quantity')
-            ->pluck('total_outgoing_quantity', 'product_id');
-        $remainQuantities = collect();
-        foreach ($products as $product) {
-            $totalQuantity = $totalQuantities[$product->id] ?? 0;
-            $outgoingQuantity = $outgoingProducts[$product->id] ?? 0;
-            $remainQuantity = $totalQuantity - $outgoingQuantity;
-            $remainQuantities[$product->id] = $remainQuantity;
-        }
-
         $path = public_path() . "/json/";
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
         File::put($path . 'products.json', json_encode($products));
-        return view('admin.products.index', compact('products', 'totalQuantities', 'remainQuantities', 'outgoingProducts'));
+        return view('admin.products.index', compact('products'));
     }
 
     /**

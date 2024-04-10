@@ -74,12 +74,11 @@
                         <div class="single-product-content">
                             <div class="inner">
                                 <form action="{{ route('add.to.cart', ['product_id' => $single_of_product->id]) }}"
-                                    method="POST">
+                                    method="POST" id="add-to-cart-form">
                                     @csrf
                                     <input type="hidden" name="sku_id" id="sku_id">
                                     <h2 class="product-title"> {{ $single_of_product->name }}</h2>
-                                    <div class="product-rating">
-                                    </div>
+                                    <div class="product-rating"></div>
                                     <div class="price-amount">
                                         @if ($single_of_product->reduced_price !== null)
                                             {{ number_format($single_of_product->reduced_price, 0, ',', '.') }} VND
@@ -88,13 +87,21 @@
                                         @endif
                                     </div>
                                     <div class="product-stock">
+                                        @php
+                                            $remainQuantity = $remainQuantities[$single_of_product->id] ?? 0;
+                                        @endphp
+                                        @if ($remainQuantity > 0)
+                                            {{ $remainQuantity }} Sản phẩm
+                                        @else
+                                            <p>Hết hàng</p>
+                                        @endif
                                     </div>
 
                                     @if ($single_of_product->skus->isNotEmpty())
                                         <div class="product-variations-wrapper">
-
                                             <label for="sku">Choose a SKU:</label>
                                             <select name="sku" id="sku">
+                                                <option value="">-- Select SKU --</option>
                                                 @foreach ($single_of_product->skus as $sku)
                                                     <option value="{{ $sku->id }}">{{ $sku->code }}</option>
                                                 @endforeach
@@ -121,7 +128,7 @@
                                                     priceElement.textContent = selectedSku.reduced_price !== null ?
                                                         selectedSku.reduced_price.toLocaleString('vi-VN') + ' VND' :
                                                         selectedSku.price.toLocaleString('vi-VN') + ' VNĐ';
-                                                    stockElement.textContent = selectedSku.stock;
+                                                    stockElement.textContent = selectedSku.stock + ' sản phẩm';
 
                                                     // Hiển thị hình ảnh của SKU
                                                     if (selectedSku.image_url) {
@@ -133,8 +140,20 @@
                                                     }
                                                 }
                                             });
+
+                                            // Thêm sự kiện onSubmit cho form
+                                            document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
+                                                // Kiểm tra xem có option được chọn hay không
+                                                if (!skuSelect.value) {
+                                                    // Nếu không có option được chọn, ngăn chặn việc submit form và hiển thị thông báo
+                                                    event.preventDefault();
+                                                    alert('Vui lòng chọn thuộc tính');
+                                                }
+                                            });
                                         });
                                     </script>
+
+
 
                                     <ul class="product-meta">
                                         @foreach ($single_of_product->product_meta as $meta)
@@ -157,6 +176,7 @@
                                         </ul>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>

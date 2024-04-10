@@ -98,6 +98,10 @@ class SiteController extends Controller
         if (!$single_of_product) {
             abort(404);
         }
+        
+
+
+
         $price =  $single_of_product->price;
         $reducedPrice =  $single_of_product->reduced_price;
         $discountPercentage = round((($price - $reducedPrice) / $price) * 100);

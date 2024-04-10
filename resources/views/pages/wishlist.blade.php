@@ -53,14 +53,21 @@
                                         $remainQuantity = $remainQuantities[$item->product->id] ?? 0;
                                     @endphp
                                     @if ($remainQuantity > 0)
-                                        <p>Còn hàng</p>
+                                        {{$remainQuantity}} Sản phẩm
                                     @else
                                         <p>Hết hàng</p>
                                     @endif
                                 </td>
-                                <td class="product-add-cart"><a
-                                        href="{{ route('add.to.cart', ['product_id' => $item->product_id]) }}"
-                                        class="axil-btn btn-outline">Add to Cart</a></td>
+
+                                @if ($item->product->skus->count() > 0)
+                                    <td class="product-add-cart"><a href="{{ route('product', $item->product->slug) }}"
+                                            class="axil-btn btn-outline">Add to Cart</a></td>
+                                @else
+                                    <td class="product-add-cart"><a
+                                            href="{{ route('add.to.cart', ['product_id' => $item->product_id]) }}"
+                                            class="axil-btn btn-outline">Add to Cart</a></td>
+                                @endif
+
                             </tr>
                         @endforeach
                     </tbody>
