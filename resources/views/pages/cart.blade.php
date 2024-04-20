@@ -92,7 +92,7 @@
                                                     $remainQuantity = $remainQuantities[$cart->product->id] ?? 0;
                                                 @endphp
                                                 @if ($remainQuantity > 0)
-                                                     {{$remainQuantity}} Sản phẩm
+                                                    {{ $remainQuantity }} Sản phẩm
                                                 @else
                                                     <p>Hết hàng</p>
                                                 @endif
@@ -101,9 +101,12 @@
                                         <td class="product-quantity" data-title="Qty">
                                             <div class="pro-qty">
                                                 <input type="number" class="quantity-input"
-                                                    name="cart[{{ $cart->product_id }}]" value="{{ $cart->quantity }}">
+                                                    name="cart[{{ $cart->product_id }}][{{ $cart->sku_id }}]"
+                                                    value="{{ $cart->quantity }}">
+
                                             </div>
                                         </td>
+
                                         <td class="product-subtotal" data-title="Subtotal">
                                             <span
                                                 class="currency-symbol"></span>{{ number_format($cart->subtotal, 0, ',', '.') }}
