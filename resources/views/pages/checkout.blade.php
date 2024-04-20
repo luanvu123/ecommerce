@@ -50,9 +50,15 @@
                                             @php
                                                 $sku = \App\Models\Sku::find($cart->sku_id);
                                             @endphp
-                                            @if ($sku)
-                                                <p>{{ $sku->code }}</p>
-                                            @endif
+                                             @if ($sku)
+                                                    <p> @foreach ($sku->attributeOptions as $attributeOption)
+                                                            {{ $attributeOption->attribute->name }}:
+                                                            {{ $attributeOption->value }}
+                                                            @if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach</p>
+                                                @endif
                                         @else
                                             <p></p>
                                         @endif

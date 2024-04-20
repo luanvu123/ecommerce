@@ -50,7 +50,7 @@ class SkuController extends Controller
         $code = $product->id;
         foreach ($attributeOptions as $optionId) {
             $attributeOption = AttributeOption::findOrFail($optionId);
-            $code .= '' . $attributeOption->id;
+            $code .= '_' . $attributeOption->id;
         }
         // dd($code);
         $skuData = [

@@ -100,69 +100,60 @@
                                     @if ($single_of_product->skus->isNotEmpty())
                                         <div class="product-variations-wrapper">
                                             <label for="sku">Choose a SKU:</label>
-                                            <div class="sku-buttons">
+                                            <select name="sku" id="sku">
+                                                <option value="">-- Select SKU --</option>
                                                 @foreach ($single_of_product->skus as $sku)
-                                                    <button type="button" class="sku-button"
-                                                        data-sku-id="{{ $sku->id }}">{{ $sku->code }}</button>
+                                                    <option value="{{ $sku->id }}"> @foreach ($sku->attributeOptions as $attributeOption)
+                                                            {{ $attributeOption->attribute->name }}:
+                                                            {{ $attributeOption->value }}
+                                                            @if (!$loop->last)
+                                                                -
+                                                            @endif
+                                                        @endforeach</option>
                                                 @endforeach
-                                            </div>
+                                            </select>
                                         </div>
                                     @endif
 
                                     <script>
                                         document.addEventListener("DOMContentLoaded", function() {
-                                            var skuButtons = document.querySelectorAll('.sku-button');
+                                            var skuSelect = document.getElementById('sku');
                                             var skuIdInput = document.getElementById('sku_id');
                                             var priceElement = document.querySelector('.price-amount');
                                             var stockElement = document.querySelector('.product-stock');
                                             var imageElement = document.querySelector('.thumbnail');
-
-                                            skuButtons.forEach(function(button) {
-                                                button.addEventListener('click', function() {
-                                                    skuButtons.forEach(function(btn) {
-                                                        btn.classList.remove('selected');
-                                                    });
-                                                    this.classList.add('selected');
-                                                    var selectedSkuId = this.getAttribute('data-sku-id');
-                                                    skuIdInput.value = selectedSkuId;
-                                                    var selectedSku = {!! json_encode($single_of_product->skus->toArray(), JSON_HEX_TAG) !!}.find(function(sku) {
-                                                        return sku.id == selectedSkuId;
-                                                    });
-                                                    if (selectedSku) {
-                                                        priceElement.textContent = selectedSku.reduced_price !== null ?
-                                                            selectedSku.reduced_price.toLocaleString('vi-VN') + ' VND' :
-                                                            selectedSku.price.toLocaleString('vi-VN') + ' VNĐ';
-                                                        stockElement.textContent = selectedSku.stock + ' sản phẩm';
-
-
-                                                        if (selectedSku.image_url) {
-                                                            imageElement.innerHTML = '';
-                                                            var img = document.createElement('img');
-                                                            img.src = selectedSku.image_url;
-                                                            img.style.maxWidth = '100%';
-                                                            imageElement.appendChild(img);
-                                                        }
-                                                    }
+                                            skuSelect.addEventListener('change', function() {
+                                                var selectedSkuId = this.value;
+                                                skuIdInput.value = this.value;
+                                                var selectedSku = {!! json_encode($single_of_product->skus->toArray(), JSON_HEX_TAG) !!}.find(function(sku) {
+                                                    return sku.id == selectedSkuId;
                                                 });
+                                                if (selectedSku) {
+                                                    priceElement.textContent = selectedSku.reduced_price !== null ?
+                                                        selectedSku.reduced_price.toLocaleString('vi-VN') + ' VND' :
+                                                        selectedSku.price.toLocaleString('vi-VN') + ' VNĐ';
+                                                    stockElement.textContent = selectedSku.stock + ' sản phẩm';
+                                                    // Hiển thị hình ảnh của SKU
+                                                    if (selectedSku.image_url) {
+                                                        imageElement.innerHTML = ''; // Xóa hình ảnh cũ
+                                                        var img = document.createElement('img');
+                                                        img.src = selectedSku.image_url;
+                                                        img.style.maxWidth = '100%';
+                                                        imageElement.appendChild(img);
+                                                    }
+                                                }
                                             });
-
+                                            // Thêm sự kiện onSubmit cho form
                                             document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
-                                                if (!skuIdInput.value) {
+                                                // Kiểm tra xem có option được chọn hay không
+                                                if (!skuSelect.value) {
+                                                    // Nếu không có option được chọn, ngăn chặn việc submit form và hiển thị thông báo
                                                     event.preventDefault();
                                                     alert('Vui lòng chọn thuộc tính');
                                                 }
                                             });
                                         });
                                     </script>
-
-                                    <style>
-                                        .sku-button.selected {
-                                            background-color: #0236f5;
-                                            /* Màu xanh */
-                                            color: white;
-                                        }
-                                    </style>
-
 
 
 
