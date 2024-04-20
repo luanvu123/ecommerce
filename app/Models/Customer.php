@@ -12,12 +12,14 @@ class Customer extends Authenticatable
     protected $table = 'customers';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone_number_customer',
+        'address_customer',
+        'date_customer','fullname_customer',
     ];
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
+    // public function orders()
+    // {
+    //     return $this->hasMany(Order::class);
+    // }
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class);

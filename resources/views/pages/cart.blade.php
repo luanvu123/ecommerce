@@ -98,7 +98,6 @@
                                                 @endif
                                             @endif
                                         </td>
-
                                         <td class="product-quantity" data-title="Qty">
                                             <div class="pro-qty">
                                                 <input type="number" class="quantity-input"
@@ -117,15 +116,6 @@
                         </table>
                     </div>
                     <div class="cart-update-btn-area">
-                        <form action="{{ route('cart.applyCoupon') }}" method="POST">
-                            @csrf
-                            <div class="input-group product-cupon">
-                                <input name="coupon_code" placeholder="Enter coupon code" type="text">
-                                <div class="product-cupon-btn">
-                                    <button type="submit" class="axil-btn btn-outline">Apply</button>
-                                </div>
-                            </div>
-                        </form>
                         <div class="update-btn">
                             <button type="submit" class="axil-btn btn-outline"style="max-width: 180px;">Update
                                 Cart</button>
@@ -144,40 +134,11 @@
                                             <td>{{ number_format($total, 0, ',', '.') }}
                                                 VNĐ</td>
                                         </tr>
-                                        <tr class="order-tax">
-                                            <td>Coupon</td>
-                                            <td>{{ number_format($couponDiscount, 0, ',', '.') }} VNĐ</td>
-                                        </tr>
-                                        <tr class="order-shipping">
-                                            <td>Shipping</td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio1" name="shipping" checked="">
-                                                    <label for="radio1">Free Shippping</label>
-                                                </div>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio2" name="shipping">
-                                                    <label for="radio2">Local: $35.00</label>
-                                                </div>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio3" name="shipping">
-                                                    <label for="radio3">Flat rate: $12.00</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="order-tax">
-                                            <td>State Tax</td>
-                                            <td>$8.00</td>
-                                        </tr>
-                                        <tr class="order-total">
-                                            <td>Total</td>
-                                            <td class="order-total-amount">
-                                                {{ number_format($totalAfterCoupon, 0, ',', '.') }} VNĐ</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
-                            <a href="checkout.html" class="axil-btn btn-bg-primary checkout-btn">Process to
+                            <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Process to
                                 Checkout</a>
                         </div>
                     </div>

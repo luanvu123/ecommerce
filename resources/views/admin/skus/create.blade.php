@@ -22,10 +22,6 @@
     <form action="{{ route('skus.store', ['product_id' => $product->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="code">Sku Code</label>
-            <input type="text" name="code" id="code" class="form-control">
-        </div>
-        <div class="form-group">
             <label for="price">Price</label>
             <input type="number" name="price" id="price" class="form-control">
         </div>

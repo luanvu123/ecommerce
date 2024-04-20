@@ -27,6 +27,7 @@ use App\Http\Controllers\PosterController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\AttributeOptionController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SkuController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TempImageController;
@@ -154,6 +155,9 @@ Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])
 Route::post('/customer-login', [CustomerLoginController::class, 'login'])->name('customer.login.submit');
 // Routes that require customer authentication
 Route::get('/my-account', [CustomerLoginController::class, 'showAccount'])->name('customer.account');
+Route::post('/update-account', [CustomerLoginController::class, 'updateAccount'])->name('customer.update.account');
+
+
 Route::get('/customer-login-google', [CustomerLoginController::class, 'redirectToGoogle'])->name('customer.login.google');
 Route::get('/customer-login-google/callback', [CustomerLoginController::class, 'handleGoogleCallback']);
 
@@ -173,5 +177,7 @@ Route::middleware('customer')->group(function () {
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
     Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::match(['put', 'patch'], '/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('update.cart.quantity');
-    Route::post('/cart/applyCoupon', [CartController::class, 'applyCoupon'])->name('cart.applyCoupon');
+    //checkout
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'applyCoupon'])->name('cart.applyCoupon');
 });

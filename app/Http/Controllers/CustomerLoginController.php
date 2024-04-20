@@ -41,6 +41,19 @@ class CustomerLoginController extends Controller
             return redirect()->route('customer.login')->with('error', 'You must be logged in to view My Account.');
         }
     }
+    public function updateAccount(Request $request)
+    {
+        $user = Auth::guard('customer')->user();
+        $user->update([
+            'phone_number_customer' => $request->input('phone_number'),
+            'address_customer' => $request->input('address'),
+            'date_customer' => $request->input('date_of_birth'),
+            'fullname_customer' => $request->input('full_name'),
+        ]);
+
+        return redirect()->back()->with('success', 'Account updated successfully.');
+    }
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();

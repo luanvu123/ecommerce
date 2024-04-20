@@ -61,13 +61,40 @@
                     <div class="axil-signin-form">
                         @if ($user)
                             <h2>My Account</h2>
-                            <p>Name: {{ $user->name }}</p>
-                            <p>Email: {{ $user->email }}</p>
-                            <p>Created at: {{ $user->created_at }}</p>
-                            <!-- Thêm các trường thông tin tài khoản khác nếu cần -->
+                            <form method="post" action="{{ route('customer.update.account') }}">
+                                @csrf
+                                <p>Name: {{ $user->name }}</p>
+                                <p>Email: {{ $user->email }}</p>
+                                 <div class="form-group">
+                                    <label for="full_name">Full name</label>
+                                    <input type="text" id="full_name" name="full_name" class="form-control"
+                                        value="{{ $user->fullname_customer }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone_number">Phone Number:</label>
+                                    <input type="text" id="phone_number" name="phone_number" class="form-control"
+                                        value="{{ $user->phone_number_customer }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address:</label>
+                                     <input type="text" id="address" name="address"  class="form-control"
+                                        value="{{ $user->address_customer }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="date_of_birth">Date of Birth:</label>
+                                    <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
+                                        value="{{ $user->date_customer }}">
+                                </div>
+                                 <div class="form-group d-flex align-items-center justify-content-between">
+                                <button type="submit" class="axil-btn btn-bg-primary submit-btn">Save</button>
+                                <a href="{{ route('customer.request') }}" class="forgot-btn">Forget
+                                    password?</a>
+                            </div>
+                            </form>
                         @else
                             <p>You must be logged in to view My Account.</p>
                         @endif
+
                     </div>
                 </div>
             </div>

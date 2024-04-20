@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Sku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Unique;
 
 class SkuController extends Controller
 {
@@ -21,32 +22,18 @@ class SkuController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'code' => 'required|unique:skus',
             'price' => 'required|integer|min:0',
             'reduced_price' => 'nullable|integer|min:0',
             'stock' => 'required|integer|min:0',
             'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:0,1',
-            'attribute_options' => 'array', // Yêu cầu kiểu dữ liệu mảng
+            'attribute_options' => 'array',
         ]);
-
-        $product = Product::findOrFail($request->input('product_id'));
-
-        $skuData = [
-            'product_id' => $product->id,
-            'code' => $request->input('code'),
-            'price' => $request->input('price'),
-            'reduced_price' => $request->input('reduced_price'),
-            'stock' => $request->input('stock'),
-            'status' => $request->input('status'),
-        ];
-
         if ($request->hasFile('images')) {
             $imagePath = $request->file('images')->store('sku_images', 'public');
             $skuData['images'] = $imagePath;
         }
 
-        $sku = Sku::create($skuData);
         $attributeOptions = $request->all();
         unset(
             $attributeOptions['_token'],
@@ -59,8 +46,23 @@ class SkuController extends Controller
             $attributeOptions['status']
         );
         $attributeOptions = array_values($attributeOptions);
+        $product = Product::findOrFail($request->input('product_id'));
+        $code = $product->id;
+        foreach ($attributeOptions as $optionId) {
+            $attributeOption = AttributeOption::findOrFail($optionId);
+            $code .= '' . $attributeOption->id;
+        }
+        // dd($code);
+        $skuData = [
+            'product_id' => $product->id,
+            'code' => $code,
+            'price' => $request->input('price'),
+            'reduced_price' => $request->input('reduced_price'),
+            'stock' => $request->input('stock'),
+            'status' => $request->input('status'),
+        ];
+        $sku = Sku::create($skuData);
         $sku->attributeOptions()->attach($attributeOptions);
-
 
         return redirect()->route('products.index')->with('success', 'Sku created successfully.');
     }
