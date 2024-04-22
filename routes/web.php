@@ -28,6 +28,7 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SkuController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TempImageController;
@@ -64,6 +65,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('shippings', ShippingController::class);
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('info', InfoController::class);

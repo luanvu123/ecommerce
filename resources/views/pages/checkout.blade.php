@@ -50,15 +50,17 @@
                                             @php
                                                 $sku = \App\Models\Sku::find($cart->sku_id);
                                             @endphp
-                                             @if ($sku)
-                                                    <p> @foreach ($sku->attributeOptions as $attributeOption)
-                                                            {{ $attributeOption->attribute->name }}:
-                                                            {{ $attributeOption->value }}
-                                                            @if (!$loop->last)
-                                                                ,
-                                                            @endif
-                                                        @endforeach</p>
-                                                @endif
+                                            @if ($sku)
+                                                <p>
+                                                    @foreach ($sku->attributeOptions as $attributeOption)
+                                                        {{ $attributeOption->attribute->name }}:
+                                                        {{ $attributeOption->value }}
+                                                        @if (!$loop->last)
+                                                            ,
+                                                        @endif
+                                                    @endforeach
+                                                </p>
+                                            @endif
                                         @else
                                             <p></p>
                                         @endif
@@ -142,20 +144,36 @@
                                         <tr class="order-shipping">
                                             <td>Shipping</td>
                                             <td>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio1" name="shipping" checked="">
-                                                    <label for="radio1">Free Shippping</label>
-                                                </div>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio2" name="shipping">
-                                                    <label for="radio2">Local: $35.00</label>
-                                                </div>
-                                                <div class="input-group">
-                                                    <input type="radio" id="radio3" name="shipping">
-                                                    <label for="radio3">Flat rate: $12.00</label>
-                                                </div>
+                                                @foreach ($shippings as $shipping)
+                                                    <div class="input-group">
+                                                        <input type="radio" id="shipping{{ $shipping->id }}"
+                                                            name="shipping" value="{{ $shipping->price }}"
+                                                            onchange="updateTotal(this)">
+                                                        <label for="shipping{{ $shipping->id }}">{{ $shipping->name }}:
+                                                            {{ number_format($shipping->price, 0, ',', '.') }} VNĐ
+                                                        </label>
+                                                    </div>
+                                                @endforeach
                                             </td>
                                         </tr>
+                                        <script>
+                                            function updateTotal(selectedRadio) {
+                                                // Lấy tổng số tiền trước khi áp dụng mã giảm giá từ biến PHP
+                                                var totalBeforeCoupon = parseInt("{{ $totalAfterCoupon }}");
+
+                                                // Lấy giá phí vận chuyển từ radio button được chọn
+                                                var shippingPrice = parseFloat(selectedRadio.value);
+
+                                                // Tính tổng số tiền sau khi cộng giá vận chuyển
+                                                var totalAfterShipping = totalBeforeCoupon + shippingPrice;
+
+                                                // Cập nhật nội dung của thẻ HTML hiển thị tổng số tiền
+                                                document.querySelector(".order-total-amount").textContent = totalAfterShipping.toLocaleString() + " VNĐ";
+                                            }
+                                        </script>
+
+
+
                                         <tr class="order-total">
                                             <td>Total</td>
                                             <td class="order-total-amount">
@@ -170,10 +188,12 @@
                                         toán khi nhận hàng</a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví Momo</a>
+                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví
+                                        Momo</a>
                                 </div>
-                                  <div class="col-md-6">
-                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví Vnpay</a>
+                                <div class="col-md-6">
+                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví
+                                        Vnpay</a>
                                 </div>
                             </div>
                         </div>
