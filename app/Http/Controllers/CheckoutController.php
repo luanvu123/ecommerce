@@ -43,7 +43,7 @@ class CheckoutController extends Controller
         $couponDiscount = 0;
         $totalAfterCoupon = $total;
 
-        return view('pages.checkout', compact('carts', 'total', 'couponDiscount', 'cartTotalQuantity', 'totalAfterCoupon', 'shippings'));
+        return view('pages.checkout', compact('customer','carts', 'total', 'couponDiscount', 'cartTotalQuantity', 'totalAfterCoupon', 'shippings'));
     }
 
    public function applyCoupon(Request $request)
@@ -51,7 +51,6 @@ class CheckoutController extends Controller
     $customer = Auth::guard('customer')->user();
     $carts = Cart::where('customer_id', $customer->id)->get();
     $shippings = Shipping::where('status', 1)->get();
-
     $carts->each(function ($cart) {
         $product = $cart->product;
         if ($product->skus->isNotEmpty() && $cart->sku_id) {
@@ -92,21 +91,14 @@ class CheckoutController extends Controller
         }
     }
 
-    // Tính tổng số tiền sau khi áp dụng mã giảm giá
+
     $totalAfterCoupon = $total - $couponDiscount;
-
-    // Nếu có phương thức vận chuyển được chọn
     if ($request->has('shipping')) {
-        // Lấy giá phí vận chuyển từ request
-        $shippingPrice = $request->input('shipping');
 
-        // Trừ phí vận chuyển khỏi tổng số tiền
+        $shippingPrice = $request->input('shipping');
         $totalAfterCoupon += $shippingPrice;
     }
-
-    // Lưu thông điệp của mã giảm giá
     session()->flash('coupon_message', $message);
-
     return view('pages.checkout', compact('carts', 'total', 'cartTotalQuantity', 'couponDiscount', 'totalAfterCoupon', 'shippings'));
 }
 

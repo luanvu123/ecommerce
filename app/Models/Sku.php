@@ -36,4 +36,8 @@ class Sku extends Model
     {
         return $this->belongsToMany(AttributeOption::class);
     }
+     public function orders()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

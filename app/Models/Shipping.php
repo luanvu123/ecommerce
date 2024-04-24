@@ -12,5 +12,9 @@ class Shipping extends Model
         'price',
         'status',
     ];
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
 

@@ -100,32 +100,42 @@
                     </form>
                 </div>
                 <div class="row">
-                    {{-- <div class="col-xl-5 col-lg-7 offset-xl-7 offset-lg-5"> --}}
                     <div class="col-xl-5 col-lg-7 offset-xl-0 offset-lg-5">
                         <div class="axil-order-summery mt--80">
                             <h5 class="title mb--20">Order Information</h5>
                             <div class="summery-table-wrap">
-                                <table class="table summery-table mb--30">
-                                    <tbody>
-                                        <tr class="name">
-                                            <td>Name</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="sdt">
-                                            <td>SDT</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="add">
-                                            <td>Address</td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <form action="/update_customer_info" method="POST">
+                                    @csrf
+                                    <table class="table summery-table mb--30">
+                                        <tbody>
+                                            <tr class="name">
+                                                <td>Fullname</td>
+                                                <td><input type="text" name="fullname_customer"
+                                                        value="{{ $customer->fullname_customer }}"></td>
+                                            </tr>
+                                            <tr class="sdt">
+                                                <td>Phone</td>
+                                                <td><input type="text" name="phone_number_customer"
+                                                        value="{{ $customer->phone_number_customer }}"></td>
+                                            </tr>
+                                            <tr class="add">
+                                                <td>Address</td>
+                                                <td><input type="text" name="address_customer"
+                                                        value="{{ $customer->address_customer }}"></td>
+                                            </tr>
+                                            <tr class="email">
+                                                <td>Email</td>
+                                                <td><input type="email" name="email" value="{{ $customer->email }}">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type="submit" value="Save">
+                                </form>
                             </div>
-                            <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Save</a>
                         </div>
                     </div>
+
                     <div class="col-xl-5 col-lg-7 offset-xl-1 offset-lg-5">
                         <div class="axil-order-summery mt--80">
                             <h5 class="title mb--20">Order Summary</h5>
@@ -158,22 +168,12 @@
                                         </tr>
                                         <script>
                                             function updateTotal(selectedRadio) {
-                                                // Lấy tổng số tiền trước khi áp dụng mã giảm giá từ biến PHP
                                                 var totalBeforeCoupon = parseInt("{{ $totalAfterCoupon }}");
-
-                                                // Lấy giá phí vận chuyển từ radio button được chọn
                                                 var shippingPrice = parseFloat(selectedRadio.value);
-
-                                                // Tính tổng số tiền sau khi cộng giá vận chuyển
                                                 var totalAfterShipping = totalBeforeCoupon + shippingPrice;
-
-                                                // Cập nhật nội dung của thẻ HTML hiển thị tổng số tiền
                                                 document.querySelector(".order-total-amount").textContent = totalAfterShipping.toLocaleString() + " VNĐ";
                                             }
                                         </script>
-
-
-
                                         <tr class="order-total">
                                             <td>Total</td>
                                             <td class="order-total-amount">
@@ -187,21 +187,10 @@
                                     <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Thanh
                                         toán khi nhận hàng</a>
                                 </div>
-                                <div class="col-md-6">
-                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví
-                                        Momo</a>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Ví
-                                        Vnpay</a>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <!-- End Cart Area  -->
     @endsection

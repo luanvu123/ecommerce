@@ -127,39 +127,38 @@ class CartController extends Controller
 
         return redirect()->route('cart')->with('success', 'Product removed from cart successfully.');
     }
-   public function updateQuantity(Request $request)
-{
-    $customer_id = Auth::guard('customer')->user()->id;
-    $cartItems = $request->input('cart');
+    public function updateQuantity(Request $request)
+    {
+        $customer_id = Auth::guard('customer')->user()->id;
+        $cartItems = $request->input('cart');
 
-    foreach ($cartItems as $productId => $skus) {
-        foreach ($skus as $skuId => $quantity) {
-            if ($skuId) {
-                // Xử lý trường hợp có sku_id khác null
-                $cart = Cart::where('customer_id', $customer_id)
-                    ->where('product_id', $productId)
-                    ->where('sku_id', $skuId)
-                    ->first();
+        foreach ($cartItems as $productId => $skus) {
+            foreach ($skus as $skuId => $quantity) {
+                if ($skuId) {
+                    // Xử lý trường hợp có sku_id khác null
+                    $cart = Cart::where('customer_id', $customer_id)
+                        ->where('product_id', $productId)
+                        ->where('sku_id', $skuId)
+                        ->first();
 
-                if ($cart) {
-                    $cart->quantity = $quantity;
-                    $cart->save();
-                }
-            } else {
-                // Xử lý trường hợp sku_id là null
-                $cart = Cart::where('customer_id', $customer_id)
-                    ->where('product_id', $productId)
-                    ->whereNull('sku_id')
-                    ->first();
+                    if ($cart) {
+                        $cart->quantity = $quantity;
+                        $cart->save();
+                    }
+                } else {
+                    // Xử lý trường hợp sku_id là null
+                    $cart = Cart::where('customer_id', $customer_id)
+                        ->where('product_id', $productId)
+                        ->whereNull('sku_id')
+                        ->first();
 
-                if ($cart) {
-                    $cart->quantity = $quantity;
-                    $cart->save();
+                    if ($cart) {
+                        $cart->quantity = $quantity;
+                        $cart->save();
+                    }
                 }
             }
         }
+        return redirect()->back();
     }
-    return redirect()->back();
-}
-
 }

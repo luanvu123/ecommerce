@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Product extends Model
 {
     use HasFactory;
@@ -15,7 +16,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id', 'supplier_id','description'
+        'name', 'slug', 'detail', 'price', 'image_product', 'category_id', 'reduced_price', 'hot_deals', 'status', 'most_sold', 'new_viral', 'status', 'image_id', 'supplier_id', 'description'
     ];
 
     /**
@@ -43,25 +44,29 @@ class Product extends Model
     {
         return $this->hasMany(Wishlist::class);
     }
-     public function inventory()
+    public function inventory()
     {
         return $this->hasOne(Inventory::class);
     }
-     public function supplier()
+    public function supplier()
     {
         return $this->belongsTo(Supplier::class);
     }
-      public function outgoing_product()
+    public function outgoing_product()
     {
         return $this->hasOne(OutgoingProduct::class);
     }
 
-     public function skus(): HasMany 
+    public function skus(): HasMany
     {
         return $this->hasMany(Sku::class);
     }
-     public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 }
