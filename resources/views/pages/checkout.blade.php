@@ -136,6 +136,10 @@
 
                                                 </td>
                                             </tr>
+                                            <input type="hidden" name="shipping_id" id="shipping_id" value="">
+                                            <input type="hidden" name="shipping_price" id="shipping_price" value="">
+
+
                                         </tbody>
                                     </table>
                                     <button type="submit" class="axil-btn btn-bg-primary checkout-btn">Thanh toán khi nhận
@@ -167,20 +171,24 @@
                                             <td>
                                                 @foreach ($shippings as $shipping)
                                                     <div class="input-group">
-                                                        <input type="radio" id="shipping{{ $shipping->id }}"
-                                                            name="shipping" value="{{ $shipping->price }}"
-                                                            onchange="updateTotal(this)">
-                                                        <label for="shipping{{ $shipping->id }}">{{ $shipping->name }}:
+                                                        <input type="radio" id="{{ $shipping->id }}" name="shipping"
+                                                            value="{{ $shipping->price }}" onchange="updateTotal(this)">
+                                                        <label for="{{ $shipping->id }}">{{ $shipping->name }}:
                                                             {{ number_format($shipping->price, 0, ',', '.') }} VNĐ
                                                         </label>
                                                     </div>
                                                 @endforeach
                                             </td>
                                         </tr>
+
+
                                         <script>
                                             function updateTotal(selectedRadio) {
-                                                var shippingId = selectedRadio.value;
-                                                sessionStorage.setItem('shipping_id', shippingId); // Lưu shipping_id vào sessionStorage
+                                                var shippingId = selectedRadio.id;
+                                                document.getElementById('shipping_id').value = shippingId;
+
+                                                var shippingPrice = selectedRadio.value;
+                                                document.getElementById('shipping_price').value = shippingPrice;
                                                 var totalBeforeCoupon = parseInt("{{ $totalAfterCoupon }}");
                                                 var shippingPrice = parseFloat(selectedRadio.value);
                                                 var totalAfterShipping = totalBeforeCoupon + shippingPrice;

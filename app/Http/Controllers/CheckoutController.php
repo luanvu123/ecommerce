@@ -113,8 +113,8 @@ class CheckoutController extends Controller
     {
         $customer = Auth::guard('customer')->user();
         $carts = Cart::where('customer_id', $customer->id)->get();
-          $shippingId = $request->session()->get('shipping_id');
         $couponId = session('coupon_id');
+         $shippingPrice = $request->input('shipping_price');
         // Tạo một đối tượng Order
         $order = new Order();
         $order->customer_id = $customer->id;
@@ -122,10 +122,11 @@ class CheckoutController extends Controller
         $order->recipient_phone = $request->input('phone_number_customer');
         $order->recipient_address = $request->input('address_customer');
         $order->recipient_email = $request->input('email');
-        $order->total_price = $request->input('totalAfterCoupon');
+        $order->total_price = $request->input('totalAfterCoupon') + $shippingPrice;
         $order->status = 'pending';
         $order->payment_method = 'cash_on_delivery';
-         $order->shipping_id = $shippingId;
+        $order->shipping_id = $request->input('shipping_id');
+        dd($order->total_price);
         $order->coupon_id = $couponId;
         $order->save();
 
@@ -143,8 +144,6 @@ class CheckoutController extends Controller
             } else {
                 $orderDetail->price_detail = $cart->product->reduced_price ?? $cart->product->price;
             }
-
-            // Gán giá trị cho trường subtotal_detail
             $orderDetail->subtotal_detail = $cart->quantity * $orderDetail->price_detail;
 
             $orderDetail->save();
