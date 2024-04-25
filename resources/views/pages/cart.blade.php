@@ -16,6 +16,11 @@
                             {{ session()->get('coupon_message') }}
                         </div>
                     @endif
+                     @if (session()->has('success_message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('success_message') }}
+                        </div>
+                    @endif
 
                     <h4 class="title">Your Cart</h4>
                     <a href="{{ route('cart.clear') }}" class="cart-clear">Clear Shoping Cart</a>

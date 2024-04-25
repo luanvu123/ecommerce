@@ -103,13 +103,15 @@
                                             <select name="sku" id="sku">
                                                 <option value="">-- Select SKU --</option>
                                                 @foreach ($single_of_product->skus as $sku)
-                                                    <option value="{{ $sku->id }}"> @foreach ($sku->attributeOptions as $attributeOption)
+                                                    <option value="{{ $sku->id }}">
+                                                        @foreach ($sku->attributeOptions as $attributeOption)
                                                             {{ $attributeOption->attribute->name }}:
                                                             {{ $attributeOption->value }}
                                                             @if (!$loop->last)
                                                                 -
                                                             @endif
-                                                        @endforeach</option>
+                                                        @endforeach
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -215,9 +217,16 @@
                                         <li class="wishlist"><a
                                                 href="{{ route('add.to.wishlist', ['product_id' => $item->id]) }}"><i
                                                     class="far fa-heart"></i></a></li>
-                                        <li class="select-option"><a
-                                                href="{{ route('add.to.cart', ['product_id' => $item->id]) }}">Add to
-                                                Cart</a></li>
+                                        @if ($item->skus->count() > 0)
+                                            {{-- Nếu sản phẩm có skus --}}
+                                            <li class="select-option"><a href="{{ route('product', $item->slug) }}">Add to
+                                                    Cart</a></li>
+                                        @else
+                                            {{-- Nếu sản phẩm không có skus --}}
+                                            <li class="select-option"><a
+                                                    href="{{ route('add.to.cart', ['product_id' => $item->id]) }}">Add
+                                                    to Cart</a></li>
+                                        @endif
                                         <li class="quickview"><a href="{{ route('product', $item->slug) }}"><i
                                                     class="far fa-eye"></i></a>
                                         </li>

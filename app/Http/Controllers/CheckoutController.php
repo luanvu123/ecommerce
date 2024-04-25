@@ -114,7 +114,7 @@ class CheckoutController extends Controller
         $customer = Auth::guard('customer')->user();
         $carts = Cart::where('customer_id', $customer->id)->get();
         $couponId = session('coupon_id');
-         $shippingPrice = $request->input('shipping_price');
+        $shippingPrice = $request->input('shipping_price');
         // Tạo một đối tượng Order
         $order = new Order();
         $order->customer_id = $customer->id;
@@ -126,7 +126,7 @@ class CheckoutController extends Controller
         $order->status = 'pending';
         $order->payment_method = 'cash_on_delivery';
         $order->shipping_id = $request->input('shipping_id');
-        dd($order->total_price);
+        // dd($order->total_price);
         $order->coupon_id = $couponId;
         $order->save();
 
@@ -152,6 +152,6 @@ class CheckoutController extends Controller
         // Xóa các sản phẩm trong giỏ hàng sau khi đã đặt hàng thành công
         $carts->each->delete();
         // Redirect hoặc hiển thị thông báo thành công
-        return redirect()->route('order.success')->with('success_message', 'Đơn hàng đã được đặt thành công!');
+        return redirect()->route('cart')->with('success_message', 'Đơn hàng đã được đặt thành công!');
     }
 }
