@@ -100,11 +100,12 @@
                     </form>
                 </div>
                 <div class="row">
+                    <!-- Thông tin đơn hàng -->
                     <div class="col-xl-5 col-lg-7 offset-xl-0 offset-lg-5">
                         <div class="axil-order-summery mt--80">
                             <h5 class="title mb--20">Order Information</h5>
                             <div class="summery-table-wrap">
-                                <form action="/update_customer_info" method="POST">
+                                <form action="{{ route('checkout_submit') }}" method="POST">
                                     @csrf
                                     <table class="table summery-table mb--30">
                                         <tbody>
@@ -128,14 +129,23 @@
                                                 <td><input type="email" name="email" value="{{ $customer->email }}">
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <input type="hidden" name="totalAfterCoupon"
+                                                        value="{{ $totalAfterCoupon }}">
+
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                    <input type="submit" value="Save">
+                                    <button type="submit" class="axil-btn btn-bg-primary checkout-btn">Thanh toán khi nhận
+                                        hàng</button>
                                 </form>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Tóm tắt đơn hàng -->
                     <div class="col-xl-5 col-lg-7 offset-xl-1 offset-lg-5">
                         <div class="axil-order-summery mt--80">
                             <h5 class="title mb--20">Order Summary</h5>
@@ -144,13 +154,14 @@
                                     <tbody>
                                         <tr class="order-subtotal">
                                             <td>Subtotal</td>
-                                            <td>{{ number_format($total, 0, ',', '.') }}
-                                                VNĐ</td>
+                                            <td>{{ number_format($total, 0, ',', '.') }} VNĐ</td>
                                         </tr>
                                         <tr class="order-tax">
                                             <td>Coupon</td>
                                             <td>{{ number_format($couponDiscount, 0, ',', '.') }} VNĐ</td>
                                         </tr>
+                                        <input type="hidden" name="coupon_id" value="{{ session('coupon_id') }}">
+
                                         <tr class="order-shipping">
                                             <td>Shipping</td>
                                             <td>
@@ -168,12 +179,15 @@
                                         </tr>
                                         <script>
                                             function updateTotal(selectedRadio) {
+                                                var shippingId = selectedRadio.value;
+                                                sessionStorage.setItem('shipping_id', shippingId); // Lưu shipping_id vào sessionStorage
                                                 var totalBeforeCoupon = parseInt("{{ $totalAfterCoupon }}");
                                                 var shippingPrice = parseFloat(selectedRadio.value);
                                                 var totalAfterShipping = totalBeforeCoupon + shippingPrice;
                                                 document.querySelector(".order-total-amount").textContent = totalAfterShipping.toLocaleString() + " VNĐ";
                                             }
                                         </script>
+
                                         <tr class="order-total">
                                             <td>Total</td>
                                             <td class="order-total-amount">
@@ -182,15 +196,13 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-primary checkout-btn">Thanh
-                                        toán khi nhận hàng</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
+
             </div>
         </div>
     @endsection

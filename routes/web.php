@@ -182,4 +182,6 @@ Route::middleware('customer')->group(function () {
     //checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'applyCoupon'])->name('cart.applyCoupon');
+    Route::post('/checkout-submit', [CheckoutController::class, 'checkoutSubmit'])->name('checkout_submit');
+
 });
