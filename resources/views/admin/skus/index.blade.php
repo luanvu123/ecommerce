@@ -20,7 +20,18 @@
     @if (Session::has('error'))
         <div class="alert alert-danger">{{ Session::get('error') }}</div>
     @endif
-    <a href="{{ route('products.index') }}" class="btn btn-primary">Create Sku</a>
+
+                    <button class="button" type="button" onclick="window.location='{{ route('products.index') }}'">
+                        <span class="button__text">Add Sku</span>
+                        <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                width="24" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="12" x2="12" y1="5" y2="19"></line>
+                                <line x1="5" x2="19" y1="12" y2="12"></line>
+                            </svg></span>
+                    </button>
+
+                 <br/>
     <table class="table" id="tableevent">
         <thead>
             <tr>

@@ -133,7 +133,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
+                            {{-- <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <strong>Hot Deals:</strong>
                                     <select id="{{ $product->id }}"name="hot_deals"class="hotDeal_choose">
@@ -174,7 +174,7 @@
                                         @endif
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <label for="meta">Product Meta</label><br>
@@ -191,7 +191,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
+                            {{-- <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <strong>Bán chạy:</strong>
                                     <select id="{{ $product->id }}"name="most_sold"class="mostsold_choose">
@@ -204,7 +204,7 @@
                                         @endif
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6">
                                 <h2 class="pb-3 mt-3">Upload Image</h2>
