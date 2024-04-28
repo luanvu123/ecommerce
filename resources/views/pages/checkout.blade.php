@@ -129,22 +129,82 @@
                                                 <td><input type="email" name="email" value="{{ $customer->email }}">
                                                 </td>
                                             </tr>
+                                            <tr class="name">
+                                                <td>Lời nhắn</td>
+                                                <td><input type="text" name="message_customer"></td>
+                                            </tr>
                                             <tr>
                                                 <td colspan="2">
                                                     <input type="hidden" name="totalAfterCoupon"
                                                         value="{{ $totalAfterCoupon }}">
-
                                                 </td>
                                             </tr>
                                             <input type="hidden" name="shipping_id" id="shipping_id" value="">
                                             <input type="hidden" name="shipping_price" id="shipping_price" value="">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <button type="submit"
+                                                        class="axil-btn btn-bg-primary checkout-btn">Thanh toán khi nhận
+                                                        hàng</button>
+                                                </td>
+                                            </tr>
 
 
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="axil-btn btn-bg-primary checkout-btn">Thanh toán khi nhận
-                                        hàng</button>
+
                                 </form>
+                                <!-- Nút thanh toán VNpay -->
+                                <tr>
+                                    <td colspan="2">
+                                        <form method="post" action="{{ route('charge-vnpay') }}" id="vnpay-form">
+                                            @csrf
+                                            <input type="hidden" name="total_vnpay" id="total_vnpay_input"
+                                                value="{{ $totalAfterCoupon }}">
+                                            <button type="submit" id="pay-now-button" name="redirect"
+                                                onclick="updateVnpayTotal()">
+                                                Vnpay
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <!-- Nút thanh toán Momo -->
+                                <script>
+                                    function updateVnpayTotal() {
+                                        var shippingPrice = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
+                                        var totalAfterCoupon = parseFloat("{{ $totalAfterCoupon }}");
+                                        var totalVnpay = totalAfterCoupon + shippingPrice;
+                                        document.getElementById('total_vnpay_input').value = totalVnpay.toFixed(2); // Cập nhật giá trị vào input hidden
+                                    }
+                                </script>
+                                <!-- Nút thanh toán Momo -->
+                                <tr>
+                                    <td colspan="2">
+                                        <form method="post" action="{{ route('charge-momo') }}" id="momo-form">
+                                            @csrf
+                                            <input type="hidden" name="total_momo" id="total_momo_input"
+                                                value="{{ $totalAfterCoupon }}">
+
+                                            <button type="submit" id="pay-now-button-momo" name="payUrl"
+                                                onclick="updateMomoTotal()">
+                                                Momo
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                <script>
+                                    function updateMomoTotal() {
+                                        var shippingPrice = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
+                                        var totalAfterCoupon = parseFloat("{{ $totalAfterCoupon }}");
+                                        var totalMomo = totalAfterCoupon + shippingPrice;
+                                        document.getElementById('total_momo_input').value = totalMomo.toFixed(2); // Cập nhật giá trị vào input hidden
+                                    }
+                                </script>
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -174,12 +234,12 @@
                                                         <input type="radio" id="{{ $shipping->id }}" name="shipping"
                                                             value="{{ $shipping->price }}" onchange="updateTotal(this)">
                                                         <label for="{{ $shipping->id }}">{{ $shipping->name }}:
-                                                            {{ number_format($shipping->price, 0, ',', '.') }} VNĐ
-                                                        </label>
+                                                            {{ number_format($shipping->price, 0, ',', '.') }} VNĐ </label>
                                                     </div>
                                                 @endforeach
                                             </td>
                                         </tr>
+
 
 
                                         <script>

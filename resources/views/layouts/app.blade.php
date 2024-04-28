@@ -282,45 +282,32 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                     <a href="#">
                                         <img src="{{ asset('backend/images/9989704_rating_evaluation_grade_ranking_rate_icon.svg') }}"
                                             alt="Google" width="20" height="20">
-                                        <span>supplier</span>
+                                        <span>Đối tác</span>
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <li>
-                                            <a href="{{ route('suppliers.create') }}">
-                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Thêm supplier
+                                         <li>
+                                            <a href="{{ route('shippings.index') }}">
+                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Vận chuyển
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('suppliers.index') }}">
                                                 <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Liệt kê supplier
+                                                    alt="Google" width="20" height="20">Nhà cung cấp
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="treeview {{ $segment == 'shippings' ? 'active' : '' }}">
-                                    <a href="#">
-                                        <img src="{{ asset('backend/images/9989704_rating_evaluation_grade_ranking_rate_icon.svg') }}"
+
+
+                                 <li class="treeview">
+                                    <a href="{{ route('orders.index') }}">
+                                        <img src="{{ asset('backend/images/3209206_add_admin_create_plus_user_icon.svg') }}"
                                             alt="Google" width="20" height="20">
-                                        <span>shipping</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
+                                        <span>Order</span>
                                     </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="{{ route('shippings.create') }}">
-                                                <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Thêm shipping
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('shippings.index') }}">
-                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Liệt kê shipping
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
 
 

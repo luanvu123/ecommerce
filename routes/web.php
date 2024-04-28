@@ -28,6 +28,7 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SkuController;
 use App\Http\Controllers\SupplierController;
@@ -79,6 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('attributes', AttributeController::class);
     Route::resource('attribute-options', AttributeOptionController::class);
     Route::resource('skus', SkuController::class);
+    Route::resource('orders', OrderController::class);
     Route::get('skus/create/{product_id}', [SkuController::class, 'create_sku'])->name('skus.create.product');
     Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
     Route::get('/outgoing-products/create/{product_id}', [OutgoingProductController::class, 'outgoing_create_product'])->name('outgoing.products.create.product');
@@ -183,5 +185,11 @@ Route::middleware('customer')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'applyCoupon'])->name('cart.applyCoupon');
     Route::post('/checkout-submit', [CheckoutController::class, 'checkoutSubmit'])->name('checkout_submit');
+    Route::post('/charge-momo',  [CheckoutController::class, 'chargeMomo'])->name('charge-momo');
+    Route::post('/charge-vnpay', [CheckoutController::class, 'chargeVnpay'])->name('charge-vnpay');
+    Route::get('/thanh-toan-vnpay-thanh-cong', [CheckoutController::class, 'result_vnpay'])->name('success_vnpay');
+    Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');
+
+
 
 });

@@ -19,10 +19,24 @@ class Order extends Model
         'payment_method',
         'shipping_id',
         'coupon_id',
+        'message',
+        'paymentId'
     ];
 
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+      public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+     public function coupon()
+    {
+        return $this->belongsTo(Coupon::class, 'coupon_id');
+    }
+     public function shipping()
+    {
+        return $this->belongsTo(Shipping::class, 'shipping_id');
     }
 }
