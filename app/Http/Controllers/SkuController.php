@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AttributeOption;
 use App\Models\Product;
 use App\Models\Sku;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Unique;
@@ -16,6 +17,13 @@ class SkuController extends Controller
         $product = Product::findOrFail($product_id);
         $attributeOptions = AttributeOption::all();
         return view('admin.skus.create', compact('product', 'attributeOptions'));
+    }
+
+    public function show_product_sku($product_id)
+    {
+        $product = Product::findOrFail($product_id);
+        $skus = Sku::with(['product', 'attributeOptions.attribute'])->where('product_id', $product->id)->get();
+        return view('admin.skus.show_product_sku', compact('product', 'skus'));
     }
 
     public function store(Request $request)
@@ -33,6 +41,7 @@ class SkuController extends Controller
             $imagePath = $request->file('images')->store('sku_images', 'public');
             $skuData['images'] = $imagePath;
         }
+
 
         $attributeOptions = $request->all();
         unset(
@@ -64,7 +73,7 @@ class SkuController extends Controller
         $sku = Sku::create($skuData);
         $sku->attributeOptions()->attach($attributeOptions);
 
-        return redirect()->route('products.index')->with('success', 'Sku created successfully.');
+        return redirect()->route('show.skus.product', ['product_id' => $product->id])->with('success', 'Sku created successfully.');
     }
     public function index()
     {
@@ -83,7 +92,8 @@ class SkuController extends Controller
 
         $sku->delete();
 
-        return redirect()->route('skus.index')->with('success', 'Sku deleted successfully.');
+        return redirect()->back()->with('success', 'Sku deleted successfully.');
+
     }
     public function edit($id)
     {
@@ -101,7 +111,6 @@ class SkuController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'code' => 'required|unique:skus,code,' . $id,
             'price' => 'required|integer|min:0',
             'reduced_price' => 'nullable|integer|min:0',
             'stock' => 'required|integer|min:0',
@@ -112,7 +121,6 @@ class SkuController extends Controller
         $sku = Sku::findOrFail($id);
 
         $skuData = [
-            'code' => $request->input('code'),
             'price' => $request->input('price'),
             'stock' => $request->input('stock'),
             'reduced_price' => $request->input('reduced_price'),
@@ -129,12 +137,20 @@ class SkuController extends Controller
         $selectedOptions = $request->input('attribute_options', []);
         $sku->attributeOptions()->sync($selectedOptions);
 
-        return redirect()->route('skus.index')->with('success', 'Sku updated successfully.');
+        return redirect()->back()->with('success', 'Sku updated successfully.');
     }
 
     public function show($id)
     {
         $sku = Sku::with('product', 'attributeOptions.attribute')->findOrFail($id);
         return view('admin.skus.show', compact('sku'));
+    }
+      public function sku_choose(Request $request)
+    {
+        $data = $request->all();
+        $sku = Sku::find($data['id']);
+        $sku->status = $data['trangthai_val'];
+        $sku->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $sku->save();
     }
 }

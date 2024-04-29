@@ -25,17 +25,18 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.lordicon.com/qjzruarw.js"></script>
     <!-- Fonts -->
+
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('backend/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="{{ asset('backend/css/style.css') }}" rel="stylesheet" type="text/css" />
     {{-- button --}}
-      <link href="{{ asset('backend/css/fronend/metachose.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/fronend/metachose.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/css/fronend/categorychoose.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/css/fronend/plane.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/css/fronend/hotdeal.css') }}" rel="stylesheet" type="text/css" />
-     <link href="{{ asset('backend/css/fronend/buttoncoupon.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/css/fronend/buttoncoupon.css') }}" rel="stylesheet" type="text/css" />
     <!-- font-awesome icons CSS -->
     <link href="{{ asset('backend/css/font-awesome.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/css/SidebarNav.min.css') }}" media="all" rel="stylesheet" type="text/css" />
@@ -136,22 +137,28 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                                     alt="Google" width="20" height="20">Liệt kê sản phẩm
                                             </a>
                                         </li>
-                                        <li>
+                                        {{-- <li>
                                             <a href="{{ route('skus.index') }}">
                                                 <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
                                                     alt="Google" width="20" height="20">SKU
                                             </a>
-                                        </li>
-                                        <li>
+                                        </li> --}}
+                                        {{-- <li>
                                             <a href="{{ route('attribute-options.index') }}">
                                                 <img src="{{ asset('backend/images/3671644_add_outline_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Gia tri attributes
                                             </a>
-                                        </li>
+                                        </li> --}}
                                         <li>
                                             <a href="{{ route('attributes.index') }}">
                                                 <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Liệt kê attributes
+                                                    alt="Google" width="20" height="20">Thuộc tính sku
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('categories.index') }}">
+                                                <img src="{{ asset('backend/images/9054381_bx_category_alt_icon.svg') }}"
+                                                    alt="Google" width="20" height="20">Thể loại
                                             </a>
                                         </li>
 
@@ -171,28 +178,6 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                             alt="Google" width="20" height="20">
                                         <span>Roles</span>
                                     </a>
-                                </li>
-                                <li class="treeview {{ $segment == 'categories' ? 'active' : '' }}">
-                                    <a href="#">
-                                        <img src="{{ asset('backend/images/9054381_bx_category_alt_icon.svg') }}"
-                                            alt="Google" width="20" height="20">
-                                        <span>Thể loại</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="{{ route('categories.create') }}">
-                                                <img src="{{ asset('backend/images/103433_category_add_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Thêm thể loại
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('categories.index') }}">
-                                                <img src="{{ asset('backend/images/103614_numbered_list_icon.svg') }}"
-                                                    alt="Google" width="20" height="20">Liệt kê thể loại
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li class="treeview {{ $segment == 'posters' ? 'active' : '' }}">
                                     <a href="#">
@@ -286,7 +271,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                         <li>
+                                        <li>
                                             <a href="{{ route('shippings.index') }}">
                                                 <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Vận chuyển
@@ -302,7 +287,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </li>
 
 
-                                 <li class="treeview">
+                                <li class="treeview">
                                     <a href="{{ route('orders.index') }}">
                                         <img src="{{ asset('backend/images/3209206_add_admin_create_plus_user_icon.svg') }}"
                                             alt="Google" width="20" height="20">
@@ -696,8 +681,98 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
         })
     </script>
     {{-- hotdeal --}}
+    <script>
+        $('.order_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
 
+            $.ajax({
+                url: "{{ route('order-choose') }}",
+                method: "GET",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái giao hàng thành công!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
 
+    <script>
+        $('.shipping_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('shipping-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái shipping thành công!');
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $('.user_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('user-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái user thành công!');
+                }
+            });
+        })
+    </script>
+    <script>
+        $('.sku_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('sku-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái sku thành công!');
+                }
+            });
+        })
+    </script>
+    <script>
+        $('.attribute_choose').change(function() {
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('attribute-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Thay đổi trạng thái attribute thành công!');
+                }
+            });
+        })
+    </script>
     {{-- hotdeal --}}
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 

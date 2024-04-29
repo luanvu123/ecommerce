@@ -51,8 +51,8 @@
                                         @endif
                                     </td>
                                     <td>{{ $orderDetail->quantity }}</td>
-                                    <td>{{ $orderDetail->price_detail }}</td>
-                                    <td>{{ $orderDetail->subtotal_detail }}</td>
+                                    <td>{{ number_format($orderDetail->price_detail, 0, ',', '.') }} VNĐ</td>
+                                    <td>{{ number_format($orderDetail->subtotal_detail, 0, ',', '.') }} VNĐ</td>
 
                                 </tr>
                             @endforeach

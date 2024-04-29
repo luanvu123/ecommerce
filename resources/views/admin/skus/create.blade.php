@@ -53,31 +53,49 @@
 
         <div class="form-group">
             <label for="attribute_options">Attribute Options</label><br>
+
             @php
-                $uniqueAttributeNames = [];
+                $groupedOptions = [];
             @endphp
+
             @foreach ($attributeOptions as $option)
                 @php
                     $attributeName = $option->attribute->name;
                     $attributeValue = $option->value;
                 @endphp
 
-                @if (!in_array($attributeName, $uniqueAttributeNames))
+                <!-- Kiểm tra xem nhóm này đã được tạo chưa -->
+                @if (!isset($groupedOptions[$attributeName]))
+                    <!-- Tạo một nhóm mới nếu chưa tồn tại -->
                     @php
-                        $uniqueAttributeNames[] = $attributeName;
+                        $groupedOptions[$attributeName] = [];
                     @endphp
-                    <p>{{ $attributeName }}</p>
                 @endif
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ $attributeName }}" value="{{ $option->id }}"
-                        {{ in_array($option->id, $selectedOptions) ? 'checked' : '' }}>
-                    <label class="form-check-label" for="option{{ $option->id }}">
-                        {{ $attributeValue }}
-                    </label>
-                </div>
+                <!-- Thêm tùy chọn vào nhóm tương ứng -->
+                @php
+                    $groupedOptions[$attributeName][] = $option;
+                @endphp
+            @endforeach
+
+            <!-- Hiển thị từng nhóm thuộc tính -->
+            @foreach ($groupedOptions as $attributeName => $options)
+                <!-- Hiển thị tên thuộc tính -->
+                <p>{{ $attributeName }}</p>
+
+                <!-- Hiển thị các tùy chọn trong cùng một nhóm -->
+                @foreach ($options as $option)
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ $attributeName }}"
+                            value="{{ $option->id }}" {{ in_array($option->id, $selectedOptions) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="option{{ $option->id }}">
+                            {{ $option->value }}
+                        </label>
+                    </div>
+                @endforeach
             @endforeach
         </div>
+
 
 
         <script>
@@ -110,5 +128,5 @@
 
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-    <a href="{{ route('products.index') }}" class="btn btn-secondary">Back to Products</a>
+   <a href="{{ route('show.skus.product', ['product_id' =>$sku->product->id]) }}" class="btn btn-secondary">Back to Skus</a>
 @endsection

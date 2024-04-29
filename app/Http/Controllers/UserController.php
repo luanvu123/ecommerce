@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 // use DB;
 use Illuminate\Support\Facades\DB;
@@ -188,5 +189,13 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully');
+    }
+     public function user_choose(Request $request)
+    {
+        $data = $request->all();
+        $user = User::find($data['id']);
+        $user->status = $data['trangthai_val'];
+        $user->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $user->save();
     }
 }

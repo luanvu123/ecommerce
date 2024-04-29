@@ -21,5 +21,5 @@
             </p>
         </div>
     </div>
-    <a href="{{ route('skus.index') }}" class="btn btn-secondary">Back to Skus</a>
+   <a href="{{ route('show.skus.product', ['product_id' =>$sku->product->id]) }}" class="btn btn-secondary">Back to Skus</a>
 @endsection

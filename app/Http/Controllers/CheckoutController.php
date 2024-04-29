@@ -125,8 +125,8 @@ class CheckoutController extends Controller
         $order->recipient_email = $request->input('email');
         $order->message = $request->input('message_customer');
         $order->total_price = $request->input('totalAfterCoupon') + $shippingPrice;
-        $order->status = 'pending';
-        $order->payment_method = 'cash_on_delivery';
+        $order->status = '1';
+        $order->payment_method = 'Thanh toán khi nhận hàng';
         $order->shipping_id = $request->input('shipping_id');
         // dd($order->total_price);
         $order->coupon_id = $couponId;
@@ -395,7 +395,7 @@ class CheckoutController extends Controller
                         $order->recipient_email = $recipientEmail;
                         $order->message = $message;
                         $order->total_price = $vnp_Amount;
-                        $order->status = 'pending';
+                        $order->status = '1';
                         $order->payment_method = 'thanh toán vnpay ';
                         $order->shipping_id =  $shippingId;
                         $order->coupon_id = $couponId;
@@ -497,7 +497,7 @@ class CheckoutController extends Controller
                     $order->recipient_email = $recipientEmail;
                     $order->message = $message;
                     $order->total_price = $amount;
-                    $order->status = 'pending';
+                    $order->status = '1';
                     $order->payment_method = 'thanh toán momo ';
                     $order->shipping_id =  $shippingId;
                     $order->coupon_id = $couponId;

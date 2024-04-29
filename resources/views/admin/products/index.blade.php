@@ -15,7 +15,7 @@
                             </svg></span>
                     </button>
                 @endcan
-                 <br/>
+                <br />
                 <div class="table-responsive">
                     <table class="display" id="tableevent">
                         <thead>
@@ -49,7 +49,7 @@
                                     </td>
                                     <td>
                                         @if ($product->supplier)
-                                            {{ $product->supplier->name }}
+                                              <span class="badge badge-dark">{{ $product->supplier->name }}</span>
                                         @else
                                             N/A
                                         @endif
@@ -270,14 +270,15 @@
 
 
 
-                                    <td>{{ $product->user->name }}</td>
+                                    <td><span class="badge badge-warning">{{ $product->user->name }}</span></td>
+
                                     <td>
                                         <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}"
                                             title="Edit">Sửa
                                         </a>
                                         <a href="{{ route('products.show', $product->id) }}"
                                             class="btn btn-warning">Xem</a>
-                                        <a href="{{ route('skus.create.product', ['product_id' => $product->id]) }}"
+                                        <a href="{{ route('show.skus.product', ['product_id' => $product->id]) }}"
                                             class="btn btn-default">SKU</a>
                                         {{-- <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                             @csrf

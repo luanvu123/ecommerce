@@ -17,7 +17,8 @@
                 <div class="col-lg-6 col-md-4">
                     <div class="inner">
                         <div class="bradcrumb-thumb">
-                            <img src="{{ asset('storage/' . $cate_slug->icon) }}" alt="Image"style="min-height: 120px;max-width: 120px;">
+                            <img src="{{ asset('storage/' . $cate_slug->icon) }}"
+                                alt="Image"style="min-height: 120px;max-width: 120px;">
                         </div>
                     </div>
                 </div>
@@ -55,9 +56,18 @@
                                             <li class="wishlist"><a
                                                     href="{{ route('add.to.wishlist', ['product_id' => $product->id]) }}"><i
                                                         class="far fa-heart"></i></a></li>
-                                            <li class="select-option"><a
-                                                    href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add to
-                                                    Cart</a></li>
+                                            @if ($product->skus->count() > 0)
+                                                {{-- Nếu sản phẩm có skus --}}
+                                                <li class="select-option"><a
+                                                        href="{{ route('product', $product->slug) }}">Add to
+                                                        Cart</a></li>
+                                            @else
+                                                {{-- Nếu sản phẩm không có skus --}}
+                                                <li class="select-option"><a
+                                                        href="{{ route('add.to.cart', ['product_id' => $product->id]) }}">Add
+                                                        to Cart</a></li>
+                                            @endif
+
                                             {{-- <li class="quickview"><a href="#" data-bs-toggle="modal"
                                                     data-product-id="{{ $product->id }}"
                                                     data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li> --}}
@@ -69,7 +79,9 @@
                                 </div>
                                 <div class="product-content">
                                     <div class="inner">
-                                        <h5 class="title"><a href="{{ route('product', $product->slug) }}">{{ $product->name }}</a></h5>
+                                        <h5 class="title"><a
+                                                href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
+                                        </h5>
                                         <div class="product-price-variant">
                                             <span
                                                 class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}

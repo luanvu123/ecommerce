@@ -19,6 +19,12 @@ class Sku extends Model
         'status',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($sku) {
+            $sku->code = uniqid(); // Tự động sinh mã duy nhất
+        });
+    }
     protected function price(): CastAttribute
     {
         return CastAttribute::make(

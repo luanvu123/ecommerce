@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <br />
                 <div class="table-responsive">
-                      <table class="display" id="tableevent">
+                    <table class="display" id="tableevent">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -34,7 +34,43 @@
                                     <td>{{ $order->recipient_phone }}</td>
                                     <td>{{ $order->recipient_address }}</td>
                                     <td>{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
-                                    <td>{{ $order->status }}</td>
+                                    <td>
+                                        <select id="{{ $order->id }}" class="order_choose">
+                                            @if ($order->status == 1)
+                                                <option value="1">Chờ xác nhận</option>
+                                                <option selected value="2">Chờ lấy hàng</option>
+                                                <option value="3">Đang giao hàng</option>
+                                                <option value="4">Đã giao hàng</option>
+                                                <option value="5">Hủy đơn</option>
+                                            @elseif ($order->status == 2)
+                                                <option value="1">Chờ xác nhận</option>
+                                                <option selected value="2">Chờ lấy hàng</option>
+                                                <option value="3">Đang giao hàng</option>
+                                                <option value="4">Đã giao hàng</option>
+                                                <option value="5">Hủy đơn</option>
+                                            @elseif ($order->status == 3)
+                                                <option value="1">Chờ xác nhận</option>
+                                                <option value="2">Chờ lấy hàng</option>
+                                                <option selected value="3">Đang giao hàng</option>
+                                                <option value="4">Đã giao hàng</option>
+                                                <option value="5">Hủy đơn</option>
+                                            @elseif ($order->status == 4)
+                                                <option value="1">Chờ xác nhận</option>
+                                                <option value="2">Chờ lấy hàng</option>
+                                                <option value="3">Đang giao hàng</option>
+                                                <option selected value="4">Đã giao hàng</option>
+                                                <option value="5">Hủy đơn</option>
+                                            @elseif ($order->status == 5)
+                                                <option value="1">Chờ xác nhận</option>
+                                                <option value="2">Chờ lấy hàng</option>
+                                                <option value="3">Đang giao hàng</option>
+                                                <option value="4">Đã giao hàng</option>
+                                                <option selected value="5">Hủy đơn</option>
+                                            @endif
+                                        </select>
+                                    </td>
+
+
                                     <td>{{ $order->payment_method }}</td>
                                     <td>{{ $order->shipping->name ?? 'N/A' }}</td>
                                     <td>{{ $order->coupon->code ?? 'N/A' }}</td>
@@ -42,9 +78,8 @@
                                     <td>{{ $order->paymentId ?? 'N/A' }}</td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>
-                                        <a href="{{ route('orders.show', $order->id) }}"
-                                            class="btn btn-warning">Xem chi tiết</a>
-
+                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-warning">Xem chi
+                                            tiết</a>
                                     </td>
                                 </tr>
                             @endforeach

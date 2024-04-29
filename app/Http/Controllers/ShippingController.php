@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shipping;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ShippingController extends Controller
@@ -93,4 +94,13 @@ class ShippingController extends Controller
         return redirect()->route('shippings.index')
         >with('success', 'Shipping updated successfully');
     }
+     public function shipping_choose(Request $request)
+    {
+        $data = $request->all();
+        $shipping = Shipping::find($data['id']);
+        $shipping->status = $data['trangthai_val'];
+        $shipping->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $shipping->save();
+    }
 }
+

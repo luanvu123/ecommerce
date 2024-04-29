@@ -7,10 +7,6 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="code">Sku Code</label>
-            <input type="text" name="code" id="code" class="form-control" value="{{ $sku->code }}">
-        </div>
-        <div class="form-group">
             <label for="price">Price</label>
             <input type="number" name="price" id="price" class="form-control" value="{{ $sku->price }}">
         </div>
@@ -37,45 +33,57 @@
                 <input type="radio" name="status" value="0" {{ !$sku->status ? 'checked' : '' }}> Do Not Display
             </label>
         </div>
+
         <div class="form-group">
             <label for="attribute_options">Attribute Options</label><br>
+
             @php
-                $currentAttributeName = null;
+                $groupedOptions = [];
             @endphp
+
             @foreach ($attributeOptions as $option)
                 @php
                     $attributeName = $option->attribute->name;
                     $attributeValue = $option->value;
                 @endphp
 
-                @if ($attributeName !== $currentAttributeName)
-                    {{-- Hiển thị label mới nếu attribute name khác với attribute name trước đó --}}
-                    @if ($currentAttributeName !== null)
-        </div> {{-- Đóng div trước đó --}}
-        @endif
-        <div class="form-check">
-            <label class="form-check-label">
-                {{ $attributeName }}
-            </label>
-            @php
-                $currentAttributeName = $attributeName;
-            @endphp
-            @endif
+                <!-- Kiểm tra xem nhóm này đã được tạo chưa -->
+                @if (!isset($groupedOptions[$attributeName]))
+                    <!-- Tạo một nhóm mới nếu chưa tồn tại -->
+                    @php
+                        $groupedOptions[$attributeName] = [];
+                    @endphp
+                @endif
 
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="attribute_options[{{ $attributeName }}]"
-                    value="{{ $option->id }}"
-                    {{ in_array($option->id, $selectedOptions[$attributeName] ?? []) ? 'checked' : '' }}>
-                <label class="form-check-label" for="option{{ $option->id }}">
-                    {{ $attributeValue }}
-                </label>
-            </div>
+                <!-- Thêm tùy chọn vào nhóm tương ứng -->
+                @php
+                    $groupedOptions[$attributeName][] = $option;
+                @endphp
             @endforeach
-        </div> {{-- Đóng div cuối cùng --}}
+
+            <!-- Hiển thị từng nhóm thuộc tính -->
+            @foreach ($groupedOptions as $attributeName => $options)
+                <!-- Hiển thị tên thuộc tính -->
+                <p>{{ $attributeName }}</p>
+
+                <!-- Hiển thị các tùy chọn trong cùng một nhóm -->
+                @foreach ($options as $option)
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="attribute_options[{{ $attributeName }}]"
+                            value="{{ $option->id }}"
+                            {{ in_array($option->id, $selectedOptions[$attributeName] ?? []) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="option{{ $option->id }}">
+                            {{ $option->value }}
+                        </label>
+                    </div>
+                @endforeach
+            @endforeach
+        </div>
+
         </div>
 
 
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
-    <a href="{{ route('skus.index') }}" class="btn btn-secondary">Back to Skus</a>
+    <a href="{{ route('show.skus.product', ['product_id' =>$sku->product->id]) }}" class="btn btn-secondary">Back to Skus</a>
 @endsection

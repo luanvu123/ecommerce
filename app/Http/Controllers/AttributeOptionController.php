@@ -11,7 +11,7 @@ class AttributeOptionController extends Controller
     public function index()
     {
         $attributeOptions = AttributeOption::with('attribute')->get();
-        return view('admin.attribute-options.index', compact('attributeOptions'));
+        return view('admin.attribute-options.index', compact('attributeOptions')); 
     }
     public function create()
     {

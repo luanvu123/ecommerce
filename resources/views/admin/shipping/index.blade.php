@@ -31,7 +31,17 @@
             <td>{{ ++$i }}</td>
             <td>{{ $shipping->name }}</td>
             <td>{{ $shipping->price }}</td>
-            <td>{{ $shipping->status }}</td>
+             <td>
+                        <select id="{{ $shipping->id }}"class="shipping_choose">
+                            @if ($shipping->status == 0)
+                                <option value="1">Hoạt động</option>
+                                <option selected value="0">Ngừng hoạt động</option>
+                            @else
+                                <option selected value="1">Hoạt động</option>
+                                <option value="0">Ngừng hoạt động</option>
+                            @endif
+                        </select>
+                    </td>
             <td>
                 <form action="{{ route('shippings.destroy',$shipping->id) }}" method="POST">
 

@@ -23,6 +23,7 @@ class Order extends Model
         'paymentId'
     ];
 
+    
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);

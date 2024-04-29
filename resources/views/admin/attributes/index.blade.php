@@ -9,6 +9,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -17,6 +18,17 @@
                 <tr>
                     <td>{{ $attribute->id }}</td>
                     <td>{{ $attribute->name }}</td>
+                     <td>
+                    <select id="{{ $attribute->id }}"class="attribute_choose">
+                        @if ($attribute->status == 0)
+                            <option value="1">Hoạt động</option>
+                            <option selected value="0">Ngừng hoạt động</option>
+                        @else
+                            <option selected value="1">Hoạt động</option>
+                            <option value="0">Ngừng hoạt động</option>
+                        @endif
+                    </select>
+                </td>
                     <td>
                         <a href="{{ route('attributes.show', $attribute->id) }}" class="btn btn-info">View</a>
                         <a href="{{ route('attributes.edit', $attribute->id) }}" class="btn btn-warning">Edit</a>

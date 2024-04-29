@@ -82,12 +82,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('skus', SkuController::class);
     Route::resource('orders', OrderController::class);
     Route::get('skus/create/{product_id}', [SkuController::class, 'create_sku'])->name('skus.create.product');
+    Route::get('skus/show/{product_id}', [SkuController::class, 'show_product_sku'])->name('show.skus.product');
+
     Route::get('/inventories/create/{product_id}', [InventoryController::class, 'create_product'])->name('inventories.create.product');
     Route::get('/outgoing-products/create/{product_id}', [OutgoingProductController::class, 'outgoing_create_product'])->name('outgoing.products.create.product');
     Route::get('inventories/{inventory}/print', [InventoryController::class, 'generatePDF'])->name('inventories.generatePDF');
     Route::get('/outgoing-products/{id}/generate-pdf', [OutgoingProductController::class, 'generatePDF'])->name('outgoing.products.generate.pdf');
 
 
+    Route::get('/attribute-choose', [AttributeController::class, 'attribute_choose'])->name('attribute-choose');
+    Route::get('/sku-choose', [SkuController::class, 'sku_choose'])->name('sku-choose');
+    Route::get('/user-choose', [UserController::class, 'user_choose'])->name('user-choose');
+    Route::get('/shipping-choose', [ShippingController::class, 'shipping_choose'])->name('shipping-choose');
+    Route::get('/order-choose', [OrderController::class, 'order_choose'])->name('order-choose');
     Route::get('/meta-choose', [ProductMetaController::class, 'meta_choose'])->name('meta-choose');
     Route::get('/supplier-choose', [SupplierController::class, 'supplier_choose'])->name('supplier-choose');
     Route::get('/poster-choose', [PosterController::class, 'poster_choose'])->name('poster-choose');
@@ -189,7 +196,4 @@ Route::middleware('customer')->group(function () {
     Route::post('/charge-vnpay', [CheckoutController::class, 'chargeVnpay'])->name('charge-vnpay');
     Route::get('/thanh-toan-vnpay-thanh-cong', [CheckoutController::class, 'result_vnpay'])->name('success_vnpay');
     Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');
-
-
-
 });
