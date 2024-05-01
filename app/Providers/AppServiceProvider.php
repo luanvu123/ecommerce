@@ -11,8 +11,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Composers\CartTotalQuantityComposer;
 use App\Http\View\Composers\RemainQuantitiesComposer;
+use App\Models\Contact;
 use App\Models\Inventory;
 use App\Models\OutgoingProduct;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $info = Info::find(1);
         $product_total = Product::all()->count();
         $category_total = Category::all()->count();
+        $about_total = Contact::all()->count();
         $policy_home = Policy::where('status', 1)->get();
 
 
@@ -59,6 +62,11 @@ class AppServiceProvider extends ServiceProvider
 
 
 
+        $list_contact = Contact::orderBy('id', 'DESC')->get();
+        $hasNewContacts = $list_contact->some(function ($contact) {
+            return Carbon::parse($contact->created_at)->greaterThan(Carbon::now()->subHour());
+        });
+
         //route layout
         $categories = Category::where('status', 1)->get();
         View::composer('layout', CartTotalQuantityComposer::class);
@@ -67,11 +75,13 @@ class AppServiceProvider extends ServiceProvider
             'info' => $info,
             'product_total' => $product_total,
             'category_total' => $category_total,
+            'about_total' => $about_total,
             'categories' => $categories,
             'policy_home' => $policy_home,
             'remainQuantities' => $remainQuantities,
-            'totalQuantities'=> $totalQuantities,
-            'outgoingProducts'=> $outgoingProducts,
+            'totalQuantities' => $totalQuantities,
+            'outgoingProducts' => $outgoingProducts,
+            'hasNewContacts' => $hasNewContacts,
         ]);
     }
 }

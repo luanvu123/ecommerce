@@ -139,7 +139,6 @@
                                 <li><a href="{{ route('contact') }}">Contact</a></li>
                             </ul>
                         </nav>
-
                         <!-- End Mainmanu Nav -->
                     </div>
                     <div class="header-action">

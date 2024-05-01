@@ -33,39 +33,55 @@
                 <div class="row row--30">
                     <div class="col-lg-8">
                         <div class="contact-form">
-                            <h3 class="title mb--10">{{$info->title_contact}}</h3>
-                            <p>{{$info->title2_contact}}</p>
-                            <form id="contact-form" method="POST" action="mail.php" class="axil-contact-form">
+                            <h3 class="title mb--10">{{ $info->title_contact }}</h3>
+                            <p>{{ $info->title2_contact }}</p>
+
+                            <form method="POST" action="/contact">
+                @csrf
+
+                                @csrf
                                 <div class="row row--10">
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="contact-name">Name <span>*</span></label>
-                                            <input type="text" name="contact-name" id="contact-name">
+                                            <input type="text"id="name_contact" name="name_contact"
+                                                placeholder="Enter your name">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="contact-phone">Phone <span>*</span></label>
-                                            <input type="text" name="contact-phone" id="contact-phone">
+                                            <input type="text"id="phone_contact" name="phone_contact"
+                                                placeholder="Enter your phone number">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="contact-email">E-mail <span>*</span></label>
-                                            <input type="email" name="contact-email" id="contact-email">
+                                            <input type="email" id="email_contact" name="email_contact"
+                                                placeholder="Enter your email">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="contact-address">Address <span>*</span></label>
+                                            <input type="text" id="address_contact" name="address_contact"
+                                                placeholder="Enter your address">
+
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="contact-message">Your Message</label>
-                                            <textarea name="contact-message" id="contact-message" cols="1" rows="2"></textarea>
+                                            <textarea id="message_contact" name="message_contact" rows="5" placeholder="Enter your message"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group mb--0">
-                                            <button name="submit" type="submit" id="submit"
-                                                class="axil-btn btn-bg-primary">Send Message</button>
-                                        </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mb--0">
+                                        <button name="submit" type="submit" id="submit"
+                                            class="axil-btn btn-bg-primary">Send Message</button>
                                     </div>
                                 </div>
                             </form>
@@ -74,22 +90,23 @@
                     <div class="col-lg-4">
                         <div class="contact-location mb--40">
                             <h4 class="title mb--20">Our Store</h4>
-                            <span class="address mb--20">{{$info->address_store}}</span>
-                            <span class="phone">Phone: {{$info->phone_store}}</span>
-                            <span class="email">Email: {{$info->email_store}}</span>
+                            <span class="address mb--20">{{ $info->address_store }}</span>
+                            <span class="phone">Phone: {{ $info->phone_store }}</span>
+                            <span class="email">Email: {{ $info->email_store }}</span>
                         </div>
                         <div class="contact-career mb--40">
                             <h4 class="title mb--20">Careers</h4>
-                            <p>{{$info->careers}}</p>
+                            <p>{{ $info->careers }}</p>
                         </div>
                         <div class="opening-hour">
                             <h4 class="title mb--20">Opening Hours:</h4>
-                            <p>{{$info->opening_hours}}
+                            <p>{{ $info->opening_hours }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- Start Google Map Area  -->
             <div class="axil-google-map-wrap axil-section-gap pb--0">
                 <div class="mapouter">

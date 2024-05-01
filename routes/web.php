@@ -28,6 +28,8 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductMetaController;
 use App\Http\Controllers\AttributeOptionController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SkuController;
@@ -64,6 +66,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function () {
+    Route::resource('about', ContactController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('shippings', ShippingController::class);
@@ -81,6 +84,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('attribute-options', AttributeOptionController::class);
     Route::resource('skus', SkuController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('customers', CustomerController::class);
+    Route::get('/customers/{customerId}/orders', [CustomerController::class, 'showOrders'])->name('customers.orders');
+
     Route::get('skus/create/{product_id}', [SkuController::class, 'create_sku'])->name('skus.create.product');
     Route::get('skus/show/{product_id}', [SkuController::class, 'show_product_sku'])->name('show.skus.product');
 
@@ -90,6 +96,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/outgoing-products/{id}/generate-pdf', [OutgoingProductController::class, 'generatePDF'])->name('outgoing.products.generate.pdf');
 
 
+    Route::get('/customer-choose', [CustomerController::class, 'customer_choose'])->name('customer-choose');
     Route::get('/attribute-choose', [AttributeController::class, 'attribute_choose'])->name('attribute-choose');
     Route::get('/sku-choose', [SkuController::class, 'sku_choose'])->name('sku-choose');
     Route::get('/user-choose', [UserController::class, 'user_choose'])->name('user-choose');
@@ -114,6 +121,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/product-images', [ProductImageController::class, 'store'])->name('product-images.store');
     Route::delete('/product-images/{image}', [ProductImageController::class, 'destroy'])->name('product-images.delete');
 });
+
+
 // Show the form to request a password reset link
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->name('password.request');
@@ -158,6 +167,12 @@ Route::get('/update-new-pass', [CustomerForgotPasswordController::class, 'update
 Route::post('/customer/password/email', [CustomerForgotPasswordController::class, 'sendPasswordResetLink'])
     ->name('customer.email');
 
+
+//Tin nhan
+// Route::get('/contact', [ContactController::class, 'showContactForm']);
+Route::post('/contact', [ContactController::class, 'submitContactForm']);
+Route::get('/tin-nhan-da-gui', [ContactController::class, 'sent'])->name('about.sent');
+Route::delete('sent/{id}', [ContactController::class, 'destroy_sent'])->name('about.destroy_sent');
 
 // Route for showing the customer login form
 Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');

@@ -37,8 +37,8 @@
                                     <td>
                                         <select id="{{ $order->id }}" class="order_choose">
                                             @if ($order->status == 1)
-                                                <option value="1">Chờ xác nhận</option>
-                                                <option selected value="2">Chờ lấy hàng</option>
+                                                <option selected value="1">Chờ xác nhận</option>
+                                                <option value="2">Chờ lấy hàng</option>
                                                 <option value="3">Đang giao hàng</option>
                                                 <option value="4">Đã giao hàng</option>
                                                 <option value="5">Hủy đơn</option>
