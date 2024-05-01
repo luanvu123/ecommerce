@@ -52,11 +52,12 @@
                                         {!! Form::close() !!}
                                     </td>
                                     <td>
-                                        <button onclick="redirectToEmailPage('{{ $cate->email_contact }}')"
-                                            class="btn btn-primary">Gửi Email <i class="fa-solid fa-envelope" style="color: #ffffff;"></i></button>
-
-
+                                        <button onclick="redirectToEmailPage('{{ $cate->id }}')"
+                                            class="btn btn-primary">
+                                            Gửi Email <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
+                                        </button>
                                     </td>
+
 
                                     <td>
                                         @if ($cate->created_at > \Carbon\Carbon::now()->subHour())
@@ -73,8 +74,8 @@
     </div>
 
     <script>
-        function redirectToEmailPage(emailContact) {
-            window.location.href = "{{ route('admin.about.email') }}?to=" + emailContact
+        function redirectToEmailPage(contactId) {
+            window.location.href = "{{ route('admin.about.email') }}?contact_id=" + contactId;
         }
     </script>
 @endsection

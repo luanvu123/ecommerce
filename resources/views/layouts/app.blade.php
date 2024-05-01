@@ -841,6 +841,24 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
+       <script type="text/javascript">
+        $('.about_choose').change(function() {
+
+            var trangthai_val = $(this).val();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: "{{ route('about-choose') }}",
+                method: "GET",
+                data: {
+                    trangthai_val: trangthai_val,
+                    id: id
+                },
+                success: function(data) {
+                    alert('Update thành công!');
+                }
+            });
+        })
+    </script>
     {{-- hotdeal --}}
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 

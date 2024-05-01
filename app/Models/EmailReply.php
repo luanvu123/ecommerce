@@ -9,7 +9,7 @@ class EmailReply extends Model
 {
      protected $table = 'emailreplies';
 
-    protected $fillable = ['contact_id', 'to', 'subject', 'message', 'attachment'];
+    protected $fillable = ['contact_id','user_id', 'to', 'subject', 'message', 'attachment'];
 
     public function contact()
     {

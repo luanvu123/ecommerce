@@ -119,13 +119,12 @@ class ContactController extends Controller
         $subject = $request->input('subject');
         $message = $request->input('message');
         $attachment = $request->file('attachment');
-
-
-        // Gửi email
-
+        $contactId = $request->input('contact_id'); // Lấy contact_id từ request
 
         // Lưu thông tin vào bảng emailreplies
         $emailReply = new EmailReply();
+        $emailReply->contact_id = $contactId; // Lưu contact_id vào EmailReply
+        $emailReply->user_id = auth()->id(); // Lưu user_id của người đăng nhập hiện tại
         $emailReply->to = $to;
         $emailReply->subject = $subject;
         $emailReply->message = $message;
@@ -138,15 +137,14 @@ class ContactController extends Controller
         }
 
         $emailReply->save();
-        Mail::to($to)->send(new SendEmail($subject, $message, $attachmentPath));
-        // Redirect hoặc trả về phản hồi thành công
-        // ...
 
-        // Ví dụ:
+        // Gửi email
+        Mail::to($to)->send(new SendEmail($subject, $message, $attachmentPath));
 
         toastr()->info('Thành công', 'Gửi email thành công');
         return redirect()->back();
     }
+
     public function sent()
     {
         $list = EmailReply::orderBy('id', 'DESC')->get();

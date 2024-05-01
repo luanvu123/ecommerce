@@ -113,6 +113,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/newviral-choose', [ProductController::class, 'updateNewViralChoose'])->name('newviral-choose');
     Route::get('/mostsold-choose', [ProductController::class, 'updateMostSoldChoose'])->name('mostsold-choose');
     Route::get('/coupon-choose', [CouponController::class, 'coupon_choose'])->name('coupon-choose');
+    Route::get('/about-choose', [ContactController::class, 'about_choose'])->name('about-choose');
 
 
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
@@ -173,6 +174,14 @@ Route::post('/customer/password/email', [CustomerForgotPasswordController::class
 Route::post('/contact', [ContactController::class, 'submitContactForm']);
 Route::get('/tin-nhan-da-gui', [ContactController::class, 'sent'])->name('about.sent');
 Route::delete('sent/{id}', [ContactController::class, 'destroy_sent'])->name('about.destroy_sent');
+
+
+Route::post('/send-email', [ContactController::class, 'sendEmail'])->name('send-email');
+Route::get('/admin/about/email', function () {
+    $to = request()->query('to');
+    return view('admin.about.email', compact('to'));
+})->name('admin.about.email');
+
 
 // Route for showing the customer login form
 Route::get('/customer-login', [CustomerLoginController::class, 'showLoginForm'])->name('customer.login');

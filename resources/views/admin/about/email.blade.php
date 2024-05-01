@@ -23,14 +23,15 @@
                     </div>
                     <form class="com-mail" method="POST" action="{{ route('send-email') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-
+                          <div class="form-group">
                             {!! Form::email('emailContact', isset($to) ? $to : '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'To:',
                                 'required' => 'required',
                             ]) !!}
 
+                            <!-- Thêm trường ẩn để lưu contact_id -->
+                            <input type="hidden" name="contact_id" value="{{ request()->query('contact_id') }}">
                         </div>
 
                         <div class="form-group">

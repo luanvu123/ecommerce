@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Đầm Sen Park</title>
+    <title>WEbsite</title>
 </head>
 <body>
-    <h1>Đầm Sen Park</h1>
+    <h1>WEbsite</h1>
     <p> {{ $subject }}</p>
     <p>{{ $emailMessage }}</p>
     @if($attachmentName)
