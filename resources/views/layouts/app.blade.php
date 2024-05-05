@@ -151,7 +151,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                         </li> --}}
                                         <li>
                                             <a href="{{ route('attributes.index') }}">
-                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                <img src="{{ asset('backend/images/8673763_ic_fluent_slide_size_filled_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Thuộc tính sku
                                             </a>
                                         </li>
@@ -273,19 +273,19 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                     <ul class="treeview-menu">
                                         <li>
                                             <a href="{{ route('shippings.index') }}">
-                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                <img src="{{ asset('backend/images/352516_local_shipping_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Vận chuyển
                                             </a>
                                         </li>
                                         <li>
                                             <a href="{{ route('suppliers.index') }}">
-                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                <img src="{{ asset('backend/images/9989338_rating_evaluation_grade_ranking_rate_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Nhà cung cấp
                                             </a>
                                         </li>
-                                         <li>
+                                        <li>
                                             <a href="{{ route('customers.index') }}">
-                                                <img src="{{ asset('backend/images/352390_format_list_numbered_icon.svg') }}"
+                                                <img src="{{ asset('backend/images/7228375_cloud_hacker_anonymous_thief_criminal_icon.svg') }}"
                                                     alt="Google" width="20" height="20">Khách hàng
                                             </a>
                                         </li>
@@ -295,41 +295,23 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 
                                 <li class="treeview">
                                     <a href="{{ route('orders.index') }}">
-                                        <img src="{{ asset('backend/images/3209206_add_admin_create_plus_user_icon.svg') }}"
+                                        <img src="{{ asset('backend/images/8678746_computer_fill_icon.svg') }}"
                                             alt="Google" width="20" height="20">
                                         <span>Order</span>
                                     </a>
                                 </li>
 
-
-                                <li class="treeview {{ $segment == 'about' ? 'active' : '' }}">
-                                    <a href="#">
-                                        <lord-icon src="https://cdn.lordicon.com/egpbfgcp.json" trigger="loop"
-                                            delay="2000" style="width:20px;height:20px">
-                                        </lord-icon>
+                                <li class="treeview">
+                                    <a href="{{ route('about.create') }}">
+                                        <img src="{{ asset('backend/images/1564504_email_letter_mail_message_icon.svg') }}"
+                                            alt="Google" width="20" height="20">
                                         <span>Tin nhắn</span>
-                                        <i class="fa fa-angle-left pull-right"></i>
                                         @if ($hasNewContacts)
                                             <span class="label label-primary pull-right">new</span>
                                         @endif
                                     </a>
-                                    <ul class="treeview-menu">
-                                        <li>
-                                            <a href="{{ route('about.create') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/zgogqkqu.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Xem tin nhắn
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('about.index') }}">
-                                                <lord-icon src="https://cdn.lordicon.com/hursldrn.json" trigger="loop"
-                                                    delay="2000" style="width:20px;height:20px">
-                                                </lord-icon>Gửi trực tiếp
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
+
 
 
 
@@ -434,7 +416,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                                 </a>
                             </div>
                         </div>
-                          <div class="col-md-3 widget widget1">
+                        <div class="col-md-3 widget widget1">
                             <div class="r3_counter_box">
                                 <a href="{{ route('about.create') }}">
                                     @if ($hasNewContacts)
@@ -824,7 +806,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-     <script>
+    <script>
         $('.customer_choose').change(function() {
             var trangthai_val = $(this).val();
             var id = $(this).attr('id');
@@ -841,7 +823,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-       <script type="text/javascript">
+    <script type="text/javascript">
         $('.about_choose').change(function() {
 
             var trangthai_val = $(this).val();

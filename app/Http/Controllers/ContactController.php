@@ -114,17 +114,15 @@ class ContactController extends Controller
 
     public function sendEmail(Request $request)
     {
-        // Lấy dữ liệu từ request
         $to = $request->input('emailContact');
         $subject = $request->input('subject');
         $message = $request->input('message');
         $attachment = $request->file('attachment');
-        $contactId = $request->input('contact_id'); // Lấy contact_id từ request
+        $contactId = $request->input('contact_id');
 
-        // Lưu thông tin vào bảng emailreplies
         $emailReply = new EmailReply();
-        $emailReply->contact_id = $contactId; // Lưu contact_id vào EmailReply
-        $emailReply->user_id = auth()->id(); // Lưu user_id của người đăng nhập hiện tại
+        $emailReply->contact_id = $contactId;
+        $emailReply->user_id = auth()->id();
         $emailReply->to = $to;
         $emailReply->subject = $subject;
         $emailReply->message = $message;
@@ -147,7 +145,7 @@ class ContactController extends Controller
 
     public function sent()
     {
-        $list = EmailReply::orderBy('id', 'DESC')->get();
+        $list = EmailReply::with('contact','user')->orderBy('id', 'DESC')->get();
         return view('admin.about.sent', compact('list'));
     }
     public function destroy_sent(string $id)

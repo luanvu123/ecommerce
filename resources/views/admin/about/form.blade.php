@@ -52,11 +52,13 @@
                                         {!! Form::close() !!}
                                     </td>
                                     <td>
-                                        <button onclick="redirectToEmailPage('{{ $cate->id }}')"
+                                        <button
+                                            onclick="redirectToEmailPage('{{ $cate->id }}', '{{ $cate->email_contact }}')"
                                             class="btn btn-primary">
                                             Gửi Email <i class="fa-solid fa-envelope" style="color: #ffffff;"></i>
                                         </button>
                                     </td>
+
 
 
                                     <td>
@@ -74,8 +76,10 @@
     </div>
 
     <script>
-        function redirectToEmailPage(contactId) {
-            window.location.href = "{{ route('admin.about.email') }}?contact_id=" + contactId;
+        function redirectToEmailPage(contactId, emailContact) {
+            // Chuyển hướng đến trang gửi email và truyền giá trị contact_id và emailContact trong URL
+            window.location.href = "{{ route('admin.about.email') }}?contact_id=" + contactId + "&emailContact=" +
+                emailContact;
         }
     </script>
 @endsection
