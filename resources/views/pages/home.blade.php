@@ -118,21 +118,23 @@
                                 <img src="{{ asset('storage/' . $large_poster->image_poster) }}"
                                     alt="eTrade promotion poster" style="max-height: 450px">
                             @endif
+
                             <div class="poster-content">
                                 <div class="inner">
-                                    <div class="section-title-wrapper">
-                                        <h2 class="title">{{ $large_poster->title_poster }}</h2>
-                                    </div>
-                                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-primary"
-                                        style="max-width: 180px;">Check it Out! </a>
+                                    <h3 class="title">{{ $large_poster->title_poster }}</h3>
+                                    <span class="sub-title">Collections <i class="fal fa-long-arrow-right"></i></span>
                                 </div>
-                                <!-- End .poster-content -->
+                            </div>
                         </a>
+                        <!-- End .poster-content -->
                     </div>
+                    </a>
+
                     <!-- End .single-poster -->
                 </div>
-            @endforeach
         </div>
+        @endforeach
+    </div>
     </div>
     <!-- End Poster Countdown Area  -->
 
@@ -157,7 +159,8 @@
                                         <div class="thumbnail">
                                             <a href="{{ route('product', $product->slug) }}">
                                                 <img src="{{ asset('storage/' . $product->image_product) }}"
-                                                    alt="Product Images" style="min-height: 300px;max-width: 300px;">
+                                                    alt="Product Images"
+                                                    style="min-height: 300px;max-width: 300px;max-height: 300px;">
                                             </a>
                                             <div class="label-block label-right">
                                                 @if ($product->discountPercentage > 0)
@@ -325,7 +328,7 @@
                                     <a href="{{ route('product', $product->slug) }}">
                                         <img data-sal="zoom-in" data-sal-delay="100" data-sal-duration="1500"
                                             src="{{ 'storage/' . $product->image_product }}"
-                                            alt="{{ $product->name }}"style="min-height: 120px;max-width: 120px;">
+                                            alt="{{ $product->name }}"style="min-height: 120px;max-width: 120px;max-height:120px;">
                                     </a>
                                 </div>
                                 <div class="product-content">

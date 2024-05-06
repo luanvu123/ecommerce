@@ -445,6 +445,7 @@ class CheckoutController extends Controller
         return view('pages.checkout-success', compact('order'));
     }
 
+    //momo
     public function result(Request $request)
     {
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
@@ -454,7 +455,6 @@ class CheckoutController extends Controller
             'recipient_address' => 'required',
             'recipient_email' => 'required|email',
             'message_customer' => 'required',
-
         ]);
 
         // Retrieve validated data from the request

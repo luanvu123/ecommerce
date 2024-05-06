@@ -40,7 +40,7 @@
                                 <div class="thumbnail">
                                     <a href="{{ route('product', $product->slug) }}">
                                         <img src="{{ asset('storage/' . $product->image_product) }}"
-                                            alt="Product Images"style="min-height: 276px;max-width: 276px;">
+                                            alt="Product Images"style="min-height: 300px;max-width: 300px;max-height: 300px;">
                                     </a>
                                     <div class="label-block label-right">
                                         @if ($product->discountPercentage > 0)
@@ -71,7 +71,7 @@
                                                 class="price current-price">{{ number_format($product->reduced_price, 0, ',', '.') }}
                                                 VNĐ</span>
                                             <span class="price old-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                VNĐ</span> 
+                                                VNĐ</span>
                                         </div>
                                     </div>
                                 </div>
