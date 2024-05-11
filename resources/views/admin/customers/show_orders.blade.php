@@ -45,7 +45,7 @@
                                     </td>
 
                                     <td>{{ $order->payment_method }}</td>
-                                    <td>{{ $order->shipping->name }}</td>
+                                    <td>{{ $order->shipping->name ?? 'N/A' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

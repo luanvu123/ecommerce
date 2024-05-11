@@ -10,6 +10,8 @@ use App\Models\Shipping;
 use App\Models\Sku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ThankYouEmail;
 
 class CheckoutController extends Controller
 {
@@ -116,6 +118,7 @@ class CheckoutController extends Controller
         $couponId = session('coupon_id');
         $shippingPrice = $request->input('shipping_price');
 
+
         // Tạo một đối tượng Order
         $order = new Order();
         $order->customer_id = $customer->id;
@@ -131,7 +134,10 @@ class CheckoutController extends Controller
         // dd($order->total_price);
         $order->coupon_id = $couponId;
         $order->save();
-
+        $orderId=$order->id;
+        $email = $customer->email;
+        $amount =  $order->total_price;
+        $this->sendThankYouEmail($email, $orderId, $amount);
         // Lưu chi tiết đơn hàng
         foreach ($carts as $cart) {
             $orderDetail = new OrderDetail();
@@ -155,6 +161,10 @@ class CheckoutController extends Controller
         $carts->each->delete();
         // Redirect hoặc hiển thị thông báo thành công
         return redirect()->route('checkout-success')->with('success_message', 'Đơn hàng đã được đặt thành công!');
+    }
+    public function sendThankYouEmail($email, $orderId, $amount)
+    {
+        Mail::to($email)->send(new ThankYouEmail($orderId, $amount));
     }
 
     public function execPostRequest($url, $data)
@@ -530,6 +540,6 @@ class CheckoutController extends Controller
 
 
 
-        return view('pages.checkout-success', compact('partnerCode', 'orderId', 'orderInfo', 'requestId', 'extraData', 'amount','order'));
+        return view('pages.checkout-success', compact('partnerCode', 'orderId', 'orderInfo', 'requestId', 'extraData', 'amount', 'order'));
     }
 }

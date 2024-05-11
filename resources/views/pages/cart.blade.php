@@ -16,7 +16,7 @@
                             {{ session()->get('coupon_message') }}
                         </div>
                     @endif
-                     @if (session()->has('success_message'))
+                    @if (session()->has('success_message'))
                         <div class="alert alert-success">
                             {{ session()->get('success_message') }}
                         </div>
@@ -46,13 +46,42 @@
                                 @foreach ($carts as $cart)
                                     <tr>
                                         <td class="product-remove">
-                                            <form method="POST" action="{{ route('remove.from.cart') }}">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $cart->product_id }}">
-                                                <button type="submit" class="remove-wishlist"><i
-                                                        class="fal fa-times"></i></button>
-                                            </form>
+                                            <!-- Use a button with an onclick event to trigger JavaScript -->
+                                            <button type="button" class="remove-wishlist"
+                                                onclick="removeFromCart('{{ $cart->product_id }}')">
+                                                <i class="fal fa-times"></i>
+                                            </button>
                                         </td>
+                                        <script>
+                                            function removeFromCart(productId) {
+                                                if (confirm('Are you sure you want to remove this product from the cart?')) {
+                                                    // Perform AJAX request to remove the product from cart
+                                                    fetch('{{ route('remove.from.cart') }}', {
+                                                            method: 'POST',
+                                                            headers: {
+                                                                'Content-Type': 'application/json',
+                                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                            },
+                                                            body: JSON.stringify({
+                                                                product_id: productId
+                                                            })
+                                                        })
+                                                        .then(response => {
+                                                            if (response.ok) {
+                                                                // If removal is successful, reload the cart page or update cart view
+                                                                window.location.reload(); // Reload the current page
+                                                            } else {
+                                                                // Handle error response
+                                                                console.error('Failed to remove product from cart');
+                                                            }
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Error:', error);
+                                                        });
+                                                }
+                                            }
+                                        </script>
+
                                         <td class="product-thumbnail">
                                             <a href="{{ route('product', $cart->product->slug) }}">
                                                 <img src="{{ asset('storage/' . $cart->product->image_product) }}"
@@ -71,13 +100,15 @@
                                                     $sku = \App\Models\Sku::find($cart->sku_id);
                                                 @endphp
                                                 @if ($sku)
-                                                    <p> @foreach ($sku->attributeOptions as $attributeOption)
+                                                    <p>
+                                                        @foreach ($sku->attributeOptions as $attributeOption)
                                                             {{ $attributeOption->attribute->name }}:
                                                             {{ $attributeOption->value }}
                                                             @if (!$loop->last)
                                                                 ,
                                                             @endif
-                                                        @endforeach</p>
+                                                        @endforeach
+                                                    </p>
                                                 @endif
                                             @else
                                                 {{-- Nếu không có sku_id --}}
@@ -136,6 +167,7 @@
                         </div>
                     </div>
                 </form>
+
                 <div class="row">
                     <div class="col-xl-5 col-lg-7 offset-xl-7 offset-lg-5">
                         <div class="axil-order-summery mt--80">

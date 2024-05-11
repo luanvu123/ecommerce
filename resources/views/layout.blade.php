@@ -184,7 +184,7 @@
                                             <a href="{{ route('/') }}">Initiate return</a>
                                         </li>
                                         <li>
-                                            <a href="#">Support</a>
+                                            <a href="#">Your order</a>
                                         </li>
                                         <li>
                                             <a href="#">Language</a>

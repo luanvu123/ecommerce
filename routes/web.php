@@ -220,4 +220,7 @@ Route::middleware('customer')->group(function () {
     Route::post('/charge-vnpay', [CheckoutController::class, 'chargeVnpay'])->name('charge-vnpay');
     Route::get('/thanh-toan-vnpay-thanh-cong', [CheckoutController::class, 'result_vnpay'])->name('success_vnpay');
     Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');
+
+    //order
+      Route::get('/checkout', [CustomerOrderController::class, 'index'])->name('checkout');
 });

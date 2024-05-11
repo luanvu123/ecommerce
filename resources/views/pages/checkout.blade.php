@@ -132,13 +132,10 @@
                                             <tr class="name">
                                                 <td>Lời nhắn</td>
                                                 <td><input type="text" name="message_customer"></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <input type="hidden" name="totalAfterCoupon"
+                                                  <input type="hidden" name="totalAfterCoupon"
                                                         value="{{ $totalAfterCoupon }}">
-                                                </td>
                                             </tr>
+
                                             <input type="hidden" name="shipping_id" id="shipping_id" value="">
                                             <input type="hidden" name="shipping_price" id="shipping_price" value="">
                                             <tr>
@@ -161,7 +158,7 @@
                                             @csrf
                                             <input type="hidden" name="total_vnpay" id="total_vnpay_input"
                                                 value="{{ $totalAfterCoupon }}">
-                                            <button type="submit" id="pay-now-button" name="redirect"
+                                            <button type="submit"id="pay-now-button" name="redirect"
                                                 onclick="updateVnpayTotal()">
                                                 Vnpay
                                             </button>
